@@ -1,0 +1,47 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY Application/Application.csproj Application/
+COPY Domain/Domain.csproj Domain/
+COPY Infrastructure/Infrastructure.csproj Infrastructure/
+COPY UsabilityDashboard_API/UsabilityDashboard_API.csproj UsabilityDashboard_API/
+RUN dotnet restore UsabilityDashboard_API/UsabilityDashboard_API.csproj
+
+# Copy source code
+COPY Application/ Application/
+COPY Domain/ Domain/
+COPY Infrastructure/ Infrastructure/
+COPY UsabilityDashboard_API/ UsabilityDashboard_API/
+
+# Build the application
+WORKDIR /src/UsabilityDashboard_API
+RUN dotnet publish -c Release -o /app/publish --no-restore
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+
+# Install EF Core tools for migrations
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 10.0 --install-dir /usr/share/dotnet && \
+    ln -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet && \
+    dotnet tool install --global dotnet-ef --version 10.0.* && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Copy published app
+COPY --from=build /app/publish .
+COPY --from=build /src/Infrastructure/Migrations ./Migrations
+COPY --from=build /src/IngresoDeDatos_postgres.sql ./IngresoDeDatos.sql
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+EXPOSE 8080
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

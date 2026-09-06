@@ -1,0 +1,69 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+docker-entrypoint.sh
+nginx.conf
+
+# Documentation
+*.md
+LICENSE.txt
+*.pdf
+
+# Environment files
+.env
+.env.*
+
+# OS files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Test results
+[Tt]est[Rr]esult*/
+*.TestResult.xml
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# PostgreSQL files
+*.mdf
+*.ldf
+*.ndf
