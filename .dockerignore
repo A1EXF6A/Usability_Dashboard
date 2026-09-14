@@ -38,8 +38,7 @@ npm-debug.log*
 Dockerfile*
 docker-compose*.yml
 .dockerignore
-docker-entrypoint.sh
-nginx.conf
+
 
 # Documentation
 *.md

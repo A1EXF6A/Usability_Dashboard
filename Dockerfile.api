@@ -14,6 +14,7 @@ COPY Application/ Application/
 COPY Domain/ Domain/
 COPY Infrastructure/ Infrastructure/
 COPY UsabilityDashboard_API/ UsabilityDashboard_API/
+COPY IngresoDeDatos_postgres.sql .
 
 # Build the application
 WORKDIR /src/UsabilityDashboard_API
