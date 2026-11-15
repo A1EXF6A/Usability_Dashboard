@@ -14,15 +14,21 @@ namespace Application.Services
         private readonly IRepository<TestSession> _sessionRepository;
         private readonly IRepository<Finding> _findingRepository;
         private readonly IRepository<ImprovementAction> _actionRepository;
+        private readonly IRepository<TestPlan> _planRepository;
+        private readonly IRepository<TestTask> _taskRepository;
 
         public DashboardService(
             IRepository<TestSession> sessionRepository,
             IRepository<Finding> findingRepository,
-            IRepository<ImprovementAction> actionRepository)
+            IRepository<ImprovementAction> actionRepository,
+            IRepository<TestPlan> planRepository,
+            IRepository<TestTask> taskRepository)
         {
             _sessionRepository = sessionRepository;
             _findingRepository = findingRepository;
             _actionRepository = actionRepository;
+            _planRepository = planRepository;
+            _taskRepository = taskRepository;
         }
 
         public async Task<DashboardStatsDto> GetStatsAsync(Guid? testPlanId)
@@ -98,5 +104,134 @@ namespace Application.Services
                 StatsByPlatform: statsByPlatform  
             );
         }
+
+        public async Task<EvaluationComparisonDto> GetEvaluationComparisonAsync(Guid testPlanId)
+        {
+            var plan = await _planRepository.GetByIdAsync(testPlanId);
+            var projectName = plan?.ProjectName ?? "Plan de Usabilidad";
+            var evaluatedModule = plan?.EvaluatedModule ?? "Módulo General";
+
+            var sessions = (await _sessionRepository.GetAllWithIncludesAsync(
+                x => x.ObservationLogs,
+                x => x.Participant
+            ))
+            .Where(s => s.TestPlanId == testPlanId)
+            .OrderBy(s => s.Date)
+            .ToList();
+
+            var tasks = (await _taskRepository.GetAllAsync())
+                .Where(t => t.TestPlanId == testPlanId)
+                .OrderBy(t => t.TaskNumber)
+                .ToList();
+
+            // Separar sesiones Iniciales y Finales
+            var initialSessions = sessions.Where(s => s.EvaluationPhase == "Inicial" || string.IsNullOrWhiteSpace(s.EvaluationPhase)).ToList();
+            var finalSessions = sessions.Where(s => s.EvaluationPhase == "Final").ToList();
+
+            // Si no se clasificó explícitamente ninguna como Final pero hay al menos 2 sesiones,
+            // y el usuario aún no configuró las fases, tomar la segunda mitad como final para visualización
+            bool hasBothPhases = finalSessions.Any();
+            if (!hasBothPhases && sessions.Count >= 2)
+            {
+                // No forzar si no está marcado, pero permitir ver la fase inicial
+            }
+
+            var initialMetrics = CalculatePhaseMetrics("Evaluación Inicial", initialSessions, tasks);
+            var finalMetrics = CalculatePhaseMetrics("Evaluación Final", finalSessions, tasks);
+
+            // Calcular deltas
+            var deltaTime = hasBothPhases ? Math.Round(finalMetrics.AverageTimeSeconds - initialMetrics.AverageTimeSeconds, 1) : 0;
+            var timeReduction = (hasBothPhases && initialMetrics.AverageTimeSeconds > 0)
+                ? Math.Round(((initialMetrics.AverageTimeSeconds - finalMetrics.AverageTimeSeconds) / initialMetrics.AverageTimeSeconds) * 100, 1)
+                : 0;
+
+            var deltaErrors = hasBothPhases ? finalMetrics.TotalErrors - initialMetrics.TotalErrors : 0;
+            var errorReduction = (hasBothPhases && initialMetrics.TotalErrors > 0)
+                ? Math.Round(((double)(initialMetrics.TotalErrors - finalMetrics.TotalErrors) / initialMetrics.TotalErrors) * 100, 1)
+                : 0;
+
+            var deltaSuccess = hasBothPhases ? Math.Round(finalMetrics.SuccessRate - initialMetrics.SuccessRate, 1) : 0;
+            var deltaSatisfaction = hasBothPhases ? Math.Round(finalMetrics.AverageSatisfaction - initialMetrics.AverageSatisfaction, 1) : 0;
+            var deltaCompleted = hasBothPhases ? finalMetrics.CompletedTasksCount - initialMetrics.CompletedTasksCount : 0;
+
+            var delta = new ComparisonDeltaDto(
+                DeltaTimeSeconds: deltaTime,
+                TimeReductionPercentage: timeReduction,
+                DeltaErrors: deltaErrors,
+                ErrorReductionPercentage: errorReduction,
+                DeltaSuccessRate: deltaSuccess,
+                DeltaSatisfaction: deltaSatisfaction,
+                CompletedTasksDifference: deltaCompleted
+            );
+
+            return new EvaluationComparisonDto(
+                TestPlanId: testPlanId,
+                ProjectName: projectName,
+                EvaluatedModule: evaluatedModule,
+                InitialEvaluation: initialMetrics,
+                FinalEvaluation: finalMetrics,
+                Delta: delta,
+                HasBothPhases: hasBothPhases
+            );
+        }
+
+        private static PhaseMetricsDto CalculatePhaseMetrics(string phaseName, List<TestSession> sessions, List<TestTask> tasks)
+        {
+            var logs = sessions.SelectMany(s => s.ObservationLogs).ToList();
+            var totalLogs = logs.Count;
+            var successLogs = logs.Count(l => l.TaskSuccess);
+            var successRate = totalLogs > 0 ? Math.Round((double)successLogs / totalLogs * 100, 1) : 0;
+            var avgTime = totalLogs > 0 ? Math.Round(logs.Average(l => (double)l.TimeSeconds), 1) : 0;
+            var totalErrors = logs.Sum(l => l.ErrorCount);
+            var completedCount = successLogs;
+
+            // Satisfacción promedio (evaluada si se registró SatisfactionScore)
+            var scoredSessions = sessions.Where(s => s.SatisfactionScore.HasValue).ToList();
+            var avgSatisfaction = scoredSessions.Any()
+                ? Math.Round(scoredSessions.Average(s => (double)s.SatisfactionScore!.Value), 1)
+                : (totalLogs > 0 ? Math.Round(successRate * 0.85, 1) : 0); // Estimación basada en tasa si no hay registro directo
+
+            var taskMetrics = new List<TaskComparisonMetricDto>();
+            foreach (var task in tasks)
+            {
+                var taskLogs = logs.Where(l => l.TestTaskId == task.Id).ToList();
+                var taskSuccesses = taskLogs.Count(l => l.TaskSuccess);
+                var taskRate = taskLogs.Any() ? Math.Round((double)taskSuccesses / taskLogs.Count * 100, 1) : 0;
+                var taskAvgTime = taskLogs.Any() ? Math.Round(taskLogs.Average(l => (double)l.TimeSeconds), 1) : 0;
+                var taskErrors = taskLogs.Sum(l => l.ErrorCount);
+
+                taskMetrics.Add(new TaskComparisonMetricDto(
+                    TaskId: task.Id,
+                    TaskNumber: task.TaskNumber,
+                    Scenario: task.Scenario,
+                    InitialAttempts: phaseName == "Evaluación Inicial" ? taskLogs.Count : 0,
+                    InitialSuccesses: phaseName == "Evaluación Inicial" ? taskSuccesses : 0,
+                    InitialSuccessRate: phaseName == "Evaluación Inicial" ? taskRate : 0,
+                    InitialAvgTimeSeconds: phaseName == "Evaluación Inicial" ? taskAvgTime : 0,
+                    InitialErrorCount: phaseName == "Evaluación Inicial" ? taskErrors : 0,
+                    FinalAttempts: phaseName == "Evaluación Final" ? taskLogs.Count : 0,
+                    FinalSuccesses: phaseName == "Evaluación Final" ? taskSuccesses : 0,
+                    FinalSuccessRate: phaseName == "Evaluación Final" ? taskRate : 0,
+                    FinalAvgTimeSeconds: phaseName == "Evaluación Final" ? taskAvgTime : 0,
+                    FinalErrorCount: phaseName == "Evaluación Final" ? taskErrors : 0,
+                    DeltaTimeSeconds: 0,
+                    DeltaSuccessRate: 0,
+                    DeltaErrors: 0
+                ));
+            }
+
+            return new PhaseMetricsDto(
+                PhaseName: phaseName,
+                SessionCount: sessions.Count,
+                TotalObservations: totalLogs,
+                SuccessRate: successRate,
+                AverageTimeSeconds: avgTime,
+                TotalErrors: totalErrors,
+                CompletedTasksCount: completedCount,
+                AverageSatisfaction: avgSatisfaction,
+                TaskMetrics: taskMetrics
+            );
+        }
+
     }
 }

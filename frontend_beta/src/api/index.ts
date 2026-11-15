@@ -85,6 +85,52 @@ export const testSessionsApi = {
 // ── Dashboard ──
 export const dashboardApi = {
     getStats: (testPlanId?: Guid) => api.get('/Dashboard/stats', { params: { testPlanId } }),
+    getEvaluationComparison: (testPlanId: Guid) => api.get(`/Dashboard/evaluation-comparison/${testPlanId}`),
+};
+
+// ── ProductBacklog ──
+export const productBacklogApi = {
+    getByPlan: (planId: Guid, params?: { search?: string; priority?: string; status?: string; sortBy?: string }) =>
+        api.get(`/ProductBacklog/by-plan/${planId}`, { params }),
+    get: (id: Guid) => api.get(`/ProductBacklog/${id}`),
+    create: (data: any) => api.post('/ProductBacklog', data),
+    update: (id: Guid, data: any) => api.put(`/ProductBacklog/${id}`, data),
+    delete: (id: Guid) => api.delete(`/ProductBacklog/${id}`),
+    importApproved: (planId: Guid, data: { stories: any[] }) => api.post(`/ProductBacklog/import-approved/${planId}`, data),
+};
+
+// ── Sprints ──
+export const sprintsApi = {
+    getByPlan: (planId: Guid) => api.get(`/Sprints/by-plan/${planId}`),
+    get: (id: Guid) => api.get(`/Sprints/${id}`),
+    create: (data: any) => api.post('/Sprints', data),
+    update: (id: Guid, data: any) => api.put(`/Sprints/${id}`, data),
+    delete: (id: Guid) => api.delete(`/Sprints/${id}`),
+    assignStory: (sprintId: Guid, storyId: Guid) => api.post(`/Sprints/${sprintId}/assign-story/${storyId}`),
+    removeStory: (storyId: Guid) => api.post(`/Sprints/remove-story/${storyId}`),
+};
+
+// ── Kanban ──
+export const kanbanApi = {
+    getTasksBySprint: (sprintId: Guid) => api.get(`/Kanban/tasks/by-sprint/${sprintId}`),
+    getTask: (id: Guid) => api.get(`/Kanban/tasks/${id}`),
+    createTask: (data: any) => api.post('/Kanban/tasks', data),
+    updateTask: (id: Guid, data: any) => api.put(`/Kanban/tasks/${id}`, data),
+    updateStatus: (id: Guid, status: string) => api.patch(`/Kanban/tasks/${id}/status`, { status }),
+    updateAssignee: (id: Guid, assignee: string) => api.patch(`/Kanban/tasks/${id}/assignee`, { assignee }),
+    deleteTask: (id: Guid) => api.delete(`/Kanban/tasks/${id}`),
+    getTeamProgress: (sprintId: Guid) => api.get(`/Kanban/team-progress/${sprintId}`),
+};
+
+// ── Retrospectives ──
+export const retrospectivesApi = {
+    getBySprint: (sprintId: Guid) => api.get(`/Retrospectives/by-sprint/${sprintId}`),
+    save: (data: any) => api.post('/Retrospectives', data),
+};
+
+// ── AiAssistant ──
+export const aiAssistantApi = {
+    analyzeUsability: (planId: Guid, data?: { userApiKey?: string }) => api.post(`/AiAssistant/analyze-usability/${planId}`, data || {}),
 };
 
 // ── SprintBacklog ──

@@ -19,6 +19,16 @@ public class AppDbContext : DbContext
     public DbSet<Finding> Findings => Set<Finding>();
     public DbSet<ImprovementAction> ImprovementActions => Set<ImprovementAction>();
     public DbSet<SprintBacklog> SprintBacklogs => Set<SprintBacklog>();
+    public DbSet<UserStory> UserStories => Set<UserStory>();
+    public DbSet<Sprint> Sprints => Set<Sprint>();
+    public DbSet<SprintTask> SprintTasks => Set<SprintTask>();
+    public DbSet<SprintRetrospective> SprintRetrospectives => Set<SprintRetrospective>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+    }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

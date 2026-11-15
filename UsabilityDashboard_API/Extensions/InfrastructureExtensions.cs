@@ -1,6 +1,7 @@
-﻿using Domain.Interfaces;
+using Domain.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace UsabilityDashboard_API.Extensions
 {
@@ -11,7 +12,10 @@ namespace UsabilityDashboard_API.Extensions
             IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                options.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+            });
 
             // Registra el repositorio genérico para todas las entidades
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));

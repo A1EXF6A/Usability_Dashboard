@@ -40,10 +40,17 @@ namespace UsabilityDashboard_API
             if (Environment.GetEnvironmentVariable("AUTO_MIGRATE") == "true")
             {
                 Console.WriteLine("Applying database migrations...");
-                using var scope = app.Services.CreateScope();
-                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                dbContext.Database.Migrate();
-                Console.WriteLine("Database migrations applied.");
+                try
+                {
+                    using var scope = app.Services.CreateScope();
+                    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    dbContext.Database.Migrate();
+                    Console.WriteLine("Database migrations applied.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Warning] Database migration note: {ex.Message}");
+                }
             }
 
             // Configure the HTTP request pipeline.

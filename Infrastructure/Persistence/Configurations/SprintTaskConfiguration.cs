@@ -1,0 +1,30 @@
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Infrastructure.Persistence.Configurations
+{
+    public class SprintTaskConfiguration : IEntityTypeConfiguration<SprintTask>
+    {
+        public void Configure(EntityTypeBuilder<SprintTask> builder)
+        {
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.TaskCode).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Title).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.Description).HasMaxLength(2000);
+            builder.Property(x => x.Status).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Assignee).IsRequired().HasMaxLength(200);
+
+            builder.HasOne(x => x.Sprint)
+                .WithMany(x => x.Tasks)
+                .HasForeignKey(x => x.SprintId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.UserStory)
+                .WithMany(x => x.Tasks)
+                .HasForeignKey(x => x.UserStoryId)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
+    }
+}

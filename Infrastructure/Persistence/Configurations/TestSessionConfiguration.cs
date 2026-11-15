@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -14,6 +14,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.PlatformTested).HasMaxLength(200);
+            builder.Property(x => x.EvaluationPhase).HasMaxLength(50).HasDefaultValue("Inicial");
 
             builder.HasOne(x => x.Participant)
                 .WithMany(x => x.Sessions)

@@ -41,6 +41,8 @@ export default function SessionRunner() {
     const [saving, setSaving] = useState(false)
     const [showExitConfirm, setShowExitConfirm] = useState(false)
     const [scriptTab, setScriptTab] = useState<'intro' | 'questions' | 'closing'>('questions')
+    const [evaluationPhase, setEvaluationPhase] = useState<'Inicial' | 'Final'>('Inicial')
+    const [satisfactionScore, setSatisfactionScore] = useState<number>(80)
 
     // Timer state
     const [timerRunning, setTimerRunning] = useState(false)
@@ -176,7 +178,19 @@ export default function SessionRunner() {
                     })
                 }
             }
-            addToast('Sesión guardada correctamente', 'success')
+
+            // Guardar métricas de satisfacción y fase en la sesión
+            if (sessionId && session) {
+                await testSessionsApi.update(sessionId, {
+                    participantId: session.participantId,
+                    date: session.date,
+                    platformTested: session.platformTested,
+                    evaluationPhase,
+                    satisfactionScore: Number(satisfactionScore)
+                })
+            }
+
+            addToast('Sesión guardada correctamente con métricas de usabilidad', 'success')
             await refreshGates()
             setPhase('saved')
             setTimeout(() => navigate('/sesiones'), 1500)
@@ -754,6 +768,56 @@ export default function SessionRunner() {
                                 </div>
                             )
                         })}
+                    </div>
+                </div>
+
+                {/* Usability & Satisfaction Evaluation */}
+                <div className="runner-summary-card" style={{ border: '1px solid var(--color-primary-light, rgba(99, 102, 241, 0.2))' }}>
+                    <div className="runner-summary-header" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                        <Sparkles size={16} style={{ color: 'var(--color-primary)' }} />
+                        <h3 className="runner-section-title" style={{ fontSize: 'var(--font-size-sm)' }}>
+                            Evaluación y Métricas de Satisfacción (HCI)
+                        </h3>
+                    </div>
+                    <div className="runner-summary-body" style={{ padding: 'var(--space-4)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+                        <div>
+                            <label className="form-label" style={{ fontSize: 12 }}>
+                                Fase de Evaluación
+                            </label>
+                            <select
+                                value={evaluationPhase}
+                                onChange={e => setEvaluationPhase(e.target.value as any)}
+                                className="form-input"
+                                style={{ fontSize: 13 }}
+                            >
+                                <option value="Inicial">Evaluación Inicial (Línea Base / Pre-test)</option>
+                                <option value="Final">Evaluación Final (Iteración / Post-test)</option>
+                            </select>
+                            <p style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 4 }}>
+                                Permite comparar automáticamente la evolución entre fases en el Dashboard.
+                            </p>
+                        </div>
+                        <div>
+                            <label className="form-label" style={{ fontSize: 12, display: 'flex', justifyContent: 'space-between' }}>
+                                <span>Puntuación de Satisfacción (SUS)</span>
+                                <strong style={{ color: satisfactionScore >= 80 ? 'var(--color-success)' : satisfactionScore >= 68 ? 'var(--color-warning)' : 'var(--color-error)' }}>
+                                    {satisfactionScore}/100 {satisfactionScore >= 80 ? '✓ Excelente' : satisfactionScore >= 68 ? '• Aceptable' : '⚠ Fricción'}
+                                </strong>
+                            </label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={satisfactionScore}
+                                onChange={e => setSatisfactionScore(Number(e.target.value))}
+                                style={{ width: '100%', accentColor: 'var(--color-primary)', marginTop: 6 }}
+                            />
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--text-disabled)', marginTop: 2 }}>
+                                <span>0 (Inutilizable)</span>
+                                <span>68 (Estándar SUS)</span>
+                                <span>100 (Óptimo)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

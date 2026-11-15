@@ -16,8 +16,8 @@
 [Rr]elease/
 x64/
 x86/
-[Bb]in/
-[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/

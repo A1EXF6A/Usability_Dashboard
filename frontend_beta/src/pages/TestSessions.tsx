@@ -19,7 +19,14 @@ export default function TestSessions() {
     const { addToast } = useToast()
     const { activePlanId, activePlan, isReadOnly, refreshGates } = usePlan()
 
-    const emptyForm = { testPlanId: '', participantId: '', date: new Date().toISOString().split('T')[0], platformTested: '' }
+    const emptyForm = {
+        testPlanId: '',
+        participantId: '',
+        date: new Date().toISOString().split('T')[0],
+        platformTested: '',
+        evaluationPhase: 'Inicial',
+        satisfactionScore: 75
+    }
     const [form, setForm] = useState(emptyForm)
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -51,7 +58,14 @@ export default function TestSessions() {
     }
 
     const handleEdit = (s: any) => {
-        setForm({ testPlanId: s.testPlanId, participantId: s.participantId, date: s.date.split('T')[0], platformTested: s.platformTested })
+        setForm({
+            testPlanId: s.testPlanId,
+            participantId: s.participantId,
+            date: s.date.split('T')[0],
+            platformTested: s.platformTested,
+            evaluationPhase: s.evaluationPhase || 'Inicial',
+            satisfactionScore: s.satisfactionScore ?? 75
+        })
         setEditId(s.id)
         setShowForm(true)
     }
@@ -69,6 +83,8 @@ export default function TestSessions() {
                     participantId: form.participantId,
                     date: new Date(form.date).toISOString(),
                     platformTested: form.platformTested,
+                    evaluationPhase: form.evaluationPhase,
+                    satisfactionScore: Number(form.satisfactionScore)
                 })
                 addToast('Sesión actualizada', 'success')
             } else {
@@ -77,6 +93,8 @@ export default function TestSessions() {
                     participantId: form.participantId,
                     date: new Date(form.date).toISOString(),
                     platformTested: form.platformTested,
+                    evaluationPhase: form.evaluationPhase,
+                    satisfactionScore: Number(form.satisfactionScore)
                 })
                 addToast('Sesión programada', 'success')
             }
@@ -187,6 +205,37 @@ export default function TestSessions() {
                         </label>
                         <input id="platformTested" type="text" value={form.platformTested} onChange={e => setForm(f => ({ ...f, platformTested: e.target.value }))} className="form-input" placeholder="Ej: iOS App, Android, Desktop Web..." required />
                     </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
+                        <div>
+                            <label htmlFor="evaluationPhase" className="form-label">
+                                Fase de Evaluación
+                            </label>
+                            <select
+                                id="evaluationPhase"
+                                value={form.evaluationPhase}
+                                onChange={e => setForm(f => ({ ...f, evaluationPhase: e.target.value }))}
+                                className="form-input"
+                            >
+                                <option value="Inicial">Evaluación Inicial (Pre-test)</option>
+                                <option value="Final">Evaluación Final (Post-test)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="satisfactionScore" className="form-label">
+                                Satisfacción (SUS 0-100)
+                            </label>
+                            <input
+                                id="satisfactionScore"
+                                type="number"
+                                min="0"
+                                max="100"
+                                value={form.satisfactionScore}
+                                onChange={e => setForm(f => ({ ...f, satisfactionScore: Number(e.target.value) }))}
+                                className="form-input"
+                                placeholder="Ej: 75"
+                            />
+                        </div>
+                    </div>
                     <div className="form-actions">
                         <button type="submit" className="btn btn-primary" disabled={participants.length === 0 || isSubmitting}>
                             <Save size={16} aria-hidden="true" /> {isSubmitting ? 'Guardando...' : (editId ? 'Actualizar' : 'Guardar')}
@@ -222,6 +271,32 @@ export default function TestSessions() {
                                     <div className="session-card-meta-item">
                                         <MonitorPlay size={14} aria-hidden="true" />
                                         <span>Plataforma: {session.platformTested || 'No definida'}</span>
+                                    </div>
+                                    <div style={{ marginTop: 'var(--space-2)', display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+                                        <span style={{
+                                            fontSize: 10,
+                                            fontWeight: 700,
+                                            padding: '2px 8px',
+                                            borderRadius: '999px',
+                                            background: session.evaluationPhase === 'Final' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(99, 102, 241, 0.15)',
+                                            color: session.evaluationPhase === 'Final' ? '#10b981' : '#6366f1',
+                                            border: `1px solid ${session.evaluationPhase === 'Final' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(99, 102, 241, 0.3)'}`
+                                        }}>
+                                            {session.evaluationPhase === 'Final' ? 'Evaluación Final' : 'Evaluación Inicial'}
+                                        </span>
+                                        {session.satisfactionScore != null && (
+                                            <span style={{
+                                                fontSize: 10,
+                                                fontWeight: 700,
+                                                padding: '2px 8px',
+                                                borderRadius: '999px',
+                                                background: 'rgba(245, 158, 11, 0.15)',
+                                                color: '#f59e0b',
+                                                border: '1px solid rgba(245, 158, 11, 0.3)'
+                                            }}>
+                                                SUS: {session.satisfactionScore}/100
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { dashboardApi, findingsApi } from '../api'
 import { usePlan } from '../context/PlanContext'
-import { BarChart2, CheckCircle2, Clock, AlertCircle, AlertTriangle, Info, Lightbulb, TrendingUp, Flame, PieChart as PieChartIcon, Users, MessageSquareText, ListChecks, CalendarRange, Eye, Search, ArrowRight, Lock, Check, Zap } from 'lucide-react'
+import { BarChart2, CheckCircle2, Clock, AlertCircle, AlertTriangle, Info, Lightbulb, TrendingUp, TrendingDown, Flame, PieChart as PieChartIcon, Users, MessageSquareText, ListChecks, CalendarRange, Eye, Search, ArrowRight, Lock, Check, Zap, Printer, Sparkles, Award } from 'lucide-react'
 import { PieChart } from '../components/PieChart'
 
 interface Stats {
@@ -149,6 +149,8 @@ function QuickActions({ sectionDone, canAccessPhase2, canAccessPhase3 }: {
 export default function Dashboard() {
     const { plans, activePlanId, sectionDone, canAccessPhase2, canAccessPhase3 } = usePlan()
 
+    const [activeTab, setActiveTab] = useState<'general' | 'comparativa'>('general')
+    const [comparison, setComparison] = useState<any | null>(null)
     const [stats, setStats] = useState<Stats | null>(null)
     const [findings, setFindings] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
@@ -156,14 +158,23 @@ export default function Dashboard() {
     const fetchDashboardData = async (planId: string) => {
         setStats(null)
         setFindings([])
+        setComparison(null)
         setLoading(true)
         try {
             const statsRes = await dashboardApi.getStats(planId || undefined)
 
             let allFindings: any[] = []
             if (planId) {
-                const findingsRes = await findingsApi.getByPlan(planId)
-                allFindings = findingsRes.data ?? []
+                const [findingsRes, compRes] = await Promise.allSettled([
+                    findingsApi.getByPlan(planId),
+                    dashboardApi.getEvaluationComparison(planId)
+                ])
+                if (findingsRes.status === 'fulfilled') {
+                    allFindings = findingsRes.value.data ?? []
+                }
+                if (compRes.status === 'fulfilled') {
+                    setComparison(compRes.value.data)
+                }
             } else {
                 const findingsPromises = plans.map(p => findingsApi.getByPlan(p.id))
                 const responses = await Promise.all(findingsPromises)
@@ -262,8 +273,50 @@ export default function Dashboard() {
             {/* Quick Actions */}
             <QuickActions sectionDone={sectionDone} canAccessPhase2={canAccessPhase2} canAccessPhase3={canAccessPhase3} />
 
-            {/* Hero Banner */}
-            <section className="dashboard-hero">
+            {/* Sub-view Navigation Tabs */}
+            <div style={{ display: 'flex', gap: 'var(--space-3)', borderBottom: '1px solid var(--border-color)', paddingBottom: 'var(--space-3)', marginTop: 'var(--space-4)' }}>
+                <button
+                    onClick={() => setActiveTab('general')}
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '10px 18px',
+                        borderRadius: 'var(--radius-lg)',
+                        fontWeight: activeTab === 'general' ? 700 : 500,
+                        background: activeTab === 'general' ? 'var(--color-primary)' : 'var(--surface-card)',
+                        color: activeTab === 'general' ? '#fff' : 'var(--text-secondary)',
+                        border: activeTab === 'general' ? 'none' : '1px solid var(--border-color)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    <BarChart2 size={16} /> Métricas Generales del Plan
+                </button>
+                <button
+                    onClick={() => setActiveTab('comparativa')}
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '10px 18px',
+                        borderRadius: 'var(--radius-lg)',
+                        fontWeight: activeTab === 'comparativa' ? 700 : 500,
+                        background: activeTab === 'comparativa' ? 'var(--color-primary)' : 'var(--surface-card)',
+                        color: activeTab === 'comparativa' ? '#fff' : 'var(--text-secondary)',
+                        border: activeTab === 'comparativa' ? 'none' : '1px solid var(--border-color)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    <Award size={16} /> Comparativa Inicial vs. Final & Informe
+                </button>
+            </div>
+
+            {activeTab === 'general' ? (
+                <>
+                    {/* Hero Banner */}
+                    <section className="dashboard-hero">
                 <div className="dashboard-hero-deco" aria-hidden="true" />
                 <div className="dashboard-hero-content">
                     <div className="dashboard-hero-tags">
@@ -502,6 +555,247 @@ export default function Dashboard() {
                     </div>
                 </div>
             </section>
+                </>
+            ) : (
+                /* ── COMPARATIVA DE EVALUACIONES INICIAL VS. FINAL & INFORME ── */
+                <div style={{ marginTop: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+                    {/* Header Banner */}
+                    <div className="sprint-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+                        <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                                <Award size={22} style={{ color: 'var(--color-primary)' }} />
+                                <h2 className="sprint-header-title">Comparativa de Evaluaciones: Inicial vs. Final</h2>
+                            </div>
+                            <p className="sprint-header-subtitle">
+                                Análisis comparativo con métricas reales de tiempos, errores, tasa de éxito y satisfacción del usuario (SUS).
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => window.print()}
+                            className="btn btn-secondary"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                            aria-label="Exportar e Imprimir Informe de Resultados"
+                        >
+                            <Printer size={16} /> Imprimir / Exportar Informe PDF
+                        </button>
+                    </div>
+
+                    {comparison ? (
+                        <>
+                            {/* Summary Delta Cards */}
+                            <div className="dashboard-kpi-row">
+                                <div className="kpi-card" role="group" aria-label="Comparativa de Tiempo">
+                                    <div className="kpi-card-icon-container" style={{ background: 'var(--color-primary-light)' }}>
+                                        <Clock size={20} className="text-blue-600" />
+                                    </div>
+                                    <div className="kpi-card-content">
+                                        <div className="kpi-card-value" style={{ color: 'var(--color-primary)' }}>
+                                            {comparison.finalEvaluation.averageTimeSeconds}s
+                                        </div>
+                                        <div className="kpi-card-label">Tiempo Promedio Final</div>
+                                        <div style={{ fontSize: 11, marginTop: 4, display: 'flex', alignItems: 'center', gap: 4, color: comparison.delta.deltaTimeSeconds <= 0 ? 'var(--color-success)' : 'var(--color-error)' }}>
+                                            {comparison.delta.deltaTimeSeconds <= 0 ? <TrendingDown size={14} /> : <TrendingUp size={14} />}
+                                            <span>
+                                                {comparison.delta.timeReductionPercentage}% {comparison.delta.deltaTimeSeconds <= 0 ? 'más rápido' : 'más lento'}
+                                                <span style={{ color: 'var(--text-disabled)', marginLeft: 4 }}>(Base: {comparison.initialEvaluation.averageTimeSeconds}s)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="kpi-card" role="group" aria-label="Comparativa de Errores">
+                                    <div className="kpi-card-icon-container" style={{ background: 'var(--color-error-light)' }}>
+                                        <AlertCircle size={20} className="text-red-500" />
+                                    </div>
+                                    <div className="kpi-card-content">
+                                        <div className="kpi-card-value" style={{ color: 'var(--color-error)' }}>
+                                            {comparison.finalEvaluation.totalErrors}
+                                        </div>
+                                        <div className="kpi-card-label">Errores Totales Final</div>
+                                        <div style={{ fontSize: 11, marginTop: 4, display: 'flex', alignItems: 'center', gap: 4, color: comparison.delta.deltaErrors <= 0 ? 'var(--color-success)' : 'var(--color-error)' }}>
+                                            {comparison.delta.deltaErrors <= 0 ? <TrendingDown size={14} /> : <TrendingUp size={14} />}
+                                            <span>
+                                                {comparison.delta.errorReductionPercentage}% reducción
+                                                <span style={{ color: 'var(--text-disabled)', marginLeft: 4 }}>(Base: {comparison.initialEvaluation.totalErrors})</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="kpi-card" role="group" aria-label="Comparativa de Tasa de Éxito">
+                                    <div className="kpi-card-icon-container" style={{ background: 'var(--color-success-light)' }}>
+                                        <CheckCircle2 size={20} className="text-emerald-500" />
+                                    </div>
+                                    <div className="kpi-card-content">
+                                        <div className="kpi-card-value" style={{ color: 'var(--color-success)' }}>
+                                            {comparison.finalEvaluation.successRate}%
+                                        </div>
+                                        <div className="kpi-card-label">Tasa de Éxito Final</div>
+                                        <div style={{ fontSize: 11, marginTop: 4, display: 'flex', alignItems: 'center', gap: 4, color: comparison.delta.deltaSuccessRate >= 0 ? 'var(--color-success)' : 'var(--color-error)' }}>
+                                            <TrendingUp size={14} />
+                                            <span>
+                                                {comparison.delta.deltaSuccessRate >= 0 ? `+${comparison.delta.deltaSuccessRate}%` : `${comparison.delta.deltaSuccessRate}%`} incremento
+                                                <span style={{ color: 'var(--text-disabled)', marginLeft: 4 }}>(Base: {comparison.initialEvaluation.successRate}%)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="kpi-card" role="group" aria-label="Comparativa de Satisfacción">
+                                    <div className="kpi-card-icon-container" style={{ background: 'linear-gradient(135deg, #fef3c7, #fde68a)' }}>
+                                        <Sparkles size={20} style={{ color: '#d97706' }} />
+                                    </div>
+                                    <div className="kpi-card-content">
+                                        <div className="kpi-card-value" style={{ color: '#d97706' }}>
+                                            {comparison.finalEvaluation.averageSatisfaction}
+                                        </div>
+                                        <div className="kpi-card-label">Satisfacción SUS Final</div>
+                                        <div style={{ fontSize: 11, marginTop: 4, display: 'flex', alignItems: 'center', gap: 4, color: comparison.delta.deltaSatisfaction >= 0 ? 'var(--color-success)' : 'var(--color-error)' }}>
+                                            <TrendingUp size={14} />
+                                            <span>
+                                                {comparison.delta.deltaSatisfaction >= 0 ? `+${comparison.delta.deltaSatisfaction}` : comparison.delta.deltaSatisfaction} pts
+                                                <span style={{ color: 'var(--text-disabled)', marginLeft: 4 }}>(Base: {comparison.initialEvaluation.averageSatisfaction})</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Side by side comparison cards */}
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-6)' }}>
+                                <div className="dashboard-panel-card" style={{ borderLeft: '4px solid var(--color-primary)' }}>
+                                    <div className="dashboard-panel-header dashboard-panel-header--blue">
+                                        <h3 className="dashboard-panel-title">Fase 1: Evaluación Inicial (Línea Base)</h3>
+                                        <span className="dashboard-panel-badge">{comparison.initialEvaluation.sessionCount} sesiones</span>
+                                    </div>
+                                    <div className="dashboard-panel-body" style={{ padding: 'var(--space-4)' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Observaciones registradas:</span>
+                                                <strong>{comparison.initialEvaluation.totalObservations}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Tasa de éxito de tareas:</span>
+                                                <strong style={{ color: 'var(--color-primary)' }}>{comparison.initialEvaluation.successRate}%</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Tiempo promedio por tarea:</span>
+                                                <strong>{comparison.initialEvaluation.averageTimeSeconds} segundos</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Errores e incidentes observados:</span>
+                                                <strong style={{ color: 'var(--color-error)' }}>{comparison.initialEvaluation.totalErrors}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Puntuación de satisfacción (SUS):</span>
+                                                <strong style={{ color: '#d97706' }}>{comparison.initialEvaluation.averageSatisfaction} / 100</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="dashboard-panel-card" style={{ borderLeft: '4px solid var(--color-success)' }}>
+                                    <div className="dashboard-panel-header dashboard-panel-header--emerald">
+                                        <h3 className="dashboard-panel-title">Fase 2: Evaluación Final (Post-Mejoras)</h3>
+                                        <span className="dashboard-panel-badge">{comparison.finalEvaluation.sessionCount} sesiones</span>
+                                    </div>
+                                    <div className="dashboard-panel-body" style={{ padding: 'var(--space-4)' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Observaciones registradas:</span>
+                                                <strong>{comparison.finalEvaluation.totalObservations}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Tasa de éxito de tareas:</span>
+                                                <strong style={{ color: 'var(--color-success)' }}>{comparison.finalEvaluation.successRate}%</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Tiempo promedio por tarea:</span>
+                                                <strong>{comparison.finalEvaluation.averageTimeSeconds} segundos</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Errores e incidentes observados:</span>
+                                                <strong style={{ color: 'var(--color-success)' }}>{comparison.finalEvaluation.totalErrors}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                                                <span style={{ color: 'var(--text-secondary)' }}>Puntuación de satisfacción (SUS):</span>
+                                                <strong style={{ color: '#d97706' }}>{comparison.finalEvaluation.averageSatisfaction} / 100</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Task Breakdown Table */}
+                            <div className="dashboard-panel-card">
+                                <div className="dashboard-panel-header dashboard-panel-header--blue">
+                                    <h3 className="dashboard-panel-title">Rendimiento Comparativo por Tarea de Usabilidad</h3>
+                                </div>
+                                <div className="dashboard-panel-body" style={{ padding: 0 }}>
+                                    <table className="table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                                        <thead>
+                                            <tr style={{ background: 'var(--surface-sunken)', borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
+                                                <th style={{ padding: '12px 16px' }}>Tarea</th>
+                                                <th style={{ padding: '12px 16px' }}>Escenario</th>
+                                                <th style={{ padding: '12px 16px', textAlign: 'center' }}>Tasa Éxito (Ini vs Fin)</th>
+                                                <th style={{ padding: '12px 16px', textAlign: 'center' }}>Tiempo Promedio (s)</th>
+                                                <th style={{ padding: '12px 16px', textAlign: 'center' }}>Errores (Ini vs Fin)</th>
+                                                <th style={{ padding: '12px 16px', textAlign: 'right' }}>Mejora Neta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {comparison.initialEvaluation.taskMetrics.map((task: any, idx: number) => {
+                                                const finalTask = comparison.finalEvaluation.taskMetrics[idx] || task;
+                                                const timeDelta = Math.round(finalTask.finalAvgTimeSeconds - task.initialAvgTimeSeconds);
+                                                const successDelta = Math.round(finalTask.finalSuccessRate - task.initialSuccessRate);
+                                                return (
+                                                    <tr key={task.taskId} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                                        <td style={{ padding: '12px 16px', fontWeight: 600 }}>T{task.taskNumber}</td>
+                                                        <td style={{ padding: '12px 16px', maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                            {task.scenario}
+                                                        </td>
+                                                        <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                                                            <span>{task.initialSuccessRate}%</span>
+                                                            <span style={{ color: 'var(--text-disabled)', margin: '0 4px' }}>→</span>
+                                                            <strong style={{ color: 'var(--color-success)' }}>{finalTask.finalSuccessRate}%</strong>
+                                                        </td>
+                                                        <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                                                            <span>{task.initialAvgTimeSeconds}s</span>
+                                                            <span style={{ color: 'var(--text-disabled)', margin: '0 4px' }}>→</span>
+                                                            <strong>{finalTask.finalAvgTimeSeconds}s</strong>
+                                                        </td>
+                                                        <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                                                            <span style={{ color: 'var(--color-error)' }}>{task.initialErrorCount}</span>
+                                                            <span style={{ color: 'var(--text-disabled)', margin: '0 4px' }}>→</span>
+                                                            <span style={{ color: 'var(--color-success)' }}>{finalTask.finalErrorCount}</span>
+                                                        </td>
+                                                        <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: 700, color: successDelta >= 0 ? 'var(--color-success)' : 'var(--color-error)' }}>
+                                                            {successDelta >= 0 ? `+${successDelta}%` : `${successDelta}%`} éxito
+                                                            {timeDelta !== 0 && (
+                                                                <span style={{ display: 'block', fontSize: 11, color: timeDelta <= 0 ? 'var(--color-success)' : 'var(--color-error)', fontWeight: 500 }}>
+                                                                    {timeDelta <= 0 ? `${timeDelta}s` : `+${timeDelta}s`}
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="empty-state-card" style={{ padding: 'var(--space-12)' }}>
+                            <Award size={48} className="empty-state-icon" aria-hidden="true" />
+                            <h3 className="empty-state-title">No hay datos de evaluación comparativa registrados</h3>
+                            <p className="empty-state-subtitle">
+                                Programa sesiones con etiqueta "Evaluación Inicial" y "Evaluación Final" en el módulo de Sesiones para visualizar la comparativa en tiempo real.
+                            </p>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

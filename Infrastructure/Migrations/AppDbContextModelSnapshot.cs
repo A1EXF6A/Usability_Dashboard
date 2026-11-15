@@ -400,6 +400,15 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<string>("EvaluationPhase")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasDefaultValue("Inicial");
+
+                    b.Property<int?>("SatisfactionScore")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("ParticipantId")
                         .HasColumnType("uuid");
 
@@ -416,6 +425,228 @@ namespace Infrastructure.Migrations
                     b.HasIndex("TestPlanId");
 
                     b.ToTable("TestSessions");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sprint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Goal")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("TestPlanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestPlanId");
+
+                    b.ToTable("Sprints");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SprintRetrospective", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ActionItemsJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("WhatCanBeImproved")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<string>("WhatWentWell")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<string>("WhatWentWrong")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintId")
+                        .IsUnique();
+
+                    b.ToTable("SprintRetrospectives");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SprintTask", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Assignee")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("EstimatedHours")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("TaskCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UserStoryId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintId");
+
+                    b.HasIndex("UserStoryId");
+
+                    b.ToTable("SprintTasks");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserStory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AcceptanceCriteria")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("EffortEstimation")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("FindingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid?>("SprintId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("StoryCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("TestPlanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintId");
+
+                    b.HasIndex("TestPlanId");
+
+                    b.ToTable("UserStories");
                 });
 
             modelBuilder.Entity("Domain.Entities.TestTask", b =>
@@ -549,6 +780,64 @@ namespace Infrastructure.Migrations
                     b.Navigation("TestPlan");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Sprint", b =>
+                {
+                    b.HasOne("Domain.Entities.TestPlan", "TestPlan")
+                        .WithMany("Sprints")
+                        .HasForeignKey("TestPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TestPlan");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SprintRetrospective", b =>
+                {
+                    b.HasOne("Domain.Entities.Sprint", "Sprint")
+                        .WithOne("Retrospective")
+                        .HasForeignKey("Domain.Entities.SprintRetrospective", "SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sprint");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SprintTask", b =>
+                {
+                    b.HasOne("Domain.Entities.Sprint", "Sprint")
+                        .WithMany("Tasks")
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.UserStory", "UserStory")
+                        .WithMany("Tasks")
+                        .HasForeignKey("UserStoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Sprint");
+
+                    b.Navigation("UserStory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserStory", b =>
+                {
+                    b.HasOne("Domain.Entities.Sprint", "Sprint")
+                        .WithMany("UserStories")
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Domain.Entities.TestPlan", "TestPlan")
+                        .WithMany("UserStories")
+                        .HasForeignKey("TestPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sprint");
+
+                    b.Navigation("TestPlan");
+                });
+
             modelBuilder.Entity("Domain.Entities.TestTask", b =>
                 {
                     b.HasOne("Domain.Entities.TestPlan", "TestPlan")
@@ -570,6 +859,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("Sessions");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Sprint", b =>
+                {
+                    b.Navigation("Retrospective");
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("UserStories");
+                });
+
             modelBuilder.Entity("Domain.Entities.TestPlan", b =>
                 {
                     b.Navigation("Findings");
@@ -582,7 +880,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("SprintBacklog")
                         .IsRequired();
 
+                    b.Navigation("Sprints");
+
                     b.Navigation("Tasks");
+
+                    b.Navigation("UserStories");
                 });
 
             modelBuilder.Entity("Domain.Entities.TestSession", b =>
@@ -593,6 +895,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.TestTask", b =>
                 {
                     b.Navigation("ObservationLogs");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserStory", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

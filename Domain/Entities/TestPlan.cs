@@ -31,5 +31,7 @@ namespace Domain.Entities
         public ICollection<TestSession> Sessions { get; set; } 
         public ICollection<Finding> Findings { get; set; }
         public SprintBacklog? SprintBacklog { get; set; }
+        public ICollection<UserStory> UserStories { get; set; } = new List<UserStory>();
+        public ICollection<Sprint> Sprints { get; set; } = new List<Sprint>();
     }
 }

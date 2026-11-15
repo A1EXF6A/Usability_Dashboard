@@ -25,6 +25,11 @@ public static class ApplicationExtensions
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<ITestSessionService, TestSessionService>();
         services.AddScoped<ISprintBacklogService, SprintBacklogService>();
+        services.AddScoped<IProductBacklogService, ProductBacklogService>();
+        services.AddScoped<ISprintService, SprintService>();
+        services.AddScoped<IKanbanService, KanbanService>();
+        services.AddScoped<IRetrospectiveService, RetrospectiveService>();
+        services.AddScoped<IAiAssistantService, AiAssistantService>();
 
         return services;
     }
