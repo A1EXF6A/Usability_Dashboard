@@ -567,10 +567,10 @@ export default function SprintBacklog() {
 
     if (!activePlanId) {
         return (
-            <div className="empty-state-card" style={{ maxWidth: 600, margin: 'var(--space-6) auto' }} role="alert">
-                <AlertCircle className="empty-state-icon" size={64} style={{ color: 'var(--color-warning)' }} />
+            <div className="empty-state-card empty-state-card--constrained" role="alert">
+                <AlertCircle className="empty-state-icon text-warning" size={64} />
                 <h2 className="empty-state-title">Falta Plan de Pruebas Activo</h2>
-                <p className="empty-state-subtitle" style={{ maxWidth: 400, margin: 'var(--space-2) auto var(--space-4)' }}>
+                <p className="empty-state-subtitle empty-state-subtitle--narrow">
                     Para utilizar este módulo, debes seleccionar un plan de pruebas en el selector de la barra superior.
                     El backlog se compilará automáticamente analizando las tareas, guiones, sesiones y hallazgos asociados a dicho plan.
                 </p>
@@ -586,7 +586,7 @@ export default function SprintBacklog() {
     )
 
     return (
-        <div className="page-container" style={{ paddingBottom: 'var(--space-10)' }}>
+        <div className="page-container page-container--pb">
 
             {/* PRINT-ONLY VIEWPORT: Renders absolutely beautiful clean tables with academic headers for PDF */}
             <div className="sprint-print-preview">
@@ -619,8 +619,7 @@ export default function SprintBacklog() {
                 </div>
 
                 <div style={{ marginBottom: 'var(--space-6)' }}>
-                    <h2 className="sprint-print-section-title">Meta del Sprint (Sprint Goal)</h2>
-                    <p className="sprint-print-goal-blockquote">
+                    <h2 className="sprint-print-section-title">Meta del Sprint (Sprint Goal)</h2>                    <p className="sprint-print-goal-blockquote">
                         "{backlogData?.sprintGoal}"
                     </p>
                 </div>
@@ -673,38 +672,24 @@ export default function SprintBacklog() {
             </div>
 
             {/* WEB VIEWPORT (Visible on screen, hidden on print) */}
-            <div className="print:hidden sprint-editor-board" style={{ position: 'relative' }}>
+            <div className="print:hidden sprint-editor-board sprint-editor-board--relative">
 
                 {/* Unified AI cascading loader screen */}
                 {isGenerating && (
-                    <div className="sprint-generating-overlay" style={{
-                        position: 'absolute',
-                        top: 0, left: 0, right: 0, bottom: 0,
-                        background: 'rgba(15, 23, 42, 0.88)',
-                        backdropFilter: 'blur(16px)',
-                        zIndex: 99,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 'var(--radius-2xl)',
-                        padding: 'var(--space-6)',
-                        color: 'white',
-                        minHeight: '400px'
-                    }}>
-                        <div style={{ position: 'relative', marginBottom: 'var(--space-6)' }}>
-                            <div className="sprint-loading-spinner" style={{ width: 64, height: 64, borderWidth: '3px', borderBottomColor: '#6366f1' }}></div>
-                            <Sparkles size={24} style={{ color: '#818cf8', position: 'absolute', top: '20px', left: '20px', animation: 'pulse 1.5s infinite' }} />
+                    <div className="sprint-generating-overlay">
+                        <div className="sprint-ai-spinner-wrapper">
+                            <div className="sprint-loading-spinner sprint-loading-spinner--lg"></div>
+                            <Sparkles size={24} className="sprint-ai-sparkles" aria-hidden="true" />
                         </div>
 
-                        <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-2)' }}>
+                        <h3 className="sprint-ai-title">
                             Procesando en cascada con Copiloto de IA
                         </h3>
-                        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--neutral-400)', marginBottom: 'var(--space-6)', maxWidth: '320px', textAlign: 'center' }}>
+                        <p className="sprint-ai-desc">
                             Consolidando base de datos del plan para estructurar tu Sprint Backlog ergonómico...
                         </p>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', width: '100%', maxWidth: '340px', background: 'rgba(255, 255, 255, 0.03)', padding: 'var(--space-4)', borderRadius: 'var(--radius-lg)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                        <div className="sprint-cascading-list">
                             <div className={`cascading-step ${generatingStep === 0 ? 'cascading-step--active' : generatingStep > 0 ? 'cascading-step--done' : 'cascading-step--pending'}`}>
                                 <div className={`cascading-dot ${generatingStep === 0 ? 'cascading-dot--active' : generatingStep > 0 ? 'cascading-dot--done' : 'cascading-dot--pending'}`} />
                                 <span>{generatingStep > 0 ? '✓ Sesiones analizadas con éxito' : '🔍 Analizando sesiones de prueba y métricas...'}</span>
@@ -727,7 +712,7 @@ export default function SprintBacklog() {
                 <div className="sprint-page-header">
                     <div className="sprint-header-info">
                         <h2 className="sprint-header-title">
-                            <Sparkles size={24} style={{ color: 'var(--color-primary)', animation: 'pulse 1.5s ease-in-out infinite' }} />
+                            <Sparkles size={24} className="sprint-header-sparkles" aria-hidden="true" />
                             Generación de Sprint Backlog Asistido por IA
                         </h2>
                         <p className="sprint-header-subtitle">
@@ -738,7 +723,7 @@ export default function SprintBacklog() {
 
                 {/* Backlog Editor Board */}
                 {backlogData ? (
-                    <div style={{ marginTop: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+                    <div className="sprint-backlog-content">
 
                         {/* Timestamps */}
                         {(backlogMeta.createdAt || backlogMeta.updatedAt) && (
@@ -921,7 +906,7 @@ export default function SprintBacklog() {
                         {/* Stories Title */}
                         <div className="sprint-stories-header">
                             <h3 className="sprint-stories-title">
-                                <Layers size={16} style={{ color: 'var(--color-primary)' }} />
+                                <Layers size={16} className="text-primary" aria-hidden="true" />
                                 Historias de Usuario e Incremento ({stories.length})
                             </h3>
 
@@ -929,8 +914,7 @@ export default function SprintBacklog() {
                                 <button
                                     type="button"
                                     onClick={handleAddStory}
-                                    className="btn btn-secondary"
-                                    style={{ fontSize: 'var(--font-size-xs)', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}
+                                    className="btn btn-secondary btn-sm-compact"
                                 >
                                     <Plus size={14} />
                                     Añadir Historia
@@ -939,7 +923,7 @@ export default function SprintBacklog() {
                         </div>
 
                         {/* Stories Loop */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+                        <div className="sprint-stories-stack">
                             {stories.map((story, storyIdx) => (
                                 <div
                                     key={story.id}
@@ -1048,7 +1032,7 @@ export default function SprintBacklog() {
                                         <div className="sprint-col-section">
                                             <div className="sprint-col-header">
                                                 <h4 className="sprint-col-title">
-                                                    <CheckSquare size={13} style={{ color: 'var(--text-light)' }} />
+                                                    <CheckSquare size={13} className="text-light" aria-hidden="true" />
                                                     Criterios de Aceptación
                                                 </h4>
                                                 {!isReadOnly && (
@@ -1087,7 +1071,7 @@ export default function SprintBacklog() {
                                                     </div>
                                                 ))}
                                                 {story.acceptanceCriteria.length === 0 && (
-                                                    <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: 'var(--font-size-xs)' }}>Sin criterios de aceptación declarados.</p>
+                                                    <p className="sprint-col-empty">Sin criterios de aceptación declarados.</p>
                                                 )}
                                             </div>
                                         </div>
@@ -1096,7 +1080,7 @@ export default function SprintBacklog() {
                                         <div className="sprint-col-section">
                                             <div className="sprint-col-header">
                                                 <h4 className="sprint-col-title">
-                                                    <Hourglass size={13} style={{ color: 'var(--text-light)' }} />
+                                                    <Hourglass size={13} className="text-light" aria-hidden="true" />
                                                     Tareas Técnicas y Horas
                                                 </h4>
                                                 {!isReadOnly && (
@@ -1151,7 +1135,7 @@ export default function SprintBacklog() {
                                                     </div>
                                                 ))}
                                                 {story.technicalTasks.length === 0 && (
-                                                    <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: 'var(--font-size-xs)' }}>Sin tareas técnicas asociadas.</p>
+                                                    <p className="sprint-col-empty">Sin tareas técnicas asociadas.</p>
                                                 )}
                                             </div>
                                         </div>
@@ -1169,7 +1153,7 @@ export default function SprintBacklog() {
                                     Backlog del Sprint: <span className="sprint-summary-highlight">{backlogData?.sprintName || 'Sin nombre'}</span>
                                 </h4>
                                 <p className="sprint-summary-desc">
-                                    Se estimaron <strong style={{ color: 'var(--white)' }}>{totalHours} horas</strong> de esfuerzo técnico distribuidas en <strong style={{ color: 'var(--white)' }}>{stories.length} historias</strong>.
+                                    Se estimaron <strong className="sprint-summary-strong">{totalHours} horas</strong> de esfuerzo técnico distribuidas en <strong className="sprint-summary-strong">{stories.length} historias</strong>.
                                 </p>
                             </div>
 
@@ -1183,7 +1167,7 @@ export default function SprintBacklog() {
                                     >
                                         {isSaving ? (
                                             <>
-                                                <div className="sprint-loading-spinner" style={{ width: 12, height: 12, borderBottomColor: 'white' }}></div>
+                                                <div className="sprint-loading-spinner sprint-loading-spinner--sm-white"></div>
                                                 Guardando...
                                             </>
                                         ) : saveSuccess ? (
@@ -1233,12 +1217,11 @@ export default function SprintBacklog() {
                             type="button"
                             onClick={() => handleGenerate(true)}
                             disabled={isGenerating || isReadOnly}
-                            className="btn btn-primary"
-                            style={{ padding: 'var(--space-3) var(--space-6)', fontSize: 'var(--font-size-sm)', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-4)' }}
+                            className="btn btn-primary btn-generate-ai"
                         >
                             {isGenerating ? (
                                 <>
-                                    <div className="sprint-loading-spinner" style={{ width: 16, height: 16, borderBottomColor: 'white', marginRight: 'var(--space-2)' }}></div>
+                                    <div className="sprint-loading-spinner sprint-loading-spinner--sm-white"></div>
                                     Generando con IA...
                                 </>
                             ) : (
@@ -1271,7 +1254,7 @@ export default function SprintBacklog() {
 
                         <div className="traceability-modal-section">
                             <span className="traceability-modal-label">Descripción / Detalle</span>
-                            <p className="traceability-modal-value" style={{ fontStyle: 'italic', background: 'var(--neutral-50)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', margin: 'var(--space-1) 0' }}>
+                            <p className="traceability-modal-value traceability-modal-value--quote">
                                 "{selectedFinding.description}"
                             </p>
                         </div>
@@ -1279,7 +1262,7 @@ export default function SprintBacklog() {
                         {selectedFinding.severity && (
                             <div className="traceability-modal-section">
                                 <span className="traceability-modal-label">Severidad / Prioridad</span>
-                                <div style={{ marginTop: '4px' }}>
+                                <div className="mt-1">
                                     <span className={`traceability-severity-badge ${
                                         selectedFinding.severity.toLowerCase().includes('crit') ? 'traceability-severity--critical' :
                                         selectedFinding.severity.toLowerCase().includes('may') || selectedFinding.severity.toLowerCase().includes('maj') || selectedFinding.severity.toLowerCase().includes('high') ? 'traceability-severity--major' :
@@ -1294,7 +1277,7 @@ export default function SprintBacklog() {
                         {selectedFinding.tool && (
                             <div className="traceability-modal-section">
                                 <span className="traceability-modal-label">Herramienta de Diagnóstico</span>
-                                <span className="traceability-modal-value" style={{ fontWeight: 'var(--font-weight-medium)' }}>
+                                <span className="traceability-modal-value font-medium">
                                     {selectedFinding.tool}
                                 </span>
                             </div>
@@ -1302,16 +1285,15 @@ export default function SprintBacklog() {
 
                         <div className="traceability-modal-section">
                             <span className="traceability-modal-label">Recomendación / Criterio IHC</span>
-                            <p className="traceability-modal-value" style={{ color: 'var(--color-success-text)', background: 'var(--color-success-light)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px dashed var(--color-success-border)', fontWeight: 'var(--font-weight-medium)', margin: 'var(--space-1) 0' }}>
+                            <p className="traceability-modal-value traceability-modal-value--recommendation">
                                 {selectedFinding.recommendation}
                             </p>
                         </div>
                         
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-2)' }}>
+                        <div className="modal-actions-footer">
                             <button 
                                 onClick={() => setSelectedFinding(null)} 
-                                className="btn btn-secondary"
-                                style={{ padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--font-size-xs)' }}
+                                className="btn btn-secondary btn-compact"
                             >
                                 Cerrar Ventana
                             </button>
@@ -1327,20 +1309,19 @@ export default function SprintBacklog() {
                 title="Confirmar Eliminación"
                 maxWidth="400px"
             >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', padding: 'var(--space-2)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', color: 'var(--color-error-text)', background: 'var(--color-error-light)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-error-border)' }}>
-                        <AlertCircle size={20} />
-                        <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-semibold)' }}>¿Estás seguro de que deseas eliminar esta historia?</span>
+                <div className="modal-body modal-body--delete">
+                    <div className="modal-delete-warning">
+                        <AlertCircle size={20} aria-hidden="true" />
+                        <span className="font-semibold">¿Estás seguro de que deseas eliminar esta historia?</span>
                     </div>
-                    <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                    <p className="modal-confirm-text">
                         Esta acción es irreversible dentro del borrador actual. Si confirmas, la Historia de Usuario y todas sus tareas técnicas estimadas asociadas se eliminarán y se reindexarán los IDs secuencialmente.
                     </p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-2)', marginTop: 'var(--space-2)' }}>
+                    <div className="modal-actions-footer">
                         <button
                             type="button"
                             onClick={() => setStoryToDeleteIndex(null)}
-                            className="btn btn-secondary"
-                            style={{ padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--font-size-xs)' }}
+                            className="btn btn-secondary btn-compact"
                         >
                             Cancelar
                         </button>
@@ -1352,8 +1333,7 @@ export default function SprintBacklog() {
                                     setStoryToDeleteIndex(null)
                                 }
                             }}
-                            className="btn btn-primary"
-                            style={{ padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--font-size-xs)', backgroundColor: 'var(--color-error)', borderColor: 'var(--color-error)', color: 'white' }}
+                            className="btn btn-danger btn-compact"
                         >
                             Eliminar
                         </button>

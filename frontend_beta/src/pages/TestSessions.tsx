@@ -133,7 +133,7 @@ export default function TestSessions() {
             )}
 
             <div className="sessions-context-card">
-                <div style={{ minWidth: 0 }}>
+                <div className="min-w-0">
                     <label className="form-label">Plan de prueba activo</label>
                     <div className="sessions-plan-value">
                         {activePlan ? activePlan.projectName : 'Seleccione en el menú principal'}
@@ -144,8 +144,8 @@ export default function TestSessions() {
 
             {!loading && activePlan && tasksCount === 0 && sessions.length > 0 && (
                 <div className="warning-banner" role="alert">
-                    <AlertTriangle size={18} className="flex-shrink-0" aria-hidden="true" />
-                    <div style={{ fontSize: 'var(--font-size-sm)', lineHeight: 'var(--line-height)' }}>
+                    <AlertTriangle size={18} className="shrink-0" aria-hidden="true" />
+                    <div className="text-sm">
                         <strong>Atención:</strong> No hay <strong>tareas</strong> registradas en este plan. Debes crear tareas antes de poder iniciar la ejecución de una sesión.
                     </div>
                 </div>
@@ -156,16 +156,16 @@ export default function TestSessions() {
                 <form onSubmit={handleSubmit} className="form-layout">
                     <div>
                         <label className="form-label">Plan asignado</label>
-                        <div className="form-input form-input--disabled" style={{ cursor: 'not-allowed', background: 'var(--neutral-100)', color: 'var(--text-muted)' }}>
+                        <div className="form-input form-input-disabled">
                             {activePlan?.projectName || 'Sin plan seleccionado'}
                         </div>
                     </div>
                     <div>
                         <label htmlFor="participantId" className="form-label">
-                            Participante <span style={{ color: 'var(--color-error)' }}>*</span>
+                            Participante <span className="form-required">*</span>
                         </label>
                         {participants.length === 0 ? (
-                            <div style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', marginTop: 4 }}>
+                            <div className="form-field-error mt-1">
                                 No hay participantes registrados. Registra uno antes de programar sesiones.
                             </div>
                         ) : (
@@ -177,13 +177,13 @@ export default function TestSessions() {
                     </div>
                     <div>
                         <label htmlFor="date" className="form-label">
-                            Fecha de la sesión <span style={{ color: 'var(--color-error)' }}>*</span>
+                            Fecha de la sesión <span className="form-required">*</span>
                         </label>
                         <input id="date" type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="form-input" required />
                     </div>
                     <div>
                         <label htmlFor="platformTested" className="form-label">
-                            Plataforma a evaluar <span style={{ color: 'var(--color-error)' }}>*</span>
+                            Plataforma a evaluar <span className="form-required">*</span>
                         </label>
                         <input id="platformTested" type="text" value={form.platformTested} onChange={e => setForm(f => ({ ...f, platformTested: e.target.value }))} className="form-input" placeholder="Ej: iOS App, Android, Desktop Web..." required />
                     </div>
@@ -230,27 +230,24 @@ export default function TestSessions() {
                                     onClick={() => navigate(`/sesiones/${session.id}/ejecutar`)}
                                     disabled={tasksCount === 0}
                                     title={tasksCount === 0 ? "Requiere crear tareas primero" : ""}
-                                    className="btn btn-primary"
+                                    className="btn btn-primary btn-compact flex items-center gap-1"
                                     aria-label={`Iniciar sesión con ${getParticipantName(session.participantId)}`}
-                                    style={{ padding: 'var(--space-2) var(--space-4)', fontSize: 12, height: 'auto', minHeight: 'unset', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                                 >
                                     <Play size={12} aria-hidden="true" /> Iniciar Sesión
                                 </button>
                                 <button
                                     onClick={() => handleEdit(session)}
-                                    className="btn btn-secondary"
+                                    className="btn btn-secondary btn-compact"
                                     disabled={isReadOnly}
                                     aria-label={`Modificar sesión de ${getParticipantName(session.participantId)}`}
-                                    style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }}
                                 >
                                     Modificar
                                 </button>
                                 <button
                                     onClick={() => setSessionToDelete(session)}
-                                    className="btn btn-danger"
+                                    className="btn btn-danger btn-compact"
                                     disabled={isReadOnly}
                                     aria-label={`Eliminar sesión de ${getParticipantName(session.participantId)}`}
-                                    style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }}
                                 >
                                     Eliminar
                                 </button>
@@ -263,7 +260,7 @@ export default function TestSessions() {
             {/* Delete confirmation */}
             <Modal isOpen={!!sessionToDelete} onClose={() => setSessionToDelete(null)} title="Eliminar Sesión" maxWidth="480px">
                 <div className="modal-body">
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                    <p className="modal-confirm-text">
                         ¿Estás seguro de que deseas eliminar la sesión del participante <strong>{sessionToDelete && getParticipantName(sessionToDelete.participantId)}</strong>? Esta acción no se puede deshacer.
                     </p>
                     <div className="modal-footer">

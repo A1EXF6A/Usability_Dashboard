@@ -175,33 +175,32 @@ export default function TestPlans() {
     }
 
     const getStatusBadge = (status: string) => {
-        const iconStyle = { marginRight: '4px', flexShrink: 0 }
         switch (status) {
             case 'Completed':
                 return (
-                    <span className="badge badge-completada" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <CheckCircle2 size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="badge badge-completada flex items-center">
+                        <CheckCircle2 size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         Completado
                     </span>
                 )
             case 'InProgress':
                 return (
-                    <span className="badge badge-enprogreso" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <Clock size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="badge badge-enprogreso flex items-center">
+                        <Clock size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         En Progreso
                     </span>
                 )
             case 'Cancelled':
                 return (
-                    <span className="badge badge-alta" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <AlertCircle size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="badge badge-alta flex items-center">
+                        <AlertCircle size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         Cancelado
                     </span>
                 )
             default: // 'Draft'
                 return (
-                    <span className="badge badge-pendiente" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <FileText size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="badge badge-pendiente flex items-center">
+                        <FileText size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         Borrador
                     </span>
                 )
@@ -245,7 +244,7 @@ export default function TestPlans() {
                             <div className="testplan-card-bar" />
                             <div className="testplan-card-body">
                                 <div className="testplan-card-header">
-                                    <div style={{ minWidth: 0, flex: 1 }}>
+                                    <div className="min-w-0 flex-1">
                                         <h3 className="testplan-card-title">{plan.projectName}</h3>
                                         <p className="testplan-card-objective">{plan.objective}</p>
                                     </div>
@@ -266,18 +265,17 @@ export default function TestPlans() {
                                 </div>
 
                                 <div className="testplan-card-footer">
-                                    <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                                        <button onClick={() => openEdit(plan)} className="btn btn-secondary text-sm" style={{ padding: 'var(--space-1.5) var(--space-3)' }} aria-label={`Editar plan ${plan.projectName}`}>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => openEdit(plan)} className="btn btn-secondary btn-compact" aria-label={`Editar plan ${plan.projectName}`}>
                                             <Edit3 size={14} aria-hidden="true" /> Editar
                                         </button>
-                                        <button onClick={() => setPlanToDelete({ id: plan.id, name: plan.projectName })} className="btn btn-danger text-sm" style={{ padding: 'var(--space-1.5) var(--space-3)' }} aria-label={`Eliminar plan ${plan.projectName}`}>
+                                        <button onClick={() => setPlanToDelete({ id: plan.id, name: plan.projectName })} className="btn btn-danger btn-compact" aria-label={`Eliminar plan ${plan.projectName}`}>
                                             <Trash2 size={14} aria-hidden="true" />
                                         </button>
                                     </div>
                                     <button 
                                         onClick={() => togglePlanStatus(plan.id, plan.status)} 
-                                        className={plan.status === 'Completed' ? 'btn btn-secondary text-sm' : plan.status === 'Draft' ? 'btn btn-primary text-sm' : 'btn btn-success text-sm'}
-                                        style={{ padding: 'var(--space-1.5) var(--space-3)', height: 'auto', minHeight: 'unset', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1.5)' }}
+                                        className={plan.status === 'Completed' ? 'btn btn-secondary btn-compact flex items-center gap-1' : plan.status === 'Draft' ? 'btn btn-primary btn-compact flex items-center gap-1' : 'btn btn-success btn-compact flex items-center gap-1'}
                                     >
                                         {plan.status === 'Completed' ? (
                                             <><PlayCircle size={14} /> Reactivar</>
@@ -296,11 +294,11 @@ export default function TestPlans() {
 
             {/* Delete confirmation modal */}
             <Modal isOpen={!!planToDelete} onClose={() => setPlanToDelete(null)} title="Eliminar Plan" maxWidth="480px">
-                <div style={{ padding: 'var(--space-5)' }}>
-                    <p className="text-[14px]" style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-5)' }}>
+                <div className="p-5">
+                    <p className="modal-confirm-text mb-5">
                         ¿Estás seguro de que deseas eliminar el plan <strong>{planToDelete?.name}</strong>? Esta acción no se puede deshacer.
                     </p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-3)' }}>
+                    <div className="modal-actions-footer">
                         <button type="button" onClick={() => setPlanToDelete(null)} className="btn btn-secondary">Cancelar</button>
                         <button type="button" onClick={() => planToDelete && confirmDelete(planToDelete.id)} className="btn btn-danger px-4">Eliminar</button>
                     </div>
@@ -311,29 +309,29 @@ export default function TestPlans() {
             <Modal isOpen={showDrawer} onClose={closeDrawer} title={editId ? 'Editar Plan de Prueba' : 'Nuevo Plan de Prueba'} drawer>
                 <form onSubmit={handleSubmit} className="form-layout">
                     <div>
-                        <label htmlFor="drawerProjectName" className="form-label">Nombre del Proyecto <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                        <label htmlFor="drawerProjectName" className="form-label">Nombre del Proyecto <span className="form-required">*</span></label>
                         <input id="drawerProjectName" value={form.projectName} onChange={e => setForm(f => ({ ...f, projectName: e.target.value }))} className="form-input" placeholder="Ej: Auditoría de Usabilidad: freeCodeCamp vs Coursera" required />
                     </div>
 
                     <div>
-                        <label htmlFor="drawerObjective" className="form-label">Objetivo <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                        <label htmlFor="drawerObjective" className="form-label">Objetivo <span className="form-required">*</span></label>
                         <textarea id="drawerObjective" value={form.objective} onChange={e => setForm(f => ({ ...f, objective: e.target.value }))} className="form-input" rows={3} placeholder="Describe el objetivo principal del plan de prueba" required />
                     </div>
 
                     <div className="form-grid-2">
                         <div>
-                            <label htmlFor="drawerProduct" className="form-label">Producto <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerProduct" className="form-label">Producto <span className="form-required">*</span></label>
                             <input id="drawerProduct" value={form.product} onChange={e => setForm(f => ({ ...f, product: e.target.value }))} className="form-input" placeholder="Ej: Plataforma e-learning" required />
                         </div>
                         <div>
-                            <label htmlFor="drawerModule" className="form-label">Módulo evaluado <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerModule" className="form-label">Módulo evaluado <span className="form-required">*</span></label>
                             <input id="drawerModule" value={form.evaluatedModule} onChange={e => setForm(f => ({ ...f, evaluatedModule: e.target.value }))} className="form-input" placeholder="Ej: Registro y pago" required />
                         </div>
                     </div>
 
                     <div className="form-grid-2">
                         <div>
-                            <label htmlFor="drawerMethodology" className="form-label">Metodología <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerMethodology" className="form-label">Metodología <span className="form-required">*</span></label>
                             <input id="drawerMethodology" value={form.methodology} onChange={e => setForm(f => ({ ...f, methodology: e.target.value }))} className="form-input" placeholder="Ej: Evaluación heurística + WAVE" required />
                         </div>
                         {editId && (
@@ -351,17 +349,17 @@ export default function TestPlans() {
 
                     <div className="form-grid-2">
                         <div>
-                            <label htmlFor="drawerStartDate" className="form-label">Fecha de Inicio <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerStartDate" className="form-label">Fecha de Inicio <span className="form-required">*</span></label>
                             <input id="drawerStartDate" type="date" value={form.startDate} onChange={e => setForm(f => ({ ...f, startDate: e.target.value }))} className="form-input" required />
                         </div>
                         <div>
-                            <label htmlFor="drawerEndDate" className="form-label">Fecha de Fin <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerEndDate" className="form-label">Fecha de Fin <span className="form-required">*</span></label>
                             <input id="drawerEndDate" type="date" min={form.startDate} value={form.endDate} onChange={e => setForm(f => ({ ...f, endDate: e.target.value }))} className="form-input" required />
                         </div>
                     </div>
 
                     <div>
-                        <label htmlFor="drawerUserProfile" className="form-label">Perfil de Usuario <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                        <label htmlFor="drawerUserProfile" className="form-label">Perfil de Usuario <span className="form-required">*</span></label>
                         <textarea id="drawerUserProfile" value={form.userProfile} onChange={e => setForm(f => ({ ...f, userProfile: e.target.value }))} className="form-input" rows={2} placeholder="Describe el perfil de los participantes" required />
                     </div>
 
@@ -376,7 +374,7 @@ export default function TestPlans() {
                             <input id="drawerLocation" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="form-input" placeholder="Ej: Laboratorio 2 / Remoto" />
                         </div>
                         <div>
-                            <label htmlFor="drawerDuration" className="form-label">Duración estimada (minutos) <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="drawerDuration" className="form-label">Duración estimada (minutos) <span className="form-required">*</span></label>
                             <input id="drawerDuration" type="number" min="1" value={form.estimatedDuration} onChange={e => setForm(f => ({ ...f, estimatedDuration: e.target.value }))} className="form-input" placeholder="Ej: 45" required />
                         </div>
                     </div>

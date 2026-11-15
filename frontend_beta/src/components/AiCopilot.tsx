@@ -553,7 +553,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Hallazgos de Usabilidad',
                 icon: HelpCircle,
-                color: '#f59e0b',
+                color: 'var(--color-warning)',
                 suggestions: [
                     '💡 Redactar Historias de Usuario para corregir mis Hallazgos',
                     '💡 Analizar la severidad e impacto técnico de los hallazgos'
@@ -564,7 +564,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Acciones de Mejora',
                 icon: Sparkles,
-                color: '#10b981',
+                color: 'var(--color-success)',
                 suggestions: [
                     '💡 Traducir Acciones de Mejora prioritarias a Historias de Scrum',
                     '💡 Estimar esfuerzo y horas técnicas para las mejoras'
@@ -575,7 +575,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Ejecución y Observaciones',
                 icon: Users,
-                color: '#0ea5e9',
+                color: 'var(--color-primary)',
                 suggestions: [
                     '💡 Extraer historias de usabilidad de los logs de incidentes',
                     '💡 Analizar la tasa de éxito de las tareas completadas'
@@ -586,7 +586,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Guión del Moderador',
                 icon: FileText,
-                color: '#a855f7',
+                color: 'var(--color-ai-primary)',
                 suggestions: [
                     '💡 Crear Criterios de Aceptación basados en los escenarios del guión',
                     '💡 ¿Cómo puedo mejorar las tareas antes del test?'
@@ -597,7 +597,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Sprint Backlog',
                 icon: ClipboardList,
-                color: '#6366f1',
+                color: 'var(--color-ai-primary)',
                 suggestions: [
                     '💡 Evaluar coherencia de mis historias y metas de sprint',
                     '💡 Sugerir tareas técnicas adicionales para mi sprint'
@@ -968,7 +968,7 @@ Breve explicación ergonómica de las mejoras.
             if (p.trim().startsWith('- ') || p.trim().startsWith('* ')) {
                 const items = p.split(/\n[*-] /)
                 return (
-                    <ul key={pIdx} style={{ margin: 'var(--space-2) 0', paddingLeft: 'var(--space-4)', listStyleType: 'disc' }}>
+                    <ul key={pIdx} className="copilot-message-list">
                         {items.map((item, i) => {
                             const cleanItem = item.replace(/^[*-] /, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                             return <li key={i} dangerouslySetInnerHTML={{ __html: cleanItem }} />
@@ -979,7 +979,7 @@ Breve explicación ergonómica de las mejoras.
 
             // Headings
             if (p.trim().startsWith('### ')) {
-                return <h4 key={pIdx} style={{ color: 'white', margin: 'var(--space-3) 0 var(--space-1)', fontSize: 'var(--font-size-sm)' }} dangerouslySetInnerHTML={{ __html: rendered.replace('### ', '') }} />
+                return <h4 key={pIdx} className="copilot-message-heading" dangerouslySetInnerHTML={{ __html: rendered.replace('### ', '') }} />
             }
 
             return <p key={pIdx} dangerouslySetInnerHTML={{ __html: rendered }} />
@@ -997,7 +997,7 @@ Breve explicación ergonómica de las mejoras.
                     title="Copiloto IA Contextual"
                 >
                     <div className="copilot-pulse" />
-                    <Brain size={24} style={{ color: 'white', position: 'relative', zIndex: 2 }} />
+                    <Brain size={24} className="copilot-brain-icon" />
                 </button>
             )}
 
@@ -1006,7 +1006,7 @@ Breve explicación ergonómica de las mejoras.
                 <div className="copilot-panel">
                     {/* Header */}
                     <div className="copilot-header">
-                        <div className="copilot-header-title" style={{ color: contextMeta.color }}>
+                        <div className="copilot-header-title">
                             <contextMeta.icon size={16} />
                             <span>Copiloto IA — {contextMeta.name}</span>
                         </div>
@@ -1033,7 +1033,7 @@ Breve explicación ergonómica de las mejoras.
                                     {msg.isAction && msg.actionData?.stories && (
                                         <div>
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', marginTop: 'var(--space-2)', fontWeight: 'bold' }}>
+                                                <div className="copilot-action-success">
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Historias integradas al Backlog!</span>
                                                 </div>
@@ -1051,21 +1051,21 @@ Breve explicación ergonómica de las mejoras.
 
                                     {/* Actionable checkbox tasks suggestion block */}
                                     {msg.isAction && msg.actionData?.tasks && (
-                                        <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                        <div className="copilot-action-card">
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div className="copilot-action-success">
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Tareas agregadas exitosamente!</span>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <p style={{ fontSize: '11px', color: 'var(--neutral-300)', marginBottom: 'var(--space-2)', fontWeight: 'var(--font-weight-semibold)' }}>Selecciona las tareas que deseas agregar:</p>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+                                                    <p className="copilot-action-card-title">Selecciona las tareas que deseas agregar:</p>
+                                                    <div className="copilot-action-card-list">
                                                         {msg.actionData.tasks.map((task: any, idx: number) => {
                                                             const uniqueKey = `task-sug-${msg.id}-${idx}`
                                                             const isChecked = selectedTasksState[uniqueKey] !== false
                                                             return (
-                                                                <label key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)', fontSize: '11px', color: 'white', cursor: 'pointer' }}>
+                                                                <label key={idx} className="copilot-checkbox-label">
                                                                     <input 
                                                                         type="checkbox" 
                                                                         checked={isChecked}
@@ -1075,11 +1075,11 @@ Breve explicación ergonómica de las mejoras.
                                                                                 [uniqueKey]: e.target.checked
                                                                             }))
                                                                         }}
-                                                                        style={{ marginTop: '3px', cursor: 'pointer' }}
+                                                                        className="copilot-checkbox-input"
                                                                     />
-                                                                    <div style={{ flex: 1 }}>
+                                                                    <div className="flex-1">
                                                                         <strong>T{idx+1}: {task.scenario}</strong>
-                                                                        <div style={{ color: 'var(--neutral-400)', fontSize: '10px', marginTop: '1px' }}>
+                                                                        <div className="copilot-item-meta">
                                                                             ⏱️ {task.maxTimeSeconds}s | 📊 {task.mainMetric}
                                                                         </div>
                                                                     </div>
@@ -1089,8 +1089,7 @@ Breve explicación ergonómica de las mejoras.
                                                     </div>
                                                     <button
                                                         onClick={() => handleInsertTasks(msg.id, msg.actionData.tasks)}
-                                                        className="copilot-msg-insert-btn"
-                                                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1)' }}
+                                                        className="copilot-msg-insert-btn w-full flex items-center justify-center gap-1"
                                                     >
                                                         <PlusCircle size={12} />
                                                         <span>Agregar Tareas Seleccionadas</span>
@@ -1102,21 +1101,21 @@ Breve explicación ergonómica de las mejoras.
 
                                     {/* Actionable checkbox findings suggestion block */}
                                     {msg.isAction && msg.actionData?.findings && (
-                                        <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                        <div className="copilot-action-card">
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div className="copilot-action-success">
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Hallazgos agregados exitosamente!</span>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <p style={{ fontSize: '11px', color: 'var(--neutral-300)', marginBottom: 'var(--space-2)', fontWeight: 'var(--font-weight-semibold)' }}>Selecciona los hallazgos que deseas sintetizar:</p>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+                                                    <p className="copilot-action-card-title">Selecciona los hallazgos que deseas sintetizar:</p>
+                                                    <div className="copilot-action-card-list">
                                                         {msg.actionData.findings.map((finding: any, idx: number) => {
                                                             const uniqueKey = `finding-sug-${msg.id}-${idx}`
                                                             const isChecked = selectedFindingsState[uniqueKey] !== false
                                                             return (
-                                                                <label key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)', fontSize: '11px', color: 'white', cursor: 'pointer' }}>
+                                                                <label key={idx} className="copilot-checkbox-label">
                                                                     <input 
                                                                         type="checkbox" 
                                                                         checked={isChecked}
@@ -1126,14 +1125,14 @@ Breve explicación ergonómica de las mejoras.
                                                                                 [uniqueKey]: e.target.checked
                                                                             }))
                                                                         }}
-                                                                        style={{ marginTop: '3px', cursor: 'pointer' }}
+                                                                        className="copilot-checkbox-input"
                                                                     />
-                                                                    <div style={{ flex: 1 }}>
+                                                                    <div className="flex-1">
                                                                         <strong>H{idx+1}: {finding.description}</strong>
-                                                                        <div style={{ color: 'var(--neutral-400)', fontSize: '10px', marginTop: '1px' }}>
+                                                                        <div className="copilot-item-meta">
                                                                             ⚠️ {finding.severity === 'Critical' ? 'Crítica' : finding.severity === 'High' ? 'Alta' : finding.severity === 'Medium' ? 'Media' : 'Baja'} | 🏷️ {finding.category} | ⏱️ Frecuencia: {finding.frequency}
                                                                         </div>
-                                                                        <div style={{ color: '#93c5fd', fontSize: '10px', marginTop: '2px', fontStyle: 'italic' }}>
+                                                                        <div className="copilot-tip-text">
                                                                             💡 Recomendación: {finding.recommendation}
                                                                         </div>
                                                                     </div>
@@ -1143,8 +1142,7 @@ Breve explicación ergonómica de las mejoras.
                                                     </div>
                                                     <button
                                                         onClick={() => handleInsertFindings(msg.id, msg.actionData.findings)}
-                                                        className="copilot-msg-insert-btn"
-                                                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1)' }}
+                                                        className="copilot-msg-insert-btn w-full flex items-center justify-center gap-1"
                                                     >
                                                         <PlusCircle size={12} />
                                                         <span>Sintetizar Hallazgos Seleccionados</span>
@@ -1156,22 +1154,22 @@ Breve explicación ergonómica de las mejoras.
 
                                     {/* Actionable checkbox improvements suggestion block */}
                                     {msg.isAction && msg.actionData?.improvements && (
-                                        <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                        <div className="copilot-action-card">
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div className="copilot-action-success">
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Acciones de mejora agregadas exitosamente!</span>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <p style={{ fontSize: '11px', color: 'var(--neutral-300)', marginBottom: 'var(--space-2)', fontWeight: 'var(--font-weight-semibold)' }}>Selecciona las acciones de mejora que deseas registrar:</p>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+                                                    <p className="copilot-action-card-title">Selecciona las acciones de mejora que deseas registrar:</p>
+                                                    <div className="copilot-action-card-list">
                                                         {msg.actionData.improvements.map((imp: any, idx: number) => {
                                                             const uniqueKey = `improvement-sug-${msg.id}-${idx}`
                                                             const isChecked = selectedImprovementsState[uniqueKey] !== false
                                                             const associatedFinding = findingsList.find((f: any) => f.id === imp.findingId);
                                                             return (
-                                                                <label key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)', fontSize: '11px', color: 'white', cursor: 'pointer' }}>
+                                                                <label key={idx} className="copilot-checkbox-label">
                                                                     <input 
                                                                         type="checkbox" 
                                                                         checked={isChecked}
@@ -1181,15 +1179,15 @@ Breve explicación ergonómica de las mejoras.
                                                                                 [uniqueKey]: e.target.checked
                                                                             }))
                                                                         }}
-                                                                        style={{ marginTop: '3px', cursor: 'pointer' }}
+                                                                        className="copilot-checkbox-input"
                                                                     />
-                                                                    <div style={{ flex: 1 }}>
+                                                                    <div className="flex-1">
                                                                         <strong>M{idx+1}: {imp.description}</strong>
-                                                                        <div style={{ color: 'var(--neutral-400)', fontSize: '10px', marginTop: '1px' }}>
+                                                                        <div className="copilot-item-meta">
                                                                             Prioridad: {imp.priority === 'High' ? 'Alta' : imp.priority === 'Medium' ? 'Media' : 'Baja'}
                                                                         </div>
                                                                         {associatedFinding && (
-                                                                            <div style={{ color: 'var(--neutral-500)', fontSize: '10px', marginTop: '2px' }}>
+                                                                            <div className="copilot-item-submeta">
                                                                                 🔍 Hallazgo: {associatedFinding.description.substring(0, 60)}...
                                                                             </div>
                                                                         )}
@@ -1200,8 +1198,7 @@ Breve explicación ergonómica de las mejoras.
                                                     </div>
                                                     <button
                                                         onClick={() => handleInsertImprovements(msg.id, msg.actionData.improvements)}
-                                                        className="copilot-msg-insert-btn"
-                                                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1)' }}
+                                                        className="copilot-msg-insert-btn w-full flex items-center justify-center gap-1"
                                                     >
                                                         <PlusCircle size={12} />
                                                         <span>Registrar Mejoras Seleccionadas</span>
@@ -1244,30 +1241,14 @@ Breve explicación ergonómica de las mejoras.
 
                         {/* Persistent Quick Replies / Navigation Row */}
                         {activePlanId && !loading && (
-                            <div className="copilot-quick-replies" style={{ padding: '0 var(--space-4) var(--space-2)' }}>
+                            <div className="copilot-quick-replies-container">
                                 <button
                                     type="button"
                                     onClick={() => {
                                         navigate('/backlog')
                                         handleSendMessage('Ir directo al Sprint Backlog')
                                     }}
-                                    className="copilot-action-chip"
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 'var(--space-2)',
-                                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%)',
-                                        border: '1px solid rgba(99, 102, 241, 0.5)',
-                                        color: '#818cf8',
-                                        padding: '10px var(--space-3)',
-                                        borderRadius: 'var(--radius-md)',
-                                        fontSize: '11px',
-                                        fontWeight: 'var(--font-weight-bold)',
-                                        width: '100%',
-                                        textAlign: 'left',
-                                        cursor: 'pointer',
-                                        justifyContent: 'flex-start'
-                                    }}
+                                    className="copilot-backlog-shortcut-btn"
                                 >
                                     ⚡ Ir directo al Sprint Backlog (Recomendado)
                                 </button>

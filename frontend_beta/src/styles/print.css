@@ -1,0 +1,238 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ESTILOS DE IMPRESIÓN (PDF SPRINT BACKLOG — INTACTOS)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+
+    /* Hide layout and controls */
+    header,
+    aside,
+    main>div:first-child,
+    .print\:hidden,
+    button,
+    select,
+    input,
+    textarea,
+    .sprint-summary-banner,
+    .sprint-setup-panel {
+        display: none !important;
+    }
+
+    /* Unset web app shell rules for perfect academic output paper printing */
+    body,
+    .min-h-screen,
+    .flex,
+    main,
+    #main-content,
+    .layout-shell,
+    .layout-body,
+    .layout-main,
+    .layout-content {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        display: block !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .sprint-print-preview {
+        display: block !important;
+        font-family: Georgia, serif;
+        color: #111827;
+        background: white;
+        padding: var(--space-8);
+    }
+
+    .sprint-print-header {
+        text-align: center;
+        border-bottom: 4px double #1f2937;
+        padding-bottom: var(--space-4);
+        margin-bottom: var(--space-6);
+    }
+
+    .sprint-print-institution {
+        font-family: var(--font-sans);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: bold;
+        color: #4b5563;
+        margin: 0;
+    }
+
+    .sprint-print-course {
+        font-family: var(--font-sans);
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #6b7280;
+        margin: 2px 0 0 0;
+    }
+
+    .sprint-print-doc-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: var(--space-2);
+        margin-bottom: 0;
+        color: #111827;
+    }
+
+    .sprint-print-metadata {
+        font-size: 12px;
+        font-style: italic;
+        color: #6b7280;
+        margin-top: var(--space-1);
+        margin-bottom: 0;
+    }
+
+    .sprint-print-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+        font-size: 12px;
+        font-family: var(--font-sans);
+        margin-bottom: var(--space-6);
+        background: #f9fafb;
+        padding: var(--space-3);
+        border: 1px solid #e5e7eb;
+        border-radius: var(--radius-lg);
+    }
+
+    .sprint-print-meta-col-right {
+        text-align: right;
+    }
+
+    .sprint-print-section-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1f2937;
+        border-bottom: 1px solid #d1d5db;
+        padding-bottom: 2px;
+        margin-top: var(--space-6);
+        margin-bottom: var(--space-3);
+    }
+
+    .sprint-print-goal-blockquote {
+        font-size: 14px;
+        font-style: italic;
+        color: #374151;
+        background: #f9fafb;
+        padding: var(--space-4);
+        border-left: 4px solid #6366f1;
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin: 0 0 var(--space-6) 0;
+    }
+
+    .sprint-print-story {
+        margin-bottom: var(--space-8);
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .sprint-print-story-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: var(--space-1);
+    }
+
+    .sprint-print-priority-label {
+        font-size: 12px;
+        font-weight: normal;
+        color: #6b7280;
+        font-family: var(--font-sans);
+    }
+
+    .sprint-print-story-desc {
+        font-size: 12px;
+        font-family: monospace;
+        background: #f9fafb;
+        padding: var(--space-2);
+        border: 1px solid #e5e7eb;
+        border-radius: var(--radius-md);
+        color: #374151;
+        margin: var(--space-2) 0 var(--space-3) 0;
+        line-height: 1.5;
+    }
+
+    .sprint-print-story-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+        margin-top: var(--space-3);
+    }
+
+    .sprint-print-sub-header {
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: bold;
+        color: #1f2937;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 0;
+        margin-bottom: var(--space-2);
+    }
+
+    .sprint-print-crit-list {
+        list-style-type: disc;
+        padding-left: var(--space-4);
+        margin: 0;
+        font-size: 12px;
+        color: #374151;
+    }
+
+    .sprint-print-crit-list li {
+        margin-bottom: var(--space-1);
+        line-height: 1.4;
+    }
+
+    .sprint-print-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .sprint-print-table th {
+        border-bottom: 1px solid #d1d5db;
+        font-weight: bold;
+        padding: var(--space-1) 0;
+        color: #1f2937;
+    }
+
+    .sprint-print-table td {
+        border-bottom: 1px solid #f3f4f6;
+        padding: var(--space-1) 0;
+        color: #374151;
+    }
+
+    .sprint-print-table-id {
+        width: 64px;
+        font-family: monospace;
+        color: #4b5563;
+    }
+
+    .sprint-print-table-hours {
+        width: 80px;
+        text-align: right;
+        color: #4b5563;
+    }
+
+    .sprint-print-story-divider {
+        border-bottom: 1px dashed #e5e7eb;
+        margin-top: var(--space-6);
+        padding-bottom: 2px;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+}

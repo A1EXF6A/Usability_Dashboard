@@ -26,19 +26,18 @@ interface KPICardProps {
     icon: React.ReactNode
     value: string | number
     label: string
-    iconBg: string
-    valueColor?: string
+    variant?: 'primary' | 'success' | 'warning' | 'error' | 'ai'
     delay?: string
 }
 
-function KPICard({ icon, value, label, iconBg, valueColor = '', delay = '' }: KPICardProps) {
+function KPICard({ icon, value, label, variant = 'primary', delay = '' }: KPICardProps) {
     return (
         <div className={`kpi-card ${delay}`} role="group" aria-label={`Métrica: ${label}`}>
-            <div className="kpi-card-icon-container" style={{ background: iconBg }}>
+            <div className={`kpi-card-icon-container kpi-card-icon-container--${variant}`}>
                 {icon}
             </div>
             <div className="kpi-card-content">
-                <div className="kpi-card-value" style={{ color: valueColor }}>{value}</div>
+                <div className={`kpi-card-value kpi-card-value--${variant}`}>{value}</div>
                 <div className="kpi-card-label">{label}</div>
             </div>
         </div>
@@ -134,11 +133,11 @@ function QuickActions({ sectionDone, canAccessPhase2, canAccessPhase3 }: {
                         <div className="quick-action-icon">
                             <action.icon size={20} />
                         </div>
-                        <div style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
-                            <div className="nav-item-label" style={{ fontWeight: 600 }}>{action.label}</div>
-                            <div className="nav-item-detail" style={{ marginTop: 'var(--space-1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{action.desc}</div>
+                        <div className="min-w-0 flex-1 text-left">
+                            <div className="nav-item-label font-semibold">{action.label}</div>
+                            <div className="nav-item-detail">{action.desc}</div>
                         </div>
-                        <ArrowRight size={16} style={{ color: 'var(--neutral-400)', transition: 'transform 0.2s' }} className="group-hover-arrow" aria-hidden="true" />
+                        <ArrowRight size={16} className="group-hover-arrow" aria-hidden="true" />
                     </button>
                 ))}
             </div>
@@ -208,27 +207,26 @@ export default function Dashboard() {
     const globalProgress = Math.round((completedSections / totalSections) * 100)
 
     const getSeverityBadge = (severity: string) => {
-        const iconStyle = { marginRight: '4px', flexShrink: 0 }
         switch (severity) {
             case 'Alta':
             case 'Critical':
                 return (
-                    <span className="dashboard-finding-severity dashboard-finding-severity--critical" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <AlertCircle size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="dashboard-finding-severity dashboard-finding-severity--critical">
+                        <AlertCircle size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         {severity}
                     </span>
                 )
             case 'High':
                 return (
-                    <span className="dashboard-finding-severity dashboard-finding-severity--high" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <AlertTriangle size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="dashboard-finding-severity dashboard-finding-severity--high">
+                        <AlertTriangle size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         {severity}
                     </span>
                 )
             default: // 'Moderate' / other
                 return (
-                    <span className="dashboard-finding-severity dashboard-finding-severity--moderate" style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <Info size={10} aria-hidden="true" style={iconStyle} />
+                    <span className="dashboard-finding-severity dashboard-finding-severity--moderate">
+                        <Info size={10} aria-hidden="true" className="mr-1 shrink-0" />
                         {severity}
                     </span>
                 )
@@ -245,7 +243,7 @@ export default function Dashboard() {
                 </div>
                 <PhaseStepper sectionDone={sectionDone} canAccessPhase2={canAccessPhase2} canAccessPhase3={canAccessPhase3} />
                 {/* Global Progress Bar */}
-                <div style={{ marginTop: 'var(--space-5)' }}>
+                <div className="dashboard-stepper-progress-wrapper">
                     <div className="dashboard-progress-track">
                         <div
                             className="dashboard-progress-fill"
@@ -287,34 +285,30 @@ export default function Dashboard() {
             {/* KPI Cards - Row 1 */}
             <div className="dashboard-kpi-row">
                 <KPICard
-                    icon={<BarChart2 size={22} className="text-blue-600" />}
+                    icon={<BarChart2 size={22} className="text-primary" />}
                     value={stats.totalObservations}
                     label="Observaciones totales"
-                    iconBg="var(--color-primary-light)"
-                    valueColor="var(--color-primary)"
+                    variant="primary"
                 />
                 <KPICard
-                    icon={<CheckCircle2 size={22} className="text-emerald-500" />}
+                    icon={<CheckCircle2 size={22} className="text-success" />}
                     value={`${stats.successRate}%`}
                     label="Tasa de éxito"
-                    iconBg="var(--color-success-light)"
-                    valueColor="var(--color-success)"
+                    variant="success"
                     delay="delay-100"
                 />
                 <KPICard
-                    icon={<Clock size={22} className="text-amber-500" />}
+                    icon={<Clock size={22} className="text-warning" />}
                     value={`${Math.round(stats.averageTimeSeconds)}s`}
                     label="Tiempo promedio"
-                    iconBg="var(--color-warning-light)"
-                    valueColor="var(--color-warning)"
+                    variant="warning"
                     delay="delay-200"
                 />
                 <KPICard
-                    icon={<AlertCircle size={22} className="text-red-500" />}
+                    icon={<AlertCircle size={22} className="text-error" />}
                     value={stats.totalErrors}
                     label="Errores totales"
-                    iconBg="var(--color-error-light)"
-                    valueColor="var(--color-error)"
+                    variant="error"
                     delay="delay-300"
                 />
             </div>
@@ -322,34 +316,30 @@ export default function Dashboard() {
             {/* KPI Cards - Row 2 */}
             <div className="dashboard-kpi-row">
                 <KPICard
-                    icon={<AlertTriangle size={22} className="text-red-500" />}
+                    icon={<AlertTriangle size={22} className="text-error" />}
                     value={stats.criticalFindings}
                     label="Hallazgos críticos"
-                    iconBg="var(--color-error-light)"
-                    valueColor="var(--color-error)"
+                    variant="error"
                 />
                 <KPICard
-                    icon={<AlertTriangle size={22} className="text-blue-500" />}
+                    icon={<AlertTriangle size={22} className="text-primary" />}
                     value={stats.moderateFindings}
                     label="Hallazgos moderados"
-                    iconBg="var(--color-primary-light)"
-                    valueColor="var(--color-primary)"
+                    variant="primary"
                     delay="delay-100"
                 />
                 <KPICard
-                    icon={<Lightbulb size={22} className="text-emerald-500" />}
+                    icon={<Lightbulb size={22} className="text-success" />}
                     value={effectiveCompleted}
                     label="Mejoras completadas"
-                    iconBg="var(--color-success-light)"
-                    valueColor="var(--color-success)"
+                    variant="success"
                     delay="delay-200"
                 />
                 <KPICard
-                    icon={<TrendingUp size={22} className="text-indigo-500" />}
+                    icon={<TrendingUp size={22} className="text-ai" />}
                     value={stats.pendingActions + stats.inProgressActions}
                     label="Mejoras pendientes"
-                    iconBg="linear-gradient(135deg, #e0e7ff, #eff6ff)"
-                    valueColor="#4f46e5"
+                    variant="ai"
                     delay="delay-300"
                 />
             </div>
@@ -387,8 +377,8 @@ export default function Dashboard() {
                 {/* Statistics Pie Chart */}
                 <div className="dashboard-panel-card">
                     <div className="dashboard-panel-header dashboard-panel-header--emerald">
-                        <div className="dashboard-panel-header-inner" style={{ width: '100%' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                        <div className="dashboard-panel-header-inner w-full">
+                            <div className="flex items-center gap-2">
                                 <PieChartIcon size={18} className="text-emerald-600" />
                                 <h3 className="dashboard-panel-title">Distribución de Hallazgos</h3>
                             </div>
@@ -399,29 +389,29 @@ export default function Dashboard() {
                             <PieChart
                                 size={180}
                                 data={[
-                                    { label: 'Críticos', value: stats.criticalFindings, color: '#ef4444' },
-                                    { label: 'Moderados', value: stats.moderateFindings, color: '#3b82f6' },
-                                    { label: 'Otros', value: Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings), color: '#10b981' },
+                                    { label: 'Críticos', value: stats.criticalFindings, color: 'var(--color-severity-critical)' },
+                                    { label: 'Moderados', value: stats.moderateFindings, color: 'var(--color-primary)' },
+                                    { label: 'Otros', value: Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings), color: 'var(--color-success)' },
                                 ]}
                             />
                             <div className="dashboard-pie-legend">
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#ef4444' }} />
+                                        <div className="dashboard-pie-legend-dot dashboard-pie-legend-dot--critical" />
                                         <span>Críticos</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--critical">{stats.criticalFindings}</span>
                                 </div>
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#3b82f6' }} />
+                                        <div className="dashboard-pie-legend-dot dashboard-pie-legend-dot--moderate" />
                                         <span>Moderados</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--moderate">{stats.moderateFindings}</span>
                                 </div>
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#10b981' }} />
+                                        <div className="dashboard-pie-legend-dot dashboard-pie-legend-dot--other" />
                                         <span>Otros</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--other">{Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings)}</span>
@@ -434,12 +424,12 @@ export default function Dashboard() {
                 {/* Recent Findings */}
                 <div className="dashboard-panel-card">
                     <div className="dashboard-panel-header dashboard-panel-header--purple">
-                        <div className="dashboard-panel-header-inner" style={{ width: '100%' }}>
+                        <div className="dashboard-panel-header-inner w-full">
                             <h3 className="dashboard-panel-title">Hallazgos Recientes</h3>
                             <span className="dashboard-panel-badge">{findings.length}</span>
                         </div>
                     </div>
-                    <div className="dashboard-panel-body" style={{ padding: 'var(--space-4)' }}>
+                    <div className="dashboard-panel-body p-4">
                         <div className="dashboard-findings-list soft-scrollbar">
                             {findings.slice(0, 6).map((f: any) => {
                                 const sevClass = (f.severity === 'Alta' || f.severity === 'Critical')

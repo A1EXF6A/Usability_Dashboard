@@ -1,0 +1,821 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYOUT SHELL, SIDEBAR & HEADER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §6. COMPONENTE — Glass Panel
+   ───────────────────────────────────────────────────────────────────────────
+   Panel con efecto glassmorphism. Utilizado como contenedor principal
+   para sidebar, header y área de contenido.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.glass-panel {
+    background: var(--surface-panel);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-xl);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §8. COMPONENTE — Sidebar Navigation Items
+   ───────────────────────────────────────────────────────────────────────────
+   5 ESTADOS OBLIGATORIOS de interfaz (APE 5):
+     1. Enabled  — Estado activo inicial, contraste alto
+     2. Hover    — Feedback sutil con cambio de fondo y desplazamiento
+     3. Focus    — Anillo de contorno WCAG 2.4.7
+     4. Pressed  — Micro-transición de hundimiento (active)
+     5. Disabled — Tono atenuado, cursor not-allowed, aria-disabled
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Enabled (estado por defecto) ── */
+.nav-item {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-3);
+    min-height: var(--touch-target-min);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.92);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* ── 2. Hover ── */
+.nav-item:hover {
+    border-color: var(--color-primary-200);
+    background: var(--color-primary-light);
+    transform: translateX(2px);
+}
+
+/* ── 3. Focus — anillo visible obligatorio (WCAG 2.4.7) ── */
+/* (Cubierto por la regla global .nav-item:focus-visible en §5) */
+
+/* ── 4. Pressed / Active — efecto de hundimiento instantáneo ── */
+.nav-item:active {
+    transform: translateX(1px) scale(0.98);
+    transition-duration: 80ms;
+    box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
+/* ── 5. Disabled — atenuado con cursor not-allowed ── */
+.nav-item[aria-disabled="true"],
+.nav-item.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    color: var(--text-disabled);
+    background: var(--neutral-100);
+    border-color: var(--neutral-200);
+}
+
+/* ── Estado activo (ruta seleccionada) ── */
+.nav-item.is-active {
+    color: var(--color-primary);
+    border-color: var(--color-primary-border);
+    background: var(--color-primary-light);
+    font-weight: var(--font-weight-semibold);
+    box-shadow: inset 0 0 0 1px rgba(15, 79, 191, 0.08);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §21. RESPONSIVE — Breakpoint Principal 768px
+   ───────────────────────────────────────────────────────────────────────────
+   Breakpoint principal: 768px (tablets en landscape)
+   Breakpoint secundario: 480px (móviles compactos)
+
+   El layout pasa de escritorio (sidebar + contenido) a móvil
+   (sidebar oculto, contenido full-width) al cruzar 768px.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablets y pantallas ≤ 768px ── */
+@media (max-width: 768px) {
+
+    /* Glass panel */
+    .glass-panel {
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Nav items — desactivar transforms para evitar saltos en touch */
+    .nav-item {
+        padding: var(--space-3);
+        font-size: var(--font-size-sm);
+        border-radius: var(--radius-md);
+    }
+
+    .nav-item:hover {
+        transform: none;
+    }
+
+    .nav-item:active {
+        transform: scale(0.98);
+    }
+
+    /* KPI cards — desactivar hover elevation en touch */
+    .kpi-card {
+        border-radius: var(--radius-lg);
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .kpi-card:hover {
+        transform: none;
+    }
+
+    /* Form inputs */
+    .form-input {
+        padding: var(--space-3);
+        font-size: var(--font-size-base);
+        border-radius: var(--radius-md);
+    }
+
+    /* Buttons */
+    .btn {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--font-size-sm);
+        border-radius: var(--radius-md);
+    }
+
+    /* Toast — full width on mobile */
+    .toast-container {
+        top: var(--space-3);
+        right: var(--space-3);
+        left: var(--space-3);
+    }
+
+    .toast {
+        font-size: var(--font-size-xs);
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius-md);
+    }
+
+    /* Modal — nearly full screen on mobile */
+    .modal-content {
+        width: calc(100vw - var(--space-6));
+        max-height: 90vh;
+        border-radius: var(--radius-lg);
+        margin: var(--space-3);
+    }
+
+    /* Badges */
+    .badge {
+        font-size: 11px;
+        padding: 2px var(--space-2);
+    }
+
+    /* Tab pills */
+    .tab-pill {
+        padding: var(--space-2) var(--space-3);
+        font-size: var(--font-size-xs);
+    }
+
+    /* Phase Stepper — compact en mobile */
+    .phase-stepper {
+        gap: var(--space-2);
+    }
+
+    .phase-stepper-circle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .phase-stepper-line {
+        top: 16px;
+    }
+
+    .phase-stepper-label span {
+        font-size: 12px !important;
+    }
+
+    /* Quick Actions */
+    .quick-action {
+        padding: var(--space-3);
+    }
+
+    .quick-action:hover {
+        transform: none;
+    }
+
+    .quick-action:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ── Móviles compactos ≤ 480px ── */
+@media (max-width: 480px) {
+
+    /* Stack action buttons vertically */
+    .btn {
+        width: 100%;
+    }
+
+    /* Reduce KPI card padding */
+    .kpi-card {
+        border-radius: var(--radius-md);
+    }
+
+    /* Modal nearly full screen */
+    .modal-content {
+        width: calc(100vw - var(--space-4));
+        max-height: 94vh;
+        border-radius: var(--radius-md);
+        margin: var(--space-2);
+    }
+
+    /* Drawer full width */
+    .drawer-content {
+        width: 100vw;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §23. LAYOUT — Shell Principal (Header + Sidebar + Main)
+   ───────────────────────────────────────────────────────────────────────────
+   Clases semánticas para la estructura raíz del dashboard.
+   Reemplazan las clases Tailwind inline de Layout.tsx.
+   Breakpoint principal: 768px (md).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Shell raíz ── */
+.layout-shell {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Header ── */
+.layout-header {
+    margin: var(--space-2) var(--space-2) 0;
+    overflow: visible;
+    position: relative;
+    z-index: var(--z-overlay);
+    flex-shrink: 0;
+}
+
+.layout-header-bar {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    background: var(--gradient-header);
+    border-radius: var(--radius-xl);
+}
+
+.layout-header-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.layout-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.layout-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* ── Hamburger (botón de menú móvil) — 44px min touch (Ley de Fitts) ── */
+.layout-hamburger {
+    display: flex;
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-inverse);
+    transition: background var(--transition-fast);
+}
+
+.layout-hamburger:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.layout-hamburger:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
+}
+
+/* ── Logo / Branding ── */
+.layout-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-primary-500), #6366f1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-inverse);
+}
+
+/* ── Context label ── */
+.layout-context-label {
+    color: #93c5fd;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 2px;
+}
+
+.layout-context-title {
+    color: var(--text-inverse);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* ── App badge (header) ── */
+.layout-app-badge {
+    display: none;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    flex-shrink: 0;
+    margin-right: var(--space-4);
+}
+
+.layout-app-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #eff6ff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Plan Selector wrapper ── */
+.layout-plan-selector {
+    width: 300px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: var(--z-dropdown);
+}
+
+/* ── Body area (sidebar + main) ── */
+.layout-body {
+    flex: 1;
+    min-height: 0;
+    padding: var(--space-2);
+    padding-bottom: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    position: relative;
+    z-index: var(--z-base);
+    overflow: hidden;
+}
+
+/* ── Sidebar overlay (mobile scrim) ── */
+.layout-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: var(--z-sidebar);
+}
+
+/* ── Sidebar ── */
+.layout-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-overlay);
+    height: 100%;
+    width: 290px;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    overflow: auto;
+    transform: translateX(-100%);
+    transition: transform var(--transition-spring);
+    border-right: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.layout-sidebar.is-open {
+    transform: translateX(0);
+}
+
+/* ── Sidebar mobile header ── */
+.layout-sidebar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+}
+
+.layout-sidebar-mobile-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--neutral-800);
+}
+
+/* ── Sidebar close button — 44px min touch ── */
+.layout-sidebar-close {
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    border-radius: var(--radius-md);
+    background: var(--neutral-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background var(--transition-fast);
+}
+
+.layout-sidebar-close:hover {
+    background: var(--neutral-200);
+}
+
+.layout-sidebar-close:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
+}
+
+/* ── Nav section container ── */
+.layout-nav {
+    min-width: 0;
+    flex: 1;
+}
+
+.layout-nav-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.layout-nav-phase {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.layout-nav-phase-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+/* ── Phase header badge ── */
+.phase-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: background var(--transition-fast);
+}
+
+.phase-header.is-complete {
+    background: var(--color-success-light);
+    border-color: var(--color-success-border);
+}
+
+.phase-header.is-locked {
+    background: var(--neutral-50);
+    border-color: var(--neutral-200);
+}
+
+/* ── Phase indicator dot ── */
+.phase-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.phase-indicator.is-complete {
+    background: var(--color-success);
+}
+
+.phase-indicator.is-locked {
+    background: var(--neutral-300);
+}
+
+.phase-indicator.is-active {
+    background: var(--color-primary-400);
+}
+
+.phase-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-inverse);
+}
+
+/* ── Phase title ── */
+.phase-title {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    font-weight: var(--font-weight-bold);
+    flex: 1;
+}
+
+.phase-title.is-complete {
+    color: var(--color-success-text);
+}
+
+.phase-title.is-locked {
+    color: var(--text-disabled);
+}
+
+.phase-title.is-active {
+    color: var(--color-primary);
+}
+
+/* ── Nav item visual modifiers (border-left for phase items) ── */
+.nav-item--active-phase {
+    border-left: 2px solid var(--color-primary-500);
+    background: rgba(239, 246, 255, 0.5);
+}
+
+.nav-item--done {
+    border-left: 2px solid var(--color-success-400);
+    background: rgba(220, 252, 231, 0.6);
+}
+
+.nav-item--done:hover {
+    background: var(--color-success-light);
+}
+
+.nav-item--default {
+    padding-left: 14px;
+    border-left: 2px solid transparent;
+}
+
+/* ── Nav item text ── */
+.nav-item-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+}
+
+.nav-item-label--done {
+    color: #065f46;
+}
+
+.nav-item-label--active {
+    color: var(--color-primary);
+}
+
+.nav-item-detail {
+    font-size: var(--font-size-xs);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-item-detail--done {
+    color: #059669;
+}
+
+.nav-item-detail--muted {
+    color: var(--text-muted);
+}
+
+/* ── Locked nav item sublabel ── */
+.nav-item-sublabel {
+    font-size: 11px;
+    color: var(--color-warning-text);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: var(--font-weight-medium);
+}
+
+/* ── Nav icon styles ── */
+.nav-icon {
+    flex-shrink: 0;
+    color: var(--text-disabled);
+    transition: color var(--transition-fast);
+}
+
+.nav-icon--done {
+    color: var(--color-success);
+}
+
+/* ── Section complete checkmark SVG ── */
+.nav-check-icon {
+    flex-shrink: 0;
+}
+
+/* ── Main content area ── */
+.layout-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: var(--z-base);
+}
+
+/* ── Breadcrumb bar ── */
+.layout-breadcrumb-bar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--neutral-200);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-link {
+    color: var(--text-disabled);
+    transition: color var(--transition-fast);
+}
+
+.breadcrumb-link:hover {
+    color: var(--color-primary);
+}
+
+.breadcrumb-separator {
+    color: var(--neutral-300);
+}
+
+.breadcrumb-current {
+    font-weight: var(--font-weight-semibold);
+    color: var(--neutral-700);
+}
+
+.breadcrumb-phase {
+    color: var(--text-disabled);
+}
+
+/* ── Main scrollable content ── */
+.layout-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4);
+    background: rgba(248, 250, 252, 0.3);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §26. RESPONSIVE LAYOUT — Breakpoint 768px
+   ───────────────────────────────────────────────────────────────────────────
+   Ajustes de layout para pantallas ≥ 768px (tablet landscape y desktop).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 768px+ (tablet landscape → desktop) ── */
+@media (min-width: 769px) {
+    .layout-header {
+        margin: var(--space-3);
+        margin-bottom: 0;
+    }
+
+    .layout-header-bar {
+        padding: var(--space-3) var(--space-6);
+    }
+
+    .layout-header-inner {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-6);
+    }
+
+    .layout-hamburger {
+        display: none;
+    }
+
+    .layout-body {
+        flex: 1;
+        min-height: 0;
+        padding: var(--space-3);
+        flex-direction: row;
+        gap: var(--space-3);
+        overflow: hidden;
+    }
+
+    .layout-sidebar {
+        position: static;
+        transform: translateX(0);
+        z-index: auto;
+        height: 100%;
+        width: 270px;
+        flex-shrink: 0;
+        overflow-y: auto;
+    }
+
+    .layout-sidebar-mobile-header {
+        display: none;
+    }
+
+    .layout-breadcrumb-bar {
+        padding: var(--space-3) var(--space-6);
+    }
+
+    .layout-content {
+        padding: var(--space-6);
+    }
+}
+
+/* ── 1200px+ (large desktop) ── */
+@media (min-width: 1200px) {
+    .layout-app-badge {
+        display: flex;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+
+
+/* ── Theme Switcher Toggle en Layout Header ── */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+.theme-toggle-btn:hover {
+    background: var(--neutral-100);
+    color: var(--text-primary);
+    border-color: var(--border-color-hover);
+}
+.theme-toggle-btn:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+}
+[data-theme="dark"] .theme-toggle-btn {
+    background: var(--surface-card);
+    color: var(--neutral-300);
+}
+[data-theme="dark"] .theme-toggle-btn:hover {
+    background: var(--neutral-800);
+    color: var(--text-primary);
+}

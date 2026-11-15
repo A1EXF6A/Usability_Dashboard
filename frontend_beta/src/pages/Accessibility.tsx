@@ -272,7 +272,7 @@ export default function Accessibility() {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="page-container animate-rise" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+    <div className="page-container page-container--gap-6 animate-rise">
 
       {/* ── Encabezado ── */}
       <div className="page-header">
@@ -314,9 +314,9 @@ export default function Accessibility() {
 
       {/* ── Banner sin plan ── */}
       {!activePlanId && !loading && (
-        <div className="warning-banner text-center" style={{ backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary-border)', padding: 'var(--space-6)', borderRadius: 'var(--radius-xl)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <ShieldCheck size={32} className="mx-auto mb-3" aria-hidden="true" style={{ color: 'var(--color-primary)' }} />
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-primary)', fontWeight: 'var(--font-weight-medium)' }}>
+        <div className="warning-banner warning-banner--center text-center">
+          <ShieldCheck size={32} className="mx-auto mb-3 text-primary" aria-hidden="true" />
+          <p className="warning-banner-text">
             Selecciona un plan de prueba para ver y registrar auditorías de accesibilidad
           </p>
         </div>
@@ -364,7 +364,7 @@ export default function Accessibility() {
           {/* KPI 2 — Puertas Cerradas */}
           <div className={`kpi-card kpi-card-meta ${open > 0 ? 'kpi-card-meta--alert-open' : ''}`}>
             <div className="kpi-card-meta-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="kpi-card-meta-icon" style={open > 0 ? { color: 'var(--color-warning)' } : undefined}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className={`kpi-card-meta-icon ${open > 0 ? 'text-warning-icon' : ''}`}>
                 <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
                 <rect x="7" y="3" width="10" height="18" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none"/>
                 <circle cx="15" cy="12" r="1.2" fill="currentColor"/>
@@ -374,9 +374,8 @@ export default function Accessibility() {
               </p>
             </div>
             <p
-              className="kpi-card-meta-value"
+              className={`kpi-card-meta-value ${open > 0 ? 'text-warning-val' : ''}`}
               aria-label={`${open} hallazgos de accesibilidad pendientes de corrección`}
-              style={open > 0 ? { color: 'var(--color-warning-text)' } : undefined}
             >
               {open}
             </p>
@@ -391,7 +390,7 @@ export default function Accessibility() {
           {/* KPI 3 — Rutas Habilitadas */}
           <div className={`kpi-card kpi-card-meta ${resolved > 0 ? 'kpi-card-meta--alert-resolved' : ''}`}>
             <div className="kpi-card-meta-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="kpi-card-meta-icon" style={resolved > 0 ? { color: 'var(--color-success)' } : undefined}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className={`kpi-card-meta-icon ${resolved > 0 ? 'text-success-icon' : ''}`}>
                 <path d="M3 20 L21 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 <path d="M21 4 L21 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 <path d="M21 4 L15 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -402,19 +401,19 @@ export default function Accessibility() {
                 Rutas Habilitadas
               </p>
             </div>
-            <div className="flex-1" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', width: '100%' }}>
+            <div className="flex-1 w-full flex-col gap-2">
               <p
-                className="kpi-card-meta-value"
+                className={`kpi-card-meta-value ${resolved > 0 ? 'text-success-val' : ''}`}
                 aria-label={`${resolved} hallazgos corregidos de ${total} totales`}
-                style={resolved > 0 ? { color: 'var(--color-success-text)' } : undefined}
               >
                 {resolved}
               </p>
               {total > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
-                  <div style={{ height: '8px', backgroundColor: 'var(--neutral-100)', borderRadius: 'var(--radius-full)', overflow: 'hidden' }}>
+                <div className="w-full flex-col gap-1">
+                  <div className="acc-progress-track">
                     <div
-                      style={{ height: '100%', backgroundColor: 'var(--color-success)', borderRadius: 'var(--radius-full)', width: `${Math.round((resolved / total) * 100)}%`, transition: 'width 0.7s ease' }}
+                      className="acc-progress-fill"
+                      style={{ width: `${Math.round((resolved / total) * 100)}%` }}
                       role="progressbar"
                       aria-valuenow={Math.round((resolved / total) * 100)}
                       aria-valuemin={0}
@@ -422,7 +421,7 @@ export default function Accessibility() {
                       aria-label="Porcentaje de barreras eliminadas"
                     />
                   </div>
-                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-success-text)', fontWeight: 'var(--font-weight-semibold)', margin: 0 }}>
+                  <p className="acc-progress-text">
                     {Math.round((resolved / total) * 100)}% del camino habilitado
                   </p>
                 </div>
@@ -438,13 +437,13 @@ export default function Accessibility() {
           {/* KPI 4 — Señales de Alerta */}
           <div className={`kpi-card kpi-card-meta ${critical > 0 ? 'kpi-card-meta--alert-critical' : ''}`}>
             {critical > 0 && (
-              <div className="absolute top-3 right-3 w-3 h-3" style={{ position: 'absolute', top: '12px', right: '12px', width: '12px', height: '12px' }}>
-                <span className="radar-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" style={{ position: 'absolute', display: 'inline-flex', height: '100%', width: '100%', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--color-error)', opacity: 0.75 }} />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500" style={{ position: 'relative', display: 'inline-flex', borderRadius: 'var(--radius-full)', height: '12px', width: '12px', backgroundColor: 'var(--color-error)' }} />
+              <div className="radar-beacon">
+                <span className="radar-ping radar-beacon-ping" />
+                <span className="radar-beacon-dot" />
               </div>
             )}
             <div className="kpi-card-meta-header">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="kpi-card-meta-icon" style={critical > 0 ? { color: 'var(--color-error)' } : undefined}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" className={`kpi-card-meta-icon ${critical > 0 ? 'text-error-icon' : ''}`}>
                 <path d="M12 3 L22 20 H2 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
                 <line x1="12" y1="10" x2="12" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 <circle cx="12" cy="18" r="1" fill="currentColor"/>
@@ -454,9 +453,8 @@ export default function Accessibility() {
               </p>
             </div>
             <p
-              className="kpi-card-meta-value"
+              className={`kpi-card-meta-value ${critical > 0 ? 'text-error-val' : ''}`}
               aria-label={`${critical} hallazgos críticos de accesibilidad sin corregir`}
-              style={critical > 0 ? { color: 'var(--color-error-text)' } : undefined}
             >
               {critical}
             </p>
@@ -472,8 +470,8 @@ export default function Accessibility() {
 
       {/* ── Resumen por herramienta ── */}
       {activePlanId && auditGroups.length > 0 && (
-        <section aria-label="Resumen por herramienta" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-          <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>
+        <section aria-label="Resumen por herramienta" className="acc-section">
+          <h3 className="acc-section-title">
             Cobertura por herramienta
           </h3>
           <div className="form-grid-4">
@@ -485,32 +483,27 @@ export default function Accessibility() {
               return (
                 <div
                   key={g.tool}
-                  className={`card-layout ${meta.bg} ${meta.border}`}
-                  style={{ borderWidth: '1px', borderStyle: 'solid', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', padding: 'var(--space-4)', borderRadius: 'var(--radius-xl)' }}
+                  className={`card-layout ${meta.bg} ${meta.border} acc-tool-card`}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                    <span className={meta.color} aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center' }}>{meta.icon}</span>
-                    <span className={meta.color} style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)' }}>{g.tool}</span>
+                  <div className="acc-tool-header">
+                    <span className={`${meta.color} acc-tool-icon`} aria-hidden="true">{meta.icon}</span>
+                    <span className={`${meta.color} acc-tool-title`}>{g.tool}</span>
                   </div>
-                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', margin: 0 }}>{meta.desc}</p>
-                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 'var(--space-1)' }}>
-                    <span style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)' }}>{g.findings.length}</span>
-                    <span className={meta.color} style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-semibold)' }}>
+                  <p className="acc-tool-desc">{meta.desc}</p>
+                  <div className="acc-tool-stats">
+                    <span className="acc-tool-count">{g.findings.length}</span>
+                    <span className={`${meta.color} acc-tool-count-sub`}>
                       {g.resolved}/{g.findings.length} corregidos
                     </span>
                   </div>
-                  <div style={{ height: '6px', backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: 'var(--radius-full)', overflow: 'hidden' }}>
+                  <div className="acc-tool-progress-track">
                     <div
-                      style={{
-                        height: '100%',
-                        borderRadius: 'var(--radius-full)',
-                        transition: 'width 0.7s ease',
-                        width: `${pct}%`,
-                        backgroundColor:
-                          g.tool === 'WAVE' ? 'var(--color-primary)' :
-                          g.tool === 'Lighthouse' ? 'var(--color-warning)' :
-                          g.tool === 'Stark' ? '#6b21a8' : 'var(--color-success)'
-                      }}
+                      className={`acc-tool-progress-fill ${
+                        g.tool === 'WAVE' ? 'acc-tool-progress-fill--wave' :
+                        g.tool === 'Lighthouse' ? 'acc-tool-progress-fill--lighthouse' :
+                        g.tool === 'Stark' ? 'acc-tool-progress-fill--stark' : 'acc-tool-progress-fill--default'
+                      }`}
+                      style={{ width: `${pct}%` }}
                     />
                   </div>
                 </div>
@@ -522,17 +515,16 @@ export default function Accessibility() {
 
       {/* ── Filtros ── */}
       {activePlanId && findings.length > 0 && (
-        <div className="card-layout" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', flexWrap: 'wrap', padding: 'var(--space-3) var(--space-4)' }} role="toolbar" aria-label="Filtros de hallazgos">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <Filter size={14} className="text-slate-400" aria-hidden="true" />
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 'var(--font-weight-semibold)' }}>Herramienta:</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
+        <div className="card-layout acc-filter-toolbar" role="toolbar" aria-label="Filtros de hallazgos">
+          <div className="filter-bar">
+            <Filter size={14} className="text-muted" aria-hidden="true" />
+            <span className="filter-label">Herramienta:</span>
+            <div className="filter-bar">
               {['', ...ACCESSIBILITY_TOOLS].map(t => (
                 <button
                   key={t || 'all-tools'}
                   onClick={() => setFilterTool(t)}
-                  className={`btn ${filterTool === t ? 'btn-primary' : 'btn-secondary'} btn-sm`}
-                  style={{ borderRadius: 'var(--radius-full)', padding: 'var(--space-1) var(--space-3)' }}
+                  className={`btn ${filterTool === t ? 'btn-primary' : 'btn-secondary'} btn-sm filter-btn-pill`}
                   aria-pressed={filterTool === t}
                   aria-label={`Filtrar por herramienta: ${t || 'Todas'}`}
                 >
@@ -542,15 +534,14 @@ export default function Accessibility() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 'var(--font-weight-semibold)' }}>Severidad:</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
+          <div className="filter-bar">
+            <span className="filter-label">Severidad:</span>
+            <div className="filter-bar">
               {['', 'Critical', 'High', 'Medium', 'Low'].map(s => (
                 <button
                   key={s || 'all-sev'}
                   onClick={() => setFilterSev(s)}
-                  className={`btn ${filterSev === s ? 'btn-primary' : 'btn-secondary'} btn-sm`}
-                  style={{ borderRadius: 'var(--radius-full)', padding: 'var(--space-1) var(--space-3)' }}
+                  className={`btn ${filterSev === s ? 'btn-primary' : 'btn-secondary'} btn-sm filter-btn-pill`}
                   aria-pressed={filterSev === s}
                   aria-label={`Filtrar por severidad: ${s || 'Todas'}`}
                 >
@@ -560,7 +551,7 @@ export default function Accessibility() {
             </div>
           </div>
 
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 'auto' }}>
+          <span className="filter-count">
             {filtered.length} de {findings.length} hallazgos
           </span>
         </div>
@@ -568,19 +559,19 @@ export default function Accessibility() {
 
       {/* ── Lista de hallazgos ── */}
       {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--space-12) 0' }} aria-label="Cargando hallazgos de accesibilidad">
-          <div style={{ width: '32px', height: '32px', border: '3px solid var(--color-primary-light)', borderTopColor: 'var(--color-primary)', borderRadius: 'var(--radius-full)', animation: 'spin 1s linear infinite' }} />
+        <div className="acc-loader-wrapper" aria-label="Cargando hallazgos de accesibilidad">
+          <div className="acc-loader-spinner" />
         </div>
 
       ) : !activePlanId ? null
 
       : findings.length === 0 ? (
-        <div className="card-layout" style={{ borderStyle: 'dashed', borderWidth: '2px', padding: 'var(--space-12) var(--space-6)', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: 'var(--radius-2xl)', background: 'var(--color-primary-light)', border: '1px solid var(--color-primary-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'var(--space-4)' }}>
-            <ShieldCheck size={28} style={{ color: 'var(--color-primary)' }} aria-hidden="true" />
+        <div className="card-layout acc-empty-state">
+          <div className="acc-empty-icon-box">
+            <ShieldCheck size={28} className="text-primary" aria-hidden="true" />
           </div>
-          <h3 style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)', marginTop: 0 }}>Sin auditorías registradas</h3>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', maxWidth: '400px', textAlign: 'center', marginBottom: 'var(--space-4)', marginTop: 0 }}>
+          <h3 className="acc-empty-title">Sin auditorías registradas</h3>
+          <p className="acc-empty-desc">
             Corra WAVE, Lighthouse o Stark sobre el proyecto evaluado y registre los hallazgos aquí.
           </p>
           {!isReadOnly && (
@@ -591,40 +582,38 @@ export default function Accessibility() {
           )}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="card-layout" style={{ borderStyle: 'dashed', borderWidth: '1px', padding: 'var(--space-8)', textAlign: 'center' }}>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', margin: 0 }}>No hay hallazgos que coincidan con los filtros seleccionados.</p>
+        <div className="card-layout acc-filter-empty-card">
+          <p className="modal-confirm-text mb-0">No hay hallazgos que coincidan con los filtros seleccionados.</p>
           <button
             onClick={() => { setFilterTool(''); setFilterSev('') }}
-            className="btn btn-link btn-sm"
-            style={{ marginTop: 'var(--space-2)', color: 'var(--color-primary)' }}
+            className="btn btn-link btn-sm btn-clean-filter"
           >
             Limpiar filtros
           </button>
         </div>
 
       ) : (
-        <section aria-label="Lista de hallazgos de accesibilidad" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        <section aria-label="Lista de hallazgos de accesibilidad" className="acc-section">
           {/* Vista agrupada por herramienta si no hay filtro de herramienta */}
           {!filterTool ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <div className="acc-section">
               {ACCESSIBILITY_TOOLS.filter(t => filtered.some(f => f.tool === t)).map(tool => {
                 const meta    = TOOL_META[tool] ?? TOOL_META['Observación manual']
                 const toolFindings = filtered.filter(f => f.tool === tool)
                 const isExpanded   = expandedTool === null || expandedTool === tool
                 return (
-                  <div key={tool} className={`card-layout ${meta.border}`} style={{ borderWidth: '1px', borderStyle: 'solid', overflow: 'hidden', padding: 0 }}>
+                  <div key={tool} className={`card-layout ${meta.border} acc-group-card`}>
                     {/* Tool header */}
                     <button
-                      className={`${meta.bg} ${meta.color}`}
-                      style={{ width: '100%', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-4) var(--space-5)', cursor: 'pointer', textAlign: 'left', fontWeight: 'bold' }}
+                      className={`${meta.bg} ${meta.color} acc-group-header`}
                       onClick={() => setExpandedTool(expandedTool === tool ? null : tool)}
                       aria-expanded={isExpanded}
                       aria-controls={`section-${tool.replace(/\s+/g, '-')}`}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
-                        <span aria-hidden="true" style={{ display: 'inline-flex', alignItems: 'center' }}>{meta.icon}</span>
-                        <span style={{ fontSize: 'var(--font-size-sm)' }}>{tool}</span>
-                        <span className="badge badge-pendiente" style={{ border: '1px solid rgba(0,0,0,0.1)' }}>
+                      <div className="acc-group-header-left">
+                        <span aria-hidden="true" className="acc-tool-icon">{meta.icon}</span>
+                        <span className="text-sm">{tool}</span>
+                        <span className="badge badge-pendiente acc-group-count-badge">
                           {toolFindings.length} hallazgo{toolFindings.length !== 1 ? 's' : ''}
                         </span>
                         {toolFindings.filter(f => f.status === 'Resolved' || f.status === 'Closed').length > 0 && (
@@ -641,7 +630,7 @@ export default function Accessibility() {
 
                     {/* Tool findings */}
                     {isExpanded && (
-                      <div id={`section-${tool.replace(/\s+/g, '-')}`} style={{ display: 'flex', flexDirection: 'column' }} className="divide-y">
+                      <div id={`section-${tool.replace(/\s+/g, '-')}`} className="acc-group-list divide-y">
                         {toolFindings.map(f => (
                           <FindingRow
                             key={f.id}
@@ -661,7 +650,7 @@ export default function Accessibility() {
             </div>
           ) : (
             /* Vista plana cuando hay filtro */
-            <div className="card-layout divide-y" style={{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div className="card-layout divide-y acc-flat-card">
               {filtered.map(f => (
                 <FindingRow
                   key={f.id}
@@ -691,10 +680,9 @@ export default function Accessibility() {
             <div className="form-group">
               <p className="form-label" id="label-plan-acc">Plan asignado</p>
               <div
-                className="form-input"
+                className="form-input form-input-disabled"
                 aria-labelledby="label-plan-acc"
                 tabIndex={-1}
-                style={{ backgroundColor: 'var(--neutral-50)', color: 'var(--text-secondary)', cursor: 'not-allowed' }}
               >
                 {activePlan?.projectName || 'Sin plan seleccionado'}
               </div>
@@ -704,7 +692,7 @@ export default function Accessibility() {
             <div className="form-grid-2">
               <div className="form-group">
                 <label htmlFor="acc-tool" className="form-label">
-                  Herramienta <span className="text-red-500" aria-hidden="true">*</span>
+                  Herramienta <span className="form-required" aria-hidden="true">*</span>
                   <span className="sr-only">(requerido)</span>
                 </label>
                 <select
@@ -738,7 +726,7 @@ export default function Accessibility() {
             {/* Descripción */}
             <div className="form-group">
               <label htmlFor="acc-description" className="form-label">
-                Descripción del hallazgo <span className="text-red-500" aria-hidden="true">*</span>
+                Descripción del hallazgo <span className="form-required" aria-hidden="true">*</span>
                 <span className="sr-only">(requerido)</span>
               </label>
               <textarea
@@ -754,8 +742,8 @@ export default function Accessibility() {
             </div>
 
             {/* Clasificación */}
-            <fieldset className="form-fieldset" style={{ border: 'none', padding: 0, margin: 0 }}>
-              <legend className="form-label" style={{ marginBottom: 'var(--space-2)' }}>Clasificación del hallazgo</legend>
+            <fieldset className="form-fieldset fieldset-clean">
+              <legend className="form-label mb-2">Clasificación del hallazgo</legend>
               <div className="form-grid-3-acc">
                 <div className="form-group">
                   <label htmlFor="acc-category" className="form-label">Categoría</label>
@@ -772,7 +760,7 @@ export default function Accessibility() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="acc-severity" className="form-label">
-                    Severidad <span className="text-red-500" aria-hidden="true">*</span>
+                    Severidad <span className="form-required" aria-hidden="true">*</span>
                     <span className="sr-only">(requerido)</span>
                   </label>
                   <select
@@ -850,11 +838,11 @@ export default function Accessibility() {
         maxWidth="480px"
       >
         <div className="modal-body">
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-4)', marginTop: 0 }}>
+          <p className="modal-confirm-text mb-4">
             ¿Estás seguro de que deseas eliminar este hallazgo de accesibilidad? Esta acción no se puede deshacer.
           </p>
           {deleteTarget && (
-            <p style={{ fontSize: 'var(--font-size-xs)', backgroundColor: 'var(--neutral-50)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2) var(--space-3)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', marginBottom: 'var(--space-4)', fontStyle: 'italic', marginTop: 0 }}>
+            <p className="acc-delete-preview">
               "{deleteTarget.description}"
             </p>
           )}
@@ -910,10 +898,10 @@ function FindingRow({ finding: f, isReadOnly, onEdit, onDelete, onMarkResolved, 
         aria-hidden="true"
       />
 
-      <div className="flex-1 min-w-0" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+      <div className="acc-finding-content">
         {/* Badges */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          <span className={`badge ${sev.badge}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)' }}>
+        <div className="acc-badges-row">
+          <span className={`badge ${sev.badge} badge-inline-icon`}>
             {f.severity === 'Critical' || f.severity === 'High'
               ? <AlertCircle size={10} aria-hidden="true" />
               : <AlertTriangle size={10} aria-hidden="true" />
@@ -926,28 +914,27 @@ function FindingRow({ finding: f, isReadOnly, onEdit, onDelete, onMarkResolved, 
             </span>
           )}
           {isDone && (
-            <span className="badge badge-completada" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)' }}>
+            <span className="badge badge-completada badge-inline-icon">
               <CheckCircle2 size={10} aria-hidden="true" />
               <span>Corregido</span>
             </span>
           )}
-          <span className={`badge ${meta.bg} ${meta.color} ${meta.border}`} style={{ borderWidth: '1px', borderStyle: 'solid' }}>
+          <span className={`badge ${meta.bg} ${meta.color} ${meta.border} badge-bordered`}>
             {f.tool}
           </span>
         </div>
 
         {/* Descripción */}
         <p
-          style={{ fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)', lineHeight: 1.5, margin: 0 }}
-          className={isDone ? 'text-slate-400 line-through' : 'text-slate-800'}
+          className={`acc-finding-desc ${isDone ? 'text-slate-400 line-through' : 'text-slate-800'}`}
         >
           {f.description}
         </p>
 
         {/* Recomendación */}
         {f.recommendation && (
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', margin: 0, display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)' }}>
-            <span style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true">→</span>
+          <p className="acc-finding-rec">
+            <span className="acc-finding-arrow" aria-hidden="true">→</span>
             <span>{f.recommendation}</span>
           </p>
         )}
@@ -967,8 +954,7 @@ function FindingRow({ finding: f, isReadOnly, onEdit, onDelete, onMarkResolved, 
           ) : (
             <button
               onClick={onMarkResolved}
-              className="btn btn-success btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)' }}
+              className="btn btn-success btn-sm btn-inline-gap"
               aria-label={`Marcar como corregido: ${f.description.substring(0, 40)}`}
             >
               <CheckCircle2 size={12} aria-hidden="true" />
@@ -984,8 +970,7 @@ function FindingRow({ finding: f, isReadOnly, onEdit, onDelete, onMarkResolved, 
           </button>
           <button
             onClick={onDelete}
-            className="btn btn-danger btn-sm"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+            className="btn btn-danger btn-sm btn-inline-center"
             aria-label={`Eliminar hallazgo: ${f.description.substring(0, 40)}`}
           >
             <XIcon size={13} aria-hidden="true" />

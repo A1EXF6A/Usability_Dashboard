@@ -131,7 +131,7 @@ export default function Findings() {
                     <h2 className="page-header-title">Síntesis de Hallazgos</h2>
                     <p className="page-header-subtitle">Problemas de usabilidad detectados con frecuencia, severidad y recomendaciones</p>
                 </div>
-                <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                <div className="header-actions">
                     <button
                         onClick={() => {
                             window.dispatchEvent(new CustomEvent('copilot-trigger', {
@@ -145,11 +145,10 @@ export default function Findings() {
                             }))
                         }}
                         disabled={!activePlanId || isReadOnly}
-                        className="btn btn-secondary"
-                        style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}
+                        className="btn btn-ai"
                         aria-label="Sugerir hallazgos con IA"
                     >
-                        <Sparkles size={16} aria-hidden="true" style={{ color: 'var(--color-primary)' }} /> Sugerir hallazgos con IA
+                        <Sparkles size={16} aria-hidden="true" /> Sugerir hallazgos con IA
                     </button>
 
                     <button onClick={() => { setEditId(null); setForm({ ...emptyForm, testPlanId: activePlanId }); setShowForm(true) }}
@@ -170,9 +169,9 @@ export default function Findings() {
             )}
 
             {/* Filter */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-                <Filter size={14} style={{ color: 'var(--text-disabled)' }} aria-hidden="true" />
-                <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', fontWeight: 'var(--font-weight-semibold)' }}>Severidad:</span>
+            <div className="filter-bar">
+                <Filter size={14} className="text-muted" aria-hidden="true" />
+                <span className="filter-label">Severidad:</span>
                 {['', 'Critical', 'High', 'Medium', 'Low'].map(s => (
                     <button key={s} onClick={() => setFilter(s)}
                         className={`tab-pill ${filter === s ? 'is-active' : ''}`}
@@ -180,7 +179,7 @@ export default function Findings() {
                         {s === '' ? 'Todas' : s === 'Critical' ? 'Crítica' : s === 'High' ? 'Alta' : s === 'Medium' ? 'Media' : 'Baja'}
                     </button>
                 ))}
-                <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-disabled)', marginLeft: 'auto' }}>{filtered.length} de {findings.length} hallazgos</span>
+                <span className="filter-count">{filtered.length} de {findings.length} hallazgos</span>
             </div>
 
             {/* Form Modal */}
@@ -189,13 +188,13 @@ export default function Findings() {
                     {/* Plan as read-only text */}
                     <div>
                         <p className="form-label" id="label-plan">Plan asignado</p>
-                        <div className="form-input form-input--disabled" style={{ cursor: 'not-allowed', background: 'var(--neutral-100)', color: 'var(--text-muted)' }} aria-labelledby="label-plan" tabIndex={-1}>
+                        <div className="form-input form-input-disabled" aria-labelledby="label-plan" tabIndex={-1}>
                             {activePlan?.projectName || 'Sin plan seleccionado'}
                         </div>
                     </div>
                     <div>
                         <label htmlFor="findingDescription" className="form-label">
-                            Descripción <span style={{ color: 'var(--color-error)' }} aria-hidden="true">*</span>
+                            Descripción <span className="form-required" aria-hidden="true">*</span>
                             <span className="sr-only">(requerido)</span>
                         </label>
                         <textarea
@@ -210,12 +209,12 @@ export default function Findings() {
                     </div>
 
                     {/* ACCESIBILIDAD: fieldset agrupa campos relacionados semánticamente (WCAG 1.3.1) */}
-                    <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
-                        <legend className="form-label" style={{ marginBottom: 'var(--space-3)' }}>Clasificación del hallazgo</legend>
+                    <fieldset className="fieldset-clean">
+                        <legend className="form-label mb-3">Clasificación del hallazgo</legend>
                         <div className="form-grid-4">
                             <div>
                                 <label htmlFor="findingSeverity" className="form-label">
-                                    Severidad <span style={{ color: 'var(--color-error)' }} aria-hidden="true">*</span>
+                                    Severidad <span className="form-required" aria-hidden="true">*</span>
                                     <span className="sr-only">(requerido)</span>
                                 </label>
                                 <select id="findingSeverity" value={form.severity} onChange={e => setForm(f => ({ ...f, severity: e.target.value }))} className="form-input" required aria-required="true">
@@ -227,7 +226,7 @@ export default function Findings() {
                             </div>
                             <div>
                                 <label htmlFor="findingPriority" className="form-label">
-                                    Prioridad <span style={{ color: 'var(--color-error)' }} aria-hidden="true">*</span>
+                                    Prioridad <span className="form-required" aria-hidden="true">*</span>
                                     <span className="sr-only">(requerido)</span>
                                 </label>
                                 <select id="findingPriority" value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))} className="form-input" required aria-required="true">
@@ -238,7 +237,7 @@ export default function Findings() {
                             </div>
                             <div>
                                 <label htmlFor="findingStatus" className="form-label">
-                                    Estado <span style={{ color: 'var(--color-error)' }} aria-hidden="true">*</span>
+                                    Estado <span className="form-required" aria-hidden="true">*</span>
                                     <span className="sr-only">(requerido)</span>
                                 </label>
                                 <select id="findingStatus" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="form-input" required aria-required="true">
@@ -308,18 +307,18 @@ export default function Findings() {
                                         <span className="finding-card-meta-pill finding-card-meta-pill--purple">{finding.tool}</span>
                                     </div>
                                     <span className={`badge ${finding.severity === 'Critical' ? 'badge-critica' : finding.severity === 'High' ? 'badge-alta' : finding.severity === 'Medium' ? 'badge-media' : 'badge-baja'}`}>
-                                        {finding.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: '#991b1b' }} />}
-                                        {finding.severity === 'High' && <AlertCircle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)' }} />}
-                                        {finding.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-primary-hover)' }} />}
-                                        {finding.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" style={{ color: 'var(--color-success-text)' }} />}
+                                        {finding.severity === 'Critical' && <XCircle size={12} aria-hidden="true" className="text-severity-critical" />}
+                                        {finding.severity === 'High' && <AlertCircle size={12} aria-hidden="true" className="text-severity-high" />}
+                                        {finding.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" className="text-severity-medium" />}
+                                        {finding.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" className="text-severity-low" />}
                                         <span>{finding.severity === 'Critical' ? 'Crítica' : finding.severity === 'High' ? 'Alta' : finding.severity === 'Medium' ? 'Media' : 'Baja'}</span>
                                     </span>
                                 </div>
                                 <h3 className="finding-card-title">{finding.description}</h3>
                                 {finding.recommendation && (
                                     <div className="finding-card-recommendation">
-                                        <ArrowRight size={14} className="text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                        <span style={{ fontWeight: 'var(--font-weight-semibold)' }}>{finding.recommendation}</span>
+                                        <ArrowRight size={14} className="finding-card-arrow" aria-hidden="true" />
+                                        <span className="font-semibold">{finding.recommendation}</span>
                                     </div>
                                 )}
                                 <div className="finding-card-footer">
@@ -331,10 +330,10 @@ export default function Findings() {
                                         )}
                                     </div>
                                     <div className="finding-card-actions">
-                                        <button onClick={() => handleEdit(finding)} className="btn btn-secondary" style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }} aria-label={`Editar hallazgo: ${finding.description?.substring(0, 40)}`} disabled={isReadOnly}>
+                                        <button onClick={() => handleEdit(finding)} className="btn btn-secondary btn-compact" aria-label={`Editar hallazgo: ${finding.description?.substring(0, 40)}`} disabled={isReadOnly}>
                                             Editar
                                         </button>
-                                        <button onClick={() => setFindingToDelete(finding)} className="btn btn-danger" style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }} aria-label={`Eliminar hallazgo: ${finding.description?.substring(0, 40)}`} disabled={isReadOnly}>
+                                        <button onClick={() => setFindingToDelete(finding)} className="btn btn-danger btn-compact" aria-label={`Eliminar hallazgo: ${finding.description?.substring(0, 40)}`} disabled={isReadOnly}>
                                             <Trash2 size={12} aria-hidden="true" />
                                         </button>
                                     </div>
@@ -348,10 +347,10 @@ export default function Findings() {
             {/* Delete confirmation */}
             <Modal isOpen={!!findingToDelete} onClose={() => setFindingToDelete(null)} title="Eliminar Hallazgo" maxWidth="480px">
                 <div className="modal-body">
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                    <p className="modal-confirm-text">
                         ¿Estás seguro de que deseas eliminar este hallazgo? Esta acción no se puede deshacer.
                     </p>
-                    <div className="modal-footer">
+                    <div className="modal-footer modal-actions-footer">
                         <button type="button" onClick={() => setFindingToDelete(null)} className="btn btn-secondary">Cancelar</button>
                         <button type="button" onClick={() => findingToDelete && confirmDelete(findingToDelete.id)} className="btn btn-danger">Eliminar</button>
                     </div>

@@ -19,20 +19,13 @@ const statusLabels: Record<string, string> = {
   Cancelled: 'Cancelado',
 }
 
-const statusDots: Record<string, string> = {
-  Draft: 'var(--neutral-400)',
-  InProgress: 'var(--color-warning)',
-  Completed: 'var(--color-success)',
-  Cancelled: 'var(--color-error)',
-}
-
 function formatOption(option: PlanOption) {
+  const statusClass = option.status ? `plan-option-dot--${option.status.toLowerCase()}` : ''
   return (
     <div className="plan-option">
       {option.value !== '' && (
         <span
-          className="plan-option-dot"
-          style={{ background: statusDots[option.status] || 'var(--neutral-400)' }}
+          className={`plan-option-dot ${statusClass}`}
         />
       )}
       <span className="plan-option-label">{option.label}</span>
@@ -67,11 +60,12 @@ const selectStyles = {
   control: (base: any, state: any) => ({
     ...base,
     borderRadius: 'var(--radius-md)',
-    borderColor: state.isFocused ? 'var(--color-primary-500)' : 'var(--border-color)',
+    borderColor: state.isFocused ? 'var(--color-primary-focus)' : 'var(--border-color)',
+    backgroundColor: 'var(--surface-card)',
     boxShadow: state.isFocused ? 'var(--shadow-focus)' : 'none',
     minHeight: 'var(--touch-target-min)',
     fontSize: 'var(--font-size-sm)',
-    '&:hover': { borderColor: 'var(--color-primary-border)' },
+    '&:hover': { borderColor: 'var(--border-color-hover)' },
   }),
   menuPortal: (base: any) => ({
     ...base,
@@ -80,7 +74,8 @@ const selectStyles = {
   menu: (base: any) => ({
     ...base,
     borderRadius: 'var(--radius-lg)',
-    boxShadow: '0 12px 40px rgba(15,23,42,0.15)',
+    backgroundColor: 'var(--surface-card)',
+    boxShadow: 'var(--shadow-xl)',
     border: '1px solid var(--border-color)',
     overflow: 'hidden',
     zIndex: 9999,
@@ -92,9 +87,9 @@ const selectStyles = {
     backgroundColor: state.isSelected
       ? 'var(--color-primary-light)'
       : state.isFocused
-        ? 'var(--neutral-50)'
+        ? 'var(--neutral-100)'
         : 'var(--surface-card)',
-    color: state.isSelected ? 'var(--color-primary)' : 'var(--neutral-700)',
+    color: state.isSelected ? 'var(--color-primary)' : 'var(--text-primary)',
     fontWeight: state.isSelected ? 600 : 400,
     cursor: 'pointer',
     '&:active': { backgroundColor: 'var(--color-primary-100)' },
@@ -108,11 +103,12 @@ const selectStyles = {
   input: (base: any) => ({
     ...base,
     fontSize: 'var(--font-size-sm)',
+    color: 'var(--text-primary)',
   }),
   placeholder: (base: any) => ({
     ...base,
     fontSize: 'var(--font-size-sm)',
-    color: 'var(--text-disabled)',
+    color: 'var(--text-muted)',
   }),
   indicatorSeparator: () => ({ display: 'none' }),
 }
@@ -140,7 +136,7 @@ export default function PlanSelector({ showAll, value: valueProp, onChange: onCh
     : options.find(o => o.value === currentValue) || null
 
   return (
-    <div className={className} style={{ width: 300 }}>
+    <div className={`plan-selector-container ${className || ''}`}>
       <Select<PlanOption>
         options={options}
         value={selected}
@@ -169,7 +165,7 @@ export default function PlanSelector({ showAll, value: valueProp, onChange: onCh
             <AlertTriangle size={24} className="plan-confirm-alert-icon" aria-hidden="true" />
             <p className="plan-confirm-alert-text">
               Hay una sesión de prueba activa en ejecución.<br /><br />
-              Si cambias de plan ahora, se cerrará la sesión actual y <strong style={{ fontWeight: 700, color: 'var(--color-error)' }}>perderás de forma permanente</strong> los resultados de esta sesión que aún no has registrado. <br /><br />¿Deseas salir de todas formas?
+              Si cambias de plan ahora, se cerrará la sesión actual y <strong className="plan-confirm-warning-text">perderás de forma permanente</strong> los resultados de esta sesión que aún no has registrado. <br /><br />¿Deseas salir de todas formas?
             </p>
           </div>
           <div className="plan-confirm-actions">

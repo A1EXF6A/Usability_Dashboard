@@ -3,7 +3,7 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard, FileText, ListChecks, MessageSquareText,
     Eye, Search, Lightbulb, ChevronRight, FolderKanban, Sparkles, Users, CalendarRange,
-    Menu, X, Lock, ShieldCheck, ClipboardList
+    Menu, X, Lock, ShieldCheck, ClipboardList, Sun, Moon
 } from 'lucide-react'
 import { usePlan } from '../context/PlanContext'
 import PlanSelector from './PlanSelector'
@@ -44,6 +44,26 @@ export default function Layout() {
     const navigate = useNavigate()
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const { activePlan, canAccessPhase2, canAccessPhase3, phase2Missing, phase3Missing, sectionDone, needsPlanSelection, loading } = usePlan()
+
+    // Gestión del Modo Oscuro con detección de sistema y persistencia robusta
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        try {
+            const saved = localStorage.getItem('utd_theme')
+            if (saved === 'dark' || saved === 'light') return saved
+        } catch {}
+        return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    })
+
+    useEffect(() => {
+        try {
+            document.documentElement.setAttribute('data-theme', theme)
+            localStorage.setItem('utd_theme', theme)
+        } catch {}
+    }, [theme])
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+    }
 
     // Redirect first-time users to /planes so they can create or pick a plan
     useEffect(() => {
@@ -117,7 +137,7 @@ export default function Layout() {
                                 <FolderKanban size={20} aria-hidden="true" />
                             </div>
 
-                            <div style={{ minWidth: 0 }}>
+                            <div className="min-w-0">
                                 <p className="layout-context-label">Contexto Activo</p>
                                 <h1 className="layout-context-title">
                                     {activePlan ? `Plan: ${activePlan.projectName}` : 'Selecciona o crea un plan de prueba...'}
@@ -126,6 +146,14 @@ export default function Layout() {
                         </div>
 
                         <div className="layout-header-right">
+                            <button
+                                onClick={toggleTheme}
+                                className="theme-toggle-btn"
+                                aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+                                title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+                            >
+                                {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+                            </button>
                             <div className="layout-app-badge">
                                 <span className="layout-app-badge-pill">
                                     <Sparkles size={12} aria-hidden="true" />
@@ -180,7 +208,7 @@ export default function Layout() {
                                     className={({ isActive }) => `nav-item ${isActive ? 'is-active' : ''}`}
                                 >
                                     <dashboardItem.icon size={18} aria-hidden="true" className="nav-icon" />
-                                    <div style={{ minWidth: 0, flex: 1 }}>
+                                    <div className="min-w-0 flex-1">
                                         <div className="nav-item-label">{dashboardItem.label}</div>
                                     </div>
                                 </NavLink>
@@ -203,14 +231,14 @@ export default function Layout() {
                                         /* ACCESIBILIDAD: SVG con role="img" y title (WCAG 1.1.1) */
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="nav-check-icon" role="img" aria-label="Sección completada">
                                             <title>Sección completada</title>
-                                            <circle cx="8" cy="8" r="7" fill="#10b981" opacity="0.15" />
-                                            <circle cx="8" cy="8" r="7" stroke="#10b981" strokeWidth="1.2" />
-                                            <path d="M5 8l2 2 4-4" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            <circle cx="8" cy="8" r="7" fill="var(--color-success)" opacity="0.15" />
+                                            <circle cx="8" cy="8" r="7" stroke="var(--color-success)" strokeWidth="1.2" />
+                                            <path d="M5 8l2 2 4-4" stroke="var(--color-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     ) : (
                                         <planItem.icon size={16} aria-hidden="true" className="nav-icon" />
                                     )}
-                                    <div style={{ minWidth: 0, flex: 1 }}>
+                                    <div className="min-w-0 flex-1">
                                         <div className={`nav-item-label ${sectionDone[planItem.sectionKey] ? 'nav-item-label--done' : ''}`}>
                                             {planItem.label}
                                         </div>
@@ -277,8 +305,8 @@ export default function Layout() {
                                                             title={tooltipText}
                                                         >
                                                             <Lock size={16} aria-hidden="true" className="nav-icon" />
-                                                            <div style={{ minWidth: 0, flex: 1 }}>
-                                                                <div className="nav-item-label" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
+                                                            <div className="min-w-0 flex-1">
+                                                                <div className="nav-item-label nav-item-label--muted">{item.label}</div>
                                                                 <div className="nav-item-sublabel">{sublabel}</div>
                                                             </div>
                                                         </div>
@@ -301,14 +329,14 @@ export default function Layout() {
                                                         {sectionDone[item.sectionKey] ? (
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="nav-check-icon" role="img" aria-label="Completado">
                                                                 <title>Completado</title>
-                                                                <circle cx="8" cy="8" r="7" fill="#10b981" opacity="0.15" />
-                                                                <circle cx="8" cy="8" r="7" stroke="#10b981" strokeWidth="1.2" />
-                                                                <path d="M5 8l2 2 4-4" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                                <circle cx="8" cy="8" r="7" fill="var(--color-success)" opacity="0.15" />
+                                                                <circle cx="8" cy="8" r="7" stroke="var(--color-success)" strokeWidth="1.2" />
+                                                                <path d="M5 8l2 2 4-4" stroke="var(--color-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                             </svg>
                                                         ) : (
                                                             <item.icon size={16} aria-hidden="true" className="nav-icon" />
                                                         )}
-                                                        <div style={{ minWidth: 0, flex: 1 }}>
+                                                        <div className="min-w-0 flex-1">
                                                             <div className={`nav-item-label ${sectionDone[item.sectionKey] ? 'nav-item-label--done' : ''}`}>
                                                                 {item.label}
                                                             </div>

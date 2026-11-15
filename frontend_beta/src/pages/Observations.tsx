@@ -220,8 +220,8 @@ export default function Observations() {
             {/* Blocking banner for missing dependencies */}
             {!isReadOnly && activePlan && !loading && (sessions.length === 0 || tasks.length === 0) && (
                 <div className="warning-banner" role="alert">
-                    <AlertTriangle size={20} className="flex-shrink-0" aria-hidden="true" />
-                    <div style={{ fontSize: 'var(--font-size-sm)', lineHeight: 'var(--line-height)' }}>
+                    <AlertTriangle size={20} className="shrink-0" aria-hidden="true" />
+                    <div className="text-sm">
                         <strong>No se pueden registrar observaciones:</strong> Es necesario contar con al menos una <strong>Tarea</strong> y una <strong>Sesión de Prueba</strong> registradas en este plan. Ve a dichas secciones para programarlas primero.
                     </div>
                 </div>
@@ -232,13 +232,13 @@ export default function Observations() {
                 <form onSubmit={handleSubmit} className="form-layout">
                     <div className="form-grid-2">
                         <div>
-                            <label htmlFor="obsTestSessionId" className="form-label">Sesión <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="obsTestSessionId" className="form-label">Sesión <span className="form-required">*</span></label>
                             <select id="obsTestSessionId" value={form.testSessionId} onChange={e => setForm(f => ({ ...f, testSessionId: e.target.value }))} className="form-input" required>
                                 {sessions.map((s: any) => <option key={s.id} value={s.id}>{s.participantName} · {new Date(s.date).toLocaleDateString()}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="obsTestTaskId" className="form-label">Tarea <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="obsTestTaskId" className="form-label">Tarea <span className="form-required">*</span></label>
                             <select id="obsTestTaskId" value={form.testTaskId} onChange={e => setForm(f => ({ ...f, testTaskId: e.target.value }))} className="form-input" required>
                                 {tasks.map((t: any) => <option key={t.id} value={t.id}>T{t.taskNumber} — {String(t.scenario).substring(0, 40)}...</option>)}
                             </select>
@@ -261,11 +261,11 @@ export default function Observations() {
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="obsTimeSeconds" className="form-label">Tiempo (seg) <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="obsTimeSeconds" className="form-label">Tiempo (seg) <span className="form-required">*</span></label>
                             <input id="obsTimeSeconds" type="number" value={form.timeSeconds} onChange={e => setForm(f => ({ ...f, timeSeconds: Number(e.target.value) }))} className="form-input" min={1} required />
                         </div>
                         <div>
-                            <label htmlFor="obsErrorCount" className="form-label">Errores <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                            <label htmlFor="obsErrorCount" className="form-label">Errores <span className="form-required">*</span></label>
                             <input
                                 id="obsErrorCount"
                                 type="number"
@@ -287,7 +287,7 @@ export default function Observations() {
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+                    <div className="flex items-center gap-2 mt-2 mb-4">
                         <input
                             id="obsCompletedWithoutIssues"
                             type="checkbox"
@@ -309,9 +309,9 @@ export default function Observations() {
                                     })
                                 }))
                             }}
-                            style={{ width: 16, height: 16, cursor: 'pointer' }}
+                            className="cursor-pointer"
                         />
-                        <label htmlFor="obsCompletedWithoutIssues" className="form-label" style={{ margin: 0, cursor: 'pointer', fontWeight: 'var(--font-weight-semibold)' }}>
+                        <label htmlFor="obsCompletedWithoutIssues" className="form-label cursor-pointer font-semibold">
                             ✨ ¿La tarea se completó exitosamente sin ninguna anomalía o incomodidad?
                         </label>
                     </div>
@@ -329,7 +329,7 @@ export default function Observations() {
                             </div>
 
                             <div>
-                                <label htmlFor="obsDetectedProblem" className="form-label">Problema detectado {(!form.taskSuccess || form.errorCount > 0) && <span style={{ color: 'var(--color-error)' }}>*</span>}</label>
+                                <label htmlFor="obsDetectedProblem" className="form-label">Problema detectado {(!form.taskSuccess || form.errorCount > 0) && <span className="form-required">*</span>}</label>
                                 <textarea id="obsDetectedProblem" value={form.detectedProblem} onChange={e => setForm(f => ({ ...f, detectedProblem: e.target.value }))} className={`form-input ${(!form.taskSuccess || form.errorCount > 0) && !form.detectedProblem.trim() ? 'field-error' : ''}`} rows={2} placeholder="Describe el problema observado" required={!form.taskSuccess || form.errorCount > 0} />
                             </div>
 
@@ -339,19 +339,8 @@ export default function Observations() {
                             </div>
                         </>
                     ) : (
-                        <div style={{
-                            padding: 'var(--space-4)',
-                            borderRadius: 'var(--radius-md)',
-                            background: 'rgba(16, 185, 129, 0.06)',
-                            border: '1px dashed rgba(16, 185, 129, 0.3)',
-                            color: 'var(--color-success-text)',
-                            fontSize: 'var(--font-size-sm)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 'var(--space-2)',
-                            margin: 'var(--space-3) 0'
-                        }}>
-                            <CheckCircle2 size={16} style={{ color: 'var(--color-success)' }} />
+                        <div className="obs-success-callout">
+                            <CheckCircle2 size={16} className="text-success shrink-0" />
                             <span>✨ Tarea completada limpiamente. No se requiere reportar severidad, anomalías ni propuestas de mejora.</span>
                         </div>
                     )}
@@ -377,14 +366,14 @@ export default function Observations() {
                     <div className="dashboard-spinner" aria-label="Cargando..." />
                 </div>
             ) : logs.length === 0 ? (
-                <div className="empty-state-card" style={{ padding: 'var(--space-10) var(--space-6)' }}>
+                <div className="empty-state-card">
                     <Eye size={48} className="empty-state-icon" aria-hidden="true" />
                     <h3 className="empty-state-title">Sin registros de observación</h3>
                     <p className="empty-state-subtitle">Comienza a registrar observaciones de las sesiones de prueba.</p>
                 </div>
             ) : (
                 <div className="observations-table-card">
-                    <div className="overflow-x-auto soft-scrollbar" style={{ overflowX: 'auto' }}>
+                    <div className="overflow-x-auto soft-scrollbar">
                         <table className="observations-table">
                             <thead className="observations-thead">
                                 <tr>
@@ -408,8 +397,8 @@ export default function Observations() {
                                         </td>
                                         <td className="observations-td">
                                             {log.taskSuccess
-                                                ? <CheckCircle2 size={18} style={{ color: 'var(--color-success)' }} aria-label="Éxito" />
-                                                : <XCircle size={18} style={{ color: 'var(--color-error)' }} aria-label="Fallo" />}
+                                                ? <CheckCircle2 size={18} className="text-success" aria-label="Éxito" />
+                                                : <XCircle size={18} className="text-error" aria-label="Fallo" />}
                                         </td>
                                         <td className="observations-td">
                                             <span className="observations-mono-badge">{log.timeSeconds}s</span>
@@ -419,10 +408,10 @@ export default function Observations() {
                                         </td>
                                         <td className="observations-td">
                                             <span className={`badge ${log.severity === 'Critical' ? 'badge-critica' : log.severity === 'High' ? 'badge-alta' : log.severity === 'Medium' ? 'badge-media' : 'badge-baja'}`}>
-                                                {log.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: '#991b1b', marginRight: 4 }} />}
-                                                {log.severity === 'High' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)', marginRight: 4 }} />}
-                                                {log.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-primary-hover)', marginRight: 4 }} />}
-                                                {log.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" style={{ color: 'var(--color-success-text)', marginRight: 4 }} />}
+                                                {log.severity === 'Critical' && <XCircle size={12} aria-hidden="true" className="mr-1 text-severity-critical" />}
+                                                {log.severity === 'High' && <AlertTriangle size={12} aria-hidden="true" className="mr-1 text-severity-high" />}
+                                                {log.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" className="mr-1 text-severity-medium" />}
+                                                {log.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" className="mr-1 text-severity-low" />}
                                                 <span>{log.severity === 'Critical' ? 'Crítica' : log.severity === 'High' ? 'Alta' : log.severity === 'Medium' ? 'Media' : 'Baja'}</span>
                                             </span>
                                         </td>
@@ -447,7 +436,7 @@ export default function Observations() {
             {/* Delete confirmation */}
             <Modal isOpen={!!logToDelete} onClose={() => setLogToDelete(null)} title="Eliminar Observación" maxWidth="480px">
                 <div className="modal-body">
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                    <p className="modal-confirm-text">
                         ¿Estás seguro de que deseas eliminar la observación de la sesión <strong>{logToDelete && getSessionName(logToDelete.testSessionId)}</strong> (Tarea {logToDelete && getTaskLabel(logToDelete.testTaskId)})? Esta acción no se puede deshacer.
                     </p>
                     <div className="modal-footer">

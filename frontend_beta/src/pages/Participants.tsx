@@ -109,14 +109,13 @@ export default function Participants() {
                 </button>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <div className="flex items-center gap-2">
                 <input
                     type="text"
                     placeholder="Buscar por nombre o perfil..."
                     value={filter}
                     onChange={e => setFilter(e.target.value)}
                     className="form-input"
-                    style={{ maxWidth: 384, width: '100%' }}
                     aria-label="Buscar participantes"
                 />
             </div>
@@ -128,9 +127,9 @@ export default function Participants() {
                 title={editId ? 'Editar Participante' : 'Nuevo Participante'}
                 maxWidth="480px"
             >
-                <form onSubmit={handleSubmit} className="form-layout" style={{ padding: 'var(--space-5)' }}>
+                <form onSubmit={handleSubmit} className="form-layout p-5">
                     <div>
-                        <label htmlFor="participantName" className="form-label">Nombre <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                        <label htmlFor="participantName" className="form-label">Nombre <span className="form-required">*</span></label>
                         <input
                             id="participantName"
                             type="text"
@@ -142,7 +141,7 @@ export default function Participants() {
                         />
                     </div>
                     <div>
-                        <label htmlFor="participantAge" className="form-label">Edad <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                        <label htmlFor="participantAge" className="form-label">Edad <span className="form-required">*</span></label>
                         <input
                             id="participantAge"
                             type="number"
@@ -166,7 +165,7 @@ export default function Participants() {
                             placeholder="Ej: Estudiante de ingeniería, usuario frecuente de apps móviles..."
                         />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', paddingTop: 'var(--space-3)' }}>
+                    <div className="flex items-center gap-3 pt-3">
                         <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                             <Save size={16} aria-hidden="true" /> {isSubmitting ? 'Guardando...' : (editId ? 'Actualizar' : 'Guardar')}
                         </button>
@@ -208,16 +207,14 @@ export default function Participants() {
                             <div className="participant-card-footer">
                                 <button
                                     onClick={() => handleEdit(participant)}
-                                    className="btn btn-secondary text-sm"
-                                    style={{ flex: 1, justifyContent: 'center', padding: 'var(--space-1.5) var(--space-3)' }}
+                                    className="btn btn-secondary btn-compact flex-1 justify-center"
                                     aria-label={`Editar participante ${participant.name}`}
                                 >
                                     Editar
                                 </button>
                                 <button
                                     onClick={() => setParticipantToDelete(participant)}
-                                    className="btn btn-danger text-sm"
-                                    style={{ flex: 1, justifyContent: 'center', padding: 'var(--space-1.5) var(--space-3)' }}
+                                    className="btn btn-danger btn-compact flex-1 justify-center"
                                     aria-label={`Eliminar participante ${participant.name}`}
                                 >
                                     Eliminar
@@ -235,11 +232,11 @@ export default function Participants() {
                 title="Eliminar Participante"
                 maxWidth="480px"
             >
-                <div style={{ padding: 'var(--space-5)' }}>
-                    <p className="text-[14px]" style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-5)' }}>
+                <div className="p-5">
+                    <p className="modal-confirm-text mb-5">
                         ¿Estás seguro de que deseas eliminar al participante <strong>{participantToDelete?.name}</strong>? Esta acción no se puede deshacer.
                     </p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-3)' }}>
+                    <div className="modal-actions-footer">
                         <button type="button" onClick={() => setParticipantToDelete(null)} className="btn btn-secondary">
                             Cancelar
                         </button>

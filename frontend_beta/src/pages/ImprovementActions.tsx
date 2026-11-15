@@ -183,7 +183,7 @@ export default function ImprovementActions() {
                     <h2 className="page-header-title">Acciones de Mejora</h2>
                     <p className="page-header-subtitle">Seguimiento de las acciones correctivas derivadas de los hallazgos</p>
                 </div>
-                <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                <div className="header-actions">
                     <button
                         onClick={() => {
                             window.dispatchEvent(new CustomEvent('copilot-trigger', {
@@ -197,11 +197,10 @@ export default function ImprovementActions() {
                             }))
                         }}
                         disabled={!activePlanId || isReadOnly}
-                        className="btn btn-secondary"
-                        style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}
+                        className="btn btn-ai"
                         aria-label="Sugerir mejoras con IA"
                     >
-                        <Sparkles size={16} aria-hidden="true" style={{ color: 'var(--color-primary)' }} /> Sugerir mejoras con IA
+                        <Sparkles size={16} aria-hidden="true" /> Sugerir mejoras con IA
                     </button>
 
                     <button
@@ -224,23 +223,23 @@ export default function ImprovementActions() {
             )}
 
             {/* Status Summary KPIs */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="kpi-card kpi-card--emerald" style={{ padding: 'var(--space-6)', textAlign: 'center' }}>
-                    <div className="kpi-value" style={{ fontSize: 32, fontWeight: 'var(--font-weight-extrabold)' }}>{completedCount}</div>
-                    <div className="kpi-label" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-1)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-wider)', fontWeight: 'var(--font-weight-bold)' }}>Completadas</div>
+            <div className="kpi-grid kpi-grid--3">
+                <div className="kpi-card kpi-card--emerald kpi-card--centered">
+                    <div className="kpi-value kpi-value--xl">{completedCount}</div>
+                    <div className="kpi-label kpi-label--uppercase">Completadas</div>
                 </div>
-                <div className="kpi-card kpi-card--amber" style={{ padding: 'var(--space-6)', textAlign: 'center' }}>
-                    <div className="kpi-value" style={{ fontSize: 32, fontWeight: 'var(--font-weight-extrabold)' }}>{inProgressCount}</div>
-                    <div className="kpi-label" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-1)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-wider)', fontWeight: 'var(--font-weight-bold)' }}>En Progreso</div>
+                <div className="kpi-card kpi-card--amber kpi-card--centered">
+                    <div className="kpi-value kpi-value--xl">{inProgressCount}</div>
+                    <div className="kpi-label kpi-label--uppercase">En Progreso</div>
                 </div>
-                <div className="kpi-card kpi-card--slate" style={{ padding: 'var(--space-6)', textAlign: 'center' }}>
-                    <div className="kpi-value" style={{ fontSize: 32, fontWeight: 'var(--font-weight-extrabold)' }}>{pendingCount}</div>
-                    <div className="kpi-label" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-1)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-wider)', fontWeight: 'var(--font-weight-bold)' }}>Pendientes</div>
+                <div className="kpi-card kpi-card--slate kpi-card--centered">
+                    <div className="kpi-value kpi-value--xl">{pendingCount}</div>
+                    <div className="kpi-label kpi-label--uppercase">Pendientes</div>
                 </div>
             </div>
 
             {/* Filter */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+            <div className="filter-bar">
                 {['', 'Resolved', 'InProgress', 'Open', 'Closed'].map(s => (
                     <button key={s} onClick={() => setFilter(s)}
                         className={`tab-pill ${filter === s ? 'is-active' : ''}`}
@@ -255,13 +254,13 @@ export default function ImprovementActions() {
                 <form onSubmit={handleSubmit} className="form-layout">
                     <div>
                         <label className="form-label">Evaluación / Plan asignado</label>
-                        <div className="form-input form-input--disabled" style={{ cursor: 'not-allowed', background: 'var(--neutral-100)', color: 'var(--text-muted)' }}>
+                        <div className="form-input form-input-disabled">
                             {activePlan?.projectName || 'Sin plan'}
                         </div>
                     </div>
                     <div>
                         <label htmlFor="actionFindingId" className="form-label">
-                            Hallazgo asociado <span style={{ color: 'var(--color-error)' }}>*</span>
+                            Hallazgo asociado <span className="form-required" aria-hidden="true">*</span>
                         </label>
                         <select id="actionFindingId" value={form.findingId} onChange={e => setForm(f => ({ ...f, findingId: e.target.value }))} className="form-input" required>
                             {findingsList.map((f: any) => <option key={f.id} value={f.id}>{f.description.length > 80 ? f.description.substring(0, 80) + '...' : f.description}</option>)}
@@ -269,14 +268,14 @@ export default function ImprovementActions() {
                     </div>
                     <div>
                         <label htmlFor="actionDescription" className="form-label">
-                            Descripción <span style={{ color: 'var(--color-error)' }}>*</span>
+                            Descripción <span className="form-required" aria-hidden="true">*</span>
                         </label>
                         <textarea id="actionDescription" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} className="form-input" rows={3} required />
                     </div>
                     <div className="form-grid-2">
                         <div>
                             <label htmlFor="actionStatus" className="form-label">
-                                Estado <span style={{ color: 'var(--color-error)' }}>*</span>
+                                Estado <span className="form-required" aria-hidden="true">*</span>
                             </label>
                             <select id="actionStatus" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="form-input" required>
                                 <option value="Open">Abierta</option>
@@ -287,7 +286,7 @@ export default function ImprovementActions() {
                         </div>
                         <div>
                             <label htmlFor="actionPriority" className="form-label">
-                                Prioridad <span style={{ color: 'var(--color-error)' }}>*</span>
+                                Prioridad <span className="form-required" aria-hidden="true">*</span>
                             </label>
                             <select id="actionPriority" value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value }))} className="form-input" required>
                                 <option value="High">Alta</option>
@@ -319,7 +318,7 @@ export default function ImprovementActions() {
                     <p className="empty-state-subtitle">Crea una nueva acción para realizar su seguimiento</p>
                 </div>
             ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+                <div className="actions-list">
                     {filtered.map((action: any) => {
                         const config = statusConfig[action.status] || statusConfig.Open
                         const Icon = config.icon
@@ -356,17 +355,16 @@ export default function ImprovementActions() {
                                         {action.status !== 'Closed' && !isReadOnly && (
                                             <button
                                                 onClick={() => handleStatusChangeRequest(action.id, action.status)}
-                                                className="btn btn-primary"
-                                                style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }}
+                                                className="btn btn-primary btn-compact"
                                                 aria-label={`${nextActionLabel[action.status] || 'Avanzar'} acción: ${action.description?.substring(0, 30)}`}
                                             >
                                                 {nextActionLabel[action.status] || 'Avanzar'}
                                             </button>
                                         )}
-                                        <button onClick={() => handleEdit(action)} className="btn btn-secondary" style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }} aria-label={`Editar acción: ${action.description?.substring(0, 30)}`} disabled={isReadOnly}>
+                                        <button onClick={() => handleEdit(action)} className="btn btn-secondary btn-compact" aria-label={`Editar acción: ${action.description?.substring(0, 30)}`} disabled={isReadOnly}>
                                             Editar
                                         </button>
-                                        <button onClick={() => setActionToDelete(action)} className="btn btn-danger" style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }} aria-label={`Eliminar acción: ${action.description?.substring(0, 30)}`} disabled={isReadOnly}>
+                                        <button onClick={() => setActionToDelete(action)} className="btn btn-danger btn-compact" aria-label={`Eliminar acción: ${action.description?.substring(0, 30)}`} disabled={isReadOnly}>
                                             <Trash2 size={12} aria-hidden="true" />
                                         </button>
                                     </div>
@@ -380,7 +378,7 @@ export default function ImprovementActions() {
             {/* ACM-01: Status change confirmation in Spanish */}
             <Modal isOpen={!!statusChangeConfirm} onClose={() => setStatusChangeConfirm(null)} title="Confirmar Cambio de Estado" maxWidth="480px">
                 <div className="modal-body">
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                    <p className="modal-confirm-text">
                         ¿Confirma cambiar el estado a <strong>{statusChangeConfirm ? statusLabelEs[statusChangeConfirm.newStatus] : ''}</strong>?
                     </p>
                     <div className="modal-footer">
@@ -393,7 +391,7 @@ export default function ImprovementActions() {
             {/* Delete confirmation */}
             <Modal isOpen={!!actionToDelete} onClose={() => setActionToDelete(null)} title="Eliminar Acción de Mejora" maxWidth="480px">
                 <div className="modal-body">
-                    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                    <p className="modal-confirm-text">
                         ¿Estás seguro de que deseas eliminar esta acción de mejora? Esta acción no se puede deshacer.
                     </p>
                     <div className="modal-footer">

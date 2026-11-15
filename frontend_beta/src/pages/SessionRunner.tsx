@@ -192,7 +192,7 @@ export default function SessionRunner() {
     // ──────────── LOADING ────────────
     if (phase === 'loading') {
         return (
-            <div className="dashboard-loader" style={{ padding: 'var(--space-20) 0' }}>
+            <div className="dashboard-loader py-20">
                 <div className="dashboard-spinner" aria-label="Cargando..." />
                 <p className="dashboard-loader-text">Cargando sesión de prueba...</p>
             </div>
@@ -210,10 +210,10 @@ export default function SessionRunner() {
 
                 {/* Hero card */}
                 <div className="runner-hero-card">
-                    <div style={{ position: 'relative', zIndex: 10 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+                    <div className="runner-hero-content">
+                        <div className="runner-badge-wrapper">
                             <span className="runner-badge-pill">
-                                <Mic size={14} style={{ color: 'var(--color-primary-300)' }} aria-hidden="true" />
+                                <Mic size={14} className="runner-mic-icon" aria-hidden="true" />
                                 Modo Guía de Sesión
                             </span>
                         </div>
@@ -255,9 +255,8 @@ export default function SessionRunner() {
                 <div className="runner-button-container">
                     <button
                         onClick={handleStartTest}
-                        className="btn btn-primary"
+                        className="btn-runner-start"
                         aria-label="Comenzar Prueba de Usabilidad"
-                        style={{ padding: 'var(--space-3) var(--space-6)', borderRadius: 'var(--radius-xl)', fontSize: 'var(--font-size-base)', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-3)' }}
                     >
                         <Play size={20} aria-hidden="true" />
                         Comenzar Prueba
@@ -267,7 +266,7 @@ export default function SessionRunner() {
 
                 <Modal isOpen={showExitConfirm} onClose={() => setShowExitConfirm(false)} title="¿Salir de la sesión?" maxWidth="440px">
                     <div className="modal-body">
-                        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--line-height)' }}>
+                        <p className="modal-confirm-text">
                             Se perderá el progreso de esta sesión. ¿Deseas salir?
                         </p>
                         <div className="modal-footer">
@@ -290,18 +289,18 @@ export default function SessionRunner() {
                 {/* Top bar */}
                 <div className="page-header">
                     <div className="runner-header-left">
-                        <button onClick={() => setShowExitConfirm(true)} className="btn btn-secondary" style={{ fontSize: 11, padding: '6px 12px', height: 'auto', minHeight: 'unset' }}>
+                        <button onClick={() => setShowExitConfirm(true)} className="btn btn-secondary btn-compact">
                             <ArrowLeft size={14} aria-hidden="true" /> Salir
                         </button>
                         <div>
-                            <h2 className="page-header-title" style={{ fontSize: 18 }}>Sesión en Curso</h2>
+                            <h2 className="page-header-title text-lg">Sesión en Curso</h2>
                             <p className="page-header-subtitle">
                                 {participant?.name} · {session?.platformTested}
                             </p>
                         </div>
                     </div>
                     <div className="runner-header-right">
-                        <span className="badge badge-completada" style={{ padding: '6px 12px', gap: 'var(--space-2)', borderRadius: 'var(--radius-full)' }}>
+                        <span className="badge badge-completada runner-status-badge">
                             <CheckCircle2 size={14} aria-hidden="true" />
                             <span>{completedCount}/{tasks.length} tareas</span>
                         </span>
@@ -372,7 +371,7 @@ export default function SessionRunner() {
                                 {/* Tab content */}
                                 <div className="runner-sidebar-content soft-scrollbar">
                                     {scriptTab === 'intro' && (
-                                        <div className="runner-script-text" style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-normal)' }}>
+                                        <div className="runner-script-text runner-script-text--sm">
                                             {script.introduction}
                                         </div>
                                     )}
@@ -395,7 +394,7 @@ export default function SessionRunner() {
                                         </div>
                                     )}
                                     {scriptTab === 'closing' && (
-                                        <div className="runner-script-text" style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-normal)' }}>
+                                        <div className="runner-script-text runner-script-text--sm">
                                             {script.closingInstructions}
                                         </div>
                                     )}
@@ -405,16 +404,16 @@ export default function SessionRunner() {
                     )}
 
                     {/* Task observation panel */}
-                    <div className="runner-content-col" style={script ? undefined : { gridColumn: 'span 12' }}>
+                    <div className="runner-content-col">
                         {currentTask && currentObs && (
                             <div className="runner-obs-card">
                                 {/* Task header */}
                                 <div className="runner-obs-header">
-                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)' }}>
+                                    <div className="runner-obs-header-layout">
                                         <div className="runner-task-badge">
                                             T{currentTask.taskNumber}
                                         </div>
-                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                        <div className="runner-obs-header-info">
                                             <h3 className="runner-obs-title">{currentTask.scenario}</h3>
                                             {currentTask.expectedResult && (
                                                 <p className="runner-obs-meta-row">
@@ -463,8 +462,8 @@ export default function SessionRunner() {
                                                 </select>
                                             </div>
                                             <div>
-                                                <label className="form-label">Tiempo (seg) <span style={{ color: 'var(--color-error)' }}>*</span></label>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                                                <label className="form-label">Tiempo (seg) <span className="form-required">*</span></label>
+                                                <div className="form-time-input-row">
                                                     <input
                                                         type="number"
                                                         value={currentObs.timeSeconds || ''}
@@ -485,7 +484,7 @@ export default function SessionRunner() {
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="form-label">Errores <span style={{ color: 'var(--color-error)' }}>*</span></label>
+                                                <label className="form-label">Errores <span className="form-required">*</span></label>
                                                 <input
                                                     type="number"
                                                     value={currentObs.errorCount}
@@ -506,7 +505,7 @@ export default function SessionRunner() {
                                             </div>
                                         </div>
 
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+                                        <div className="runner-checkbox-row">
                                             <input
                                                 id={`completedWithoutIssues-${activeTaskIndex}`}
                                                 type="checkbox"
@@ -525,9 +524,9 @@ export default function SessionRunner() {
                                                         updateObservation(activeTaskIndex, 'severity', 'Medium')
                                                     }
                                                 }}
-                                                style={{ width: 16, height: 16, cursor: 'pointer' }}
+                                                className="runner-checkbox-input"
                                             />
-                                            <label htmlFor={`completedWithoutIssues-${activeTaskIndex}`} className="form-label" style={{ margin: 0, cursor: 'pointer', fontWeight: 'var(--font-weight-semibold)' }}>
+                                            <label htmlFor={`completedWithoutIssues-${activeTaskIndex}`} className="form-label runner-checkbox-label">
                                                 ✨ ¿La tarea se completó exitosamente sin ninguna anomalía o incomodidad?
                                             </label>
                                         </div>
@@ -551,7 +550,7 @@ export default function SessionRunner() {
                                                 <div>
                                                     <label className="form-label">
                                                         Problema detectado
-                                                        {(!currentObs.taskSuccess || currentObs.errorCount > 0) && <span style={{ color: 'var(--color-error)' }}> *</span>}
+                                                        {(!currentObs.taskSuccess || currentObs.errorCount > 0) && <span className="form-required"> *</span>}
                                                     </label>
                                                     <textarea
                                                         value={currentObs.detectedProblem}
@@ -575,19 +574,8 @@ export default function SessionRunner() {
                                                 </div>
                                             </>
                                         ) : (
-                                            <div style={{
-                                                padding: 'var(--space-4)',
-                                                borderRadius: 'var(--radius-md)',
-                                                background: 'rgba(16, 185, 129, 0.06)',
-                                                border: '1px dashed rgba(16, 185, 129, 0.3)',
-                                                color: 'var(--color-success-text)',
-                                                fontSize: 'var(--font-size-sm)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 'var(--space-2)',
-                                                margin: 'var(--space-3) 0'
-                                            }}>
-                                                <CheckCircle2 size={16} style={{ color: 'var(--color-success)' }} />
+                                            <div className="runner-success-callout">
+                                                <CheckCircle2 size={16} className="text-success" />
                                                 <span>✨ Tarea completada limpiamente. No se requiere reportar severidad, anomalías ni propuestas de mejora.</span>
                                             </div>
                                         )}
@@ -618,20 +606,19 @@ export default function SessionRunner() {
                                             <button
                                                 type="button"
                                                 onClick={() => handleSubmitTask(activeTaskIndex)}
-                                                className="btn btn-primary"
-                                                style={{ padding: '10px 24px' }}
+                                                className="btn btn-primary btn-runner-submit"
                                             >
                                                 {activeTaskIndex < tasks.length - 1 ? (
-                                                    <>Registrar y Siguiente <ArrowRight size={16} aria-hidden="true" style={{ marginLeft: 6 }} /></>
+                                                    <>Registrar y Siguiente <ArrowRight size={16} aria-hidden="true" className="ml-1" /></>
                                                 ) : (
-                                                    <>Registrar Última Tarea <CheckCircle2 size={16} aria-hidden="true" style={{ marginLeft: 6 }} /></>
+                                                    <>Registrar Última Tarea <CheckCircle2 size={16} aria-hidden="true" className="ml-1" /></>
                                                 )}
                                             </button>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="runner-task-complete-panel">
-                                        <CheckCircle2 size={48} style={{ color: 'var(--color-success)', margin: '0 auto var(--space-3)' }} aria-hidden="true" />
+                                        <CheckCircle2 size={48} className="runner-task-complete-icon" aria-hidden="true" />
                                         <h4 className="runner-task-complete-title">Tarea registrada</h4>
                                         <p className="runner-task-complete-desc">
                                             {currentObs.taskSuccess ? '✓ Completada exitosamente' : '✗ No completada'} · {currentObs.timeSeconds}s · {currentObs.errorCount} errores
@@ -654,8 +641,8 @@ export default function SessionRunner() {
                                             : ''
                                         }`}
                                 >
-                                    <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)' }}>T{t.taskNumber}</div>
-                                    <div style={{ fontSize: 10, marginTop: 4, opacity: 0.8 }}>
+                                    <div className="runner-selector-title">T{t.taskNumber}</div>
+                                    <div className="runner-selector-sub">
                                         {observations[i].submitted ? '✓ Hecha' : i === activeTaskIndex ? '● Actual' : '○ Pendiente'}
                                     </div>
                                 </button>
@@ -668,7 +655,7 @@ export default function SessionRunner() {
                     <div className="modal-body">
                         <div className="warning-banner">
                             <AlertTriangle size={20} className="flex-shrink-0" aria-hidden="true" />
-                            <div style={{ fontSize: 'var(--font-size-sm)', lineHeight: 'var(--line-height)' }}>
+                            <div className="modal-confirm-text">
                                 Se perderán las observaciones no guardadas.<br />
                                 <strong>{completedCount} de {tasks.length}</strong> tareas estaban registradas.
                             </div>
@@ -689,10 +676,10 @@ export default function SessionRunner() {
             <div className="runner-page-narrow">
                 {/* Hero */}
                 <div className="runner-hero-card runner-hero-card--emerald">
-                    <div style={{ position: 'relative', zIndex: 10 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+                    <div className="runner-hero-content">
+                        <div className="runner-badge-wrapper">
                             <span className="runner-badge-pill">
-                                <Sparkles size={14} style={{ color: 'var(--color-success-300)' }} aria-hidden="true" />
+                                <Sparkles size={14} className="runner-sparkles-icon" aria-hidden="true" />
                                 Cierre de Sesión
                             </span>
                         </div>
@@ -726,30 +713,30 @@ export default function SessionRunner() {
                 {/* Summary */}
                 <div className="runner-summary-card">
                     <div className="runner-summary-header">
-                        <h3 className="runner-section-title" style={{ fontSize: 'var(--font-size-sm)' }}>Resumen de Observaciones</h3>
+                        <h3 className="runner-section-title runner-section-title--sm">Resumen de Observaciones</h3>
                     </div>
                     <div className="runner-summary-body">
                         {tasks.map((t: any, i: number) => {
                             const obs = observations[i]
                             return (
                                 <div key={t.id} className={`runner-summary-item ${obs.submitted ? 'is-complete' : 'is-pending'}`}>
-                                    <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-md)', background: 'var(--surface-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-secondary)', flexShrink: 0 }}>
+                                    <div className="runner-summary-badge">
                                         T{t.taskNumber}
                                     </div>
-                                    <div style={{ flex: 1, minWidth: 0 }}>
-                                        <p className="runner-section-title" style={{ fontSize: 'var(--font-size-sm)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.scenario}</p>
+                                    <div className="runner-summary-text-col">
+                                        <p className="runner-section-title runner-summary-scenario-title">{t.scenario}</p>
                                     </div>
                                     {obs.submitted ? (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', fontSize: 'var(--font-size-xs)' }}>
+                                        <div className="runner-summary-meta">
                                             {obs.taskSuccess
-                                                ? <span style={{ color: 'var(--color-success-text)', fontWeight: 'var(--font-weight-bold)', display: 'inline-flex', alignItems: 'center', gap: 4 }}><CheckCircle2 size={12} /> Éxito</span>
-                                                : <span style={{ color: 'var(--color-error-text)', fontWeight: 'var(--font-weight-bold)', display: 'inline-flex', alignItems: 'center', gap: 4 }}><XCircle size={12} /> Fallo</span>
+                                                ? <span className="runner-summary-success"><CheckCircle2 size={12} /> Éxito</span>
+                                                : <span className="runner-summary-error"><XCircle size={12} /> Fallo</span>
                                             }
                                             <span className="observations-mono-badge">{obs.timeSeconds}s</span>
-                                            <span style={{ color: 'var(--text-secondary)' }}>{obs.errorCount} err</span>
+                                            <span className="text-secondary">{obs.errorCount} err</span>
                                         </div>
                                     ) : (
-                                        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-disabled)', fontStyle: 'italic' }}>No registrada</span>
+                                        <span className="runner-summary-unregistered">No registrada</span>
                                     )}
                                 </div>
                             )
@@ -776,12 +763,12 @@ export default function SessionRunner() {
     // ──────────── SAVED PHASE ────────────
     if (phase === 'saved') {
         return (
-            <div className="dashboard-loader" style={{ padding: 'var(--space-20) 0', animation: 'rise 0.4s ease-out' }}>
+            <div className="dashboard-loader py-20 animate-rise">
                 <div className="runner-success-icon-box">
-                    <CheckCircle2 size={40} style={{ color: 'var(--color-success)' }} aria-hidden="true" />
+                    <CheckCircle2 size={40} className="text-success" aria-hidden="true" />
                 </div>
-                <h2 className="runner-section-title" style={{ fontSize: 22, textAlign: 'center', marginBottom: 8 }}>Sesión Guardada</h2>
-                <p className="dashboard-loader-text" style={{ marginTop: 0 }}>Redirigiendo al listado de sesiones...</p>
+                <h2 className="runner-section-title runner-saved-title">Sesión Guardada</h2>
+                <p className="dashboard-loader-text mt-0">Redirigiendo al listado de sesiones...</p>
             </div>
         )
     }
