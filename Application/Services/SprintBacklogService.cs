@@ -560,9 +560,9 @@ ESTRUCTURA JSON REQUERIDA:
         public async Task<string> ChatAsync(string prompt, string activePageName, string contextJson)
         {
             var apiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY");
-            if (string.IsNullOrEmpty(apiKey))
+            if (string.IsNullOrWhiteSpace(apiKey) || apiKey.Contains("TU_API_KEY") || apiKey.Contains("AQUI"))
             {
-                return "⚠️ **Asistente de Copiloto IA:** El servidor no tiene configurada la variable de entorno `GEMINI_API_KEY`. Por favor, configura tu API Key de Gemini en el archivo `.env` del servidor para habilitar el asistente de IA.";
+                return "⚠️ **Asistente de Copiloto IA:** El servidor no tiene configurada una API Key de Gemini válida. Configura la variable de entorno `GEMINI_API_KEY` en el archivo `.env` del servidor para habilitar el asistente de IA.";
             }
 
             var systemPrompt = $@"
@@ -628,24 +628,36 @@ INSTRUCCIONES DE RESPUESTA:
                 }
             };
 
-            var model = GetGeminiModel();
-            var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
-            var httpContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+            try
+            {
+                var model = GetGeminiModel();
+                var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
+                var httpContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(url, httpContent);
-            response.EnsureSuccessStatusCode();
+                var response = await _httpClient.PostAsync(url, httpContent);
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var jsonDoc = JsonDocument.Parse(responseBody);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    return $"⚠️ **Asistente de Copiloto IA:** No se pudo conectar con el servicio de IA (código {response.StatusCode}). Verifica que tu `GEMINI_API_KEY` sea válida. Detalle: {errorBody}";
+                }
 
-            var reply = jsonDoc.RootElement
-                .GetProperty("candidates")[0]
-                .GetProperty("content")
-                .GetProperty("parts")[0]
-                .GetProperty("text")
-                .GetString();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var jsonDoc = JsonDocument.Parse(responseBody);
 
-            return reply ?? "El modelo de IA devolvió una respuesta vacía.";
+                var reply = jsonDoc.RootElement
+                    .GetProperty("candidates")[0]
+                    .GetProperty("content")
+                    .GetProperty("parts")[0]
+                    .GetProperty("text")
+                    .GetString();
+
+                return reply ?? "El modelo de IA devolvió una respuesta vacía.";
+            }
+            catch (Exception ex)
+            {
+                return $"⚠️ **Asistente de Copiloto IA:** Error al contactar con el servicio de IA: {ex.Message}. Verifica tu `GEMINI_API_KEY` en el archivo `.env`.";
+            }
         }
 
         private SprintBacklogDto MapToDto(SprintBacklog backlog)

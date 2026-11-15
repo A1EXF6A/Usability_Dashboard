@@ -1,0 +1,197 @@
+navegador
+Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+index-0VOTRae1.js:13  POST http://localhost:5000/api/TestPlans 500 (Internal Server Error)
+contenedores
+postrgres
+2026-11-10 00:00:59.850 | 
+2026-11-10 00:00:59.850 | PostgreSQL Database directory appears to contain a database; Skipping initialization
+2026-11-10 00:00:59.850 | 
+2026-11-10 00:00:59.982 | 2026-11-10 05:00:59.982 UTC [1] LOG:  starting PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-11-10 00:00:59.982 | 2026-11-10 05:00:59.982 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-11-10 00:00:59.982 | 2026-11-10 05:00:59.982 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-11-10 00:00:59.987 | 2026-11-10 05:00:59.987 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-11-10 00:00:59.993 | 2026-11-10 05:00:59.993 UTC [30] LOG:  database system was shut down at 2026-11-10 04:53:42 UTC
+2026-11-10 00:01:00.002 | 2026-11-10 05:01:00.002 UTC [1] LOG:  database system is ready to accept connections
+dashboard api
+2026-11-10 00:01:05.521 | === Usability Dashboard API - Starting ===
+2026-11-10 00:01:05.521 | === Starting API Server ===
+2026-11-10 00:01:05.874 | Applying database migrations...
+2026-11-10 00:01:06.819 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:06.819 |       Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:06.819 |       SELECT "MigrationId", "ProductVersion"
+2026-11-10 00:01:06.819 |       FROM "__EFMigrationsHistory"
+2026-11-10 00:01:06.819 |       ORDER BY "MigrationId";
+2026-11-10 00:01:06.982 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:06.982 |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:06.982 |       SELECT 1
+2026-11-10 00:01:07.031 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:07.032 |       Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:07.032 |       CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+2026-11-10 00:01:07.032 |           "MigrationId" character varying(150) NOT NULL,
+2026-11-10 00:01:07.032 |           "ProductVersion" character varying(32) NOT NULL,
+2026-11-10 00:01:07.032 |           CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+2026-11-10 00:01:07.032 |       );
+2026-11-10 00:01:07.042 | info: Microsoft.EntityFrameworkCore.Migrations[20411]
+2026-11-10 00:01:07.042 |       Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-11-10 00:01:07.043 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:07.043 |       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:07.043 |       LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2026-11-10 00:01:07.044 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:07.044 |       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:07.044 |       SELECT "MigrationId", "ProductVersion"
+2026-11-10 00:01:07.044 |       FROM "__EFMigrationsHistory"
+2026-11-10 00:01:07.044 |       ORDER BY "MigrationId";
+2026-11-10 00:01:07.048 | info: Microsoft.EntityFrameworkCore.Migrations[20405]
+2026-11-10 00:01:07.048 |       No migrations were applied. The database is already up to date.
+2026-11-10 00:01:07.050 | Database migrations applied.
+2026-11-10 00:01:07.150 | warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+2026-11-10 00:01:07.150 |       Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:8080'.
+2026-11-10 00:01:07.228 | info: Microsoft.Hosting.Lifetime[14]
+2026-11-10 00:01:07.229 |       Now listening on: http://[::]:8080
+2026-11-10 00:01:07.229 | info: Microsoft.Hosting.Lifetime[0]
+2026-11-10 00:01:07.229 |       Application started. Press Ctrl+C to shut down.
+2026-11-10 00:01:07.229 | info: Microsoft.Hosting.Lifetime[0]
+2026-11-10 00:01:07.229 |       Hosting environment: Development
+2026-11-10 00:01:07.229 | info: Microsoft.Hosting.Lifetime[0]
+2026-11-10 00:01:07.229 |       Content root path: /app
+2026-11-10 00:01:32.395 | warn: LuckyPennySoftware.AutoMapper.License[0]
+2026-11-10 00:01:32.395 |       You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-10 00:01:32.640 | info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+2026-11-10 00:01:32.640 |       Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:32.640 |       SELECT t."Id", t."CreatedAt", t."EndDate", t."EstimatedDuration", t."EvaluatedModule", t."IsActive", t."Location", t."Methodology", t."Objective", t."Product", t."ProjectName", t."Scope", t."StartDate", t."Status", t."UpdatedAt", t."UserProfile", t."WorkflowState"
+2026-11-10 00:01:32.640 |       FROM "TestPlans" AS t
+2026-11-10 00:01:32.640 |       WHERE t."IsActive"
+2026-11-10 00:01:32.880 | === CurrentValue CreatedAt: 11/10/2026 05:01:32 ===
+2026-11-10 00:01:32.929 | fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+2026-11-10 00:01:32.929 |       Failed executing DbCommand (7ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?', @p14='?' (DbType = DateTime), @p15='?', @p16='?'], CommandType='Text', CommandTimeout='30']
+2026-11-10 00:01:32.929 |       INSERT INTO "TestPlans" ("Id", "CreatedAt", "EndDate", "EstimatedDuration", "EvaluatedModule", "IsActive", "Location", "Methodology", "Objective", "Product", "ProjectName", "Scope", "StartDate", "Status", "UpdatedAt", "UserProfile", "WorkflowState")
+2026-11-10 00:01:32.929 |       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16);
+2026-11-10 00:01:32.950 | fail: Microsoft.EntityFrameworkCore.Update[10000]
+2026-11-10 00:01:32.950 |       An exception occurred in the database while saving changes for context type 'Infrastructure.Persistence.AppDbContext'.
+2026-11-10 00:01:32.950 |       Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+2026-11-10 00:01:32.950 |        ---> System.ArgumentException: Cannot write DateTime with Kind=Unspecified to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(DateTime value, Nullable`1 expectedPgTypeId, Boolean validateOnly)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver.<>c.<CreateResolver>b__0_0(DateTimeConverterResolver`1 resolver, DateTime value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(T value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgConverterResolver`1.GetAsObjectInternal(PgTypeInfo typeInfo, Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgResolverTypeInfo.GetResolutionAsObject(Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgTypeInfo.GetObjectResolution(Object value)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameter.ResolveConverter(PgTypeInfo typeInfo)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options, IDbTypeResolver dbTypeResolver)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameterCollection.ProcessParameters(ReloadableState reloadableState, Boolean validateValues, CommandType commandType)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          --- End of inner exception stack trace ---
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |       Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+2026-11-10 00:01:32.950 |        ---> System.ArgumentException: Cannot write DateTime with Kind=Unspecified to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(DateTime value, Nullable`1 expectedPgTypeId, Boolean validateOnly)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver.<>c.<CreateResolver>b__0_0(DateTimeConverterResolver`1 resolver, DateTime value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(T value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgConverterResolver`1.GetAsObjectInternal(PgTypeInfo typeInfo, Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgResolverTypeInfo.GetResolutionAsObject(Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.950 |          at Npgsql.Internal.PgTypeInfo.GetObjectResolution(Object value)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameter.ResolveConverter(PgTypeInfo typeInfo)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options, IDbTypeResolver dbTypeResolver)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlParameterCollection.ProcessParameters(ReloadableState reloadableState, Boolean validateValues, CommandType commandType)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          --- End of inner exception stack trace ---
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-11-10 00:01:32.950 |          at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 | fail: UsabilityDashboard_API.Middlewares.ExceptionMiddleware[0]
+2026-11-10 00:01:32.960 |       Unexpected error
+2026-11-10 00:01:32.960 |       Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+2026-11-10 00:01:32.960 |        ---> System.ArgumentException: Cannot write DateTime with Kind=Unspecified to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(DateTime value, Nullable`1 expectedPgTypeId, Boolean validateOnly)
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.Converters.DateTimeConverterResolver.<>c.<CreateResolver>b__0_0(DateTimeConverterResolver`1 resolver, DateTime value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(T value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.PgConverterResolver`1.GetAsObjectInternal(PgTypeInfo typeInfo, Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.PgResolverTypeInfo.GetResolutionAsObject(Object value, Nullable`1 expectedPgTypeId)
+2026-11-10 00:01:32.960 |          at Npgsql.Internal.PgTypeInfo.GetObjectResolution(Object value)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlParameter.ResolveConverter(PgTypeInfo typeInfo)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options, IDbTypeResolver dbTypeResolver)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlParameterCollection.ProcessParameters(ReloadableState reloadableState, Boolean validateValues, CommandType commandType)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          --- End of inner exception stack trace ---
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-11-10 00:01:32.960 |          at Infrastructure.Persistence.AppDbContext.SaveChangesAsync(CancellationToken cancellationToken) in /src/Infrastructure/Persistence/AppDbContext.cs:line 38
+2026-11-10 00:01:32.960 |          at Infrastructure.Persistence.GenericRepository`1.AddAsync(T entity) in /src/Infrastructure/Persistence/GenericRepository.cs:line 54
+2026-11-10 00:01:32.960 |          at Application.Services.TestPlanService.CreateAsync(CreateTestPlanDto dto) in /src/Application/Services/TestPlanService.cs:line 57
+2026-11-10 00:01:32.960 |          at UsabilityDashboard_API.Controllers.TestPlansController.Create(CreateTestPlanDto dto) in /src/UsabilityDashboard_API/Controllers/TestPlansController.cs:line 35
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+2026-11-10 00:01:32.960 |       --- End of stack trace from previous location ---
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+2026-11-10 00:01:32.960 |          at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+2026-11-10 00:01:32.960 |          at UsabilityDashboard_API.Middlewares.ExceptionMiddleware.InvokeAsync(HttpContext context) in /src/UsabilityDashboard_API/Middlewares/ExceptionMiddleware.cs:line 22
+dashboard frontend
+2026-11-10 00:01:11.234 | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+2026-11-10 00:01:11.234 | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+2026-11-10 00:01:11.235 | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+2026-11-10 00:01:11.246 | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+2026-11-10 00:01:11.266 | 10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf differs from the packaged version
+2026-11-10 00:01:11.266 | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+2026-11-10 00:01:11.267 | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+2026-11-10 00:01:11.271 | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+2026-11-10 00:01:11.274 | /docker-entrypoint.sh: Configuration complete; ready for start up
+2026-11-10 00:01:11.295 | 2026/11/10 05:01:11 [notice] 1#1: using the "epoll" event method
+2026-11-10 00:01:11.295 | 2026/11/10 05:01:11 [notice] 1#1: nginx/1.31.8
+2026-11-10 00:01:11.295 | 2026/11/10 05:01:11 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+2026-11-10 00:01:11.295 | 2026/11/10 05:01:11 [notice] 1#1: OS: Linux 6.18.33.2-microsoft-standard-WSL2
+2026-11-10 00:01:11.295 | 2026/11/10 05:01:11 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026-11-10 00:01:11.296 | 2026/11/10 05:01:11 [notice] 1#1: start worker processes
+2026-11-10 00:01:11.297 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 29
+2026-11-10 00:01:11.297 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 30
+2026-11-10 00:01:11.297 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 31
+2026-11-10 00:01:11.298 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 32
+2026-11-10 00:01:11.298 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 33
+2026-11-10 00:01:11.299 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 34
+2026-11-10 00:01:11.299 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 35
+2026-11-10 00:01:11.300 | 2026/11/10 05:01:11 [notice] 1#1: start worker process 36
+2026-11-10 00:01:32.680 | 172.18.0.1 - - [10/Nov/2026:05:01:32 +0000] "GET /api/TestPlans HTTP/1.1" 200 33 "http://localhost:5000/planes" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+2026-11-10 00:01:32.965 | 172.18.0.1 - - [10/Nov/2026:05:01:32 +0000] "POST /api/TestPlans HTTP/1.1" 500 84 "http://localhost:5000/planes" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+

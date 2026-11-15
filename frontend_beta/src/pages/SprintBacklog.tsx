@@ -233,6 +233,10 @@ export default function SprintBacklog() {
 
             if (res.data && res.data.contentJson) {
                 const parsed = JSON.parse(res.data.contentJson) as BacklogData
+                // Asegurar que userStories sea un array válido antes de renderizar
+                if (!parsed.userStories || !Array.isArray(parsed.userStories)) {
+                    parsed.userStories = []
+                }
                 setBacklogData(parsed)
                 addToast('¡Sprint Backlog generado exitosamente!', 'success')
 
@@ -293,7 +297,7 @@ export default function SprintBacklog() {
 
     const handleUpdateStoryField = (storyIndex: number, field: keyof UserStory, value: any) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex] = {
             ...updatedStories[storyIndex],
             [field]: value
@@ -307,21 +311,21 @@ export default function SprintBacklog() {
     // Acceptance Criteria operations
     const handleAddCriterion = (storyIndex: number) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex].acceptanceCriteria.push('')
         setBacklogData({ ...backlogData, userStories: updatedStories })
     }
 
     const handleUpdateCriterion = (storyIndex: number, criterionIndex: number, value: string) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex].acceptanceCriteria[criterionIndex] = value
         setBacklogData({ ...backlogData, userStories: updatedStories })
     }
 
     const handleDeleteCriterion = (storyIndex: number, criterionIndex: number) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex].acceptanceCriteria.splice(criterionIndex, 1)
         setBacklogData({ ...backlogData, userStories: updatedStories })
     }
@@ -329,7 +333,7 @@ export default function SprintBacklog() {
     // Technical Tasks operations
     const handleAddTask = (storyIndex: number) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         const storyId = updatedStories[storyIndex].id
         const taskNum = updatedStories[storyIndex].technicalTasks.length + 1
 
@@ -343,7 +347,7 @@ export default function SprintBacklog() {
 
     const handleUpdateTaskField = (storyIndex: number, taskIndex: number, field: keyof TechnicalTask, value: any) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex].technicalTasks[taskIndex] = {
             ...updatedStories[storyIndex].technicalTasks[taskIndex],
             [field]: value
@@ -353,7 +357,7 @@ export default function SprintBacklog() {
 
     const handleDeleteTask = (storyIndex: number, taskIndex: number) => {
         if (!backlogData) return
-        const updatedStories = [...backlogData.userStories]
+        const updatedStories = [...stories]
         updatedStories[storyIndex].technicalTasks.splice(taskIndex, 1)
 
         // Re-index tasks for clean output IDs
@@ -369,7 +373,7 @@ export default function SprintBacklog() {
     // Global Story operations
     const handleAddStory = () => {
         if (!backlogData) return
-        const nextIndex = backlogData.userStories.length + 1
+        const nextIndex = stories.length + 1
         const newStory: UserStory = {
             id: `US-${nextIndex}`,
             title: 'Nueva Historia de Usuario',
@@ -383,7 +387,7 @@ export default function SprintBacklog() {
         }
         setBacklogData({
             ...backlogData,
-            userStories: [...backlogData.userStories, newStory]
+            userStories: [...stories, newStory]
         })
         addToast('Nueva Historia de Usuario agregada al borrador', 'success')
     }
@@ -395,7 +399,7 @@ export default function SprintBacklog() {
     const confirmDeleteStory = (storyIndex: number) => {
         if (!backlogData) return
 
-        const updatedStories = backlogData.userStories.filter((_, idx) => idx !== storyIndex)
+        const updatedStories = stories.filter((_, idx) => idx !== storyIndex)
             // Re-index stories for clean serial IDs
             .map((us, idx) => {
                 const nextId = `US-${idx + 1}`
@@ -419,15 +423,15 @@ export default function SprintBacklog() {
     // Reorder stories
     const handleMoveStory = (storyIndex: number, direction: 'up' | 'down') => {
         if (!backlogData) return
-        const stories = [...backlogData.userStories]
+        const storyList = [...stories]
         const targetIndex = direction === 'up' ? storyIndex - 1 : storyIndex + 1
-        if (targetIndex < 0 || targetIndex >= stories.length) return
+        if (targetIndex < 0 || targetIndex >= storyList.length) return
 
         // Swap
-        ;[stories[storyIndex], stories[targetIndex]] = [stories[targetIndex], stories[storyIndex]]
+        ;[storyList[storyIndex], storyList[targetIndex]] = [storyList[targetIndex], storyList[storyIndex]]
 
         // Re-index IDs
-        const reindexed = stories.map((us, idx) => ({
+        const reindexed = storyList.map((us, idx) => ({
             ...us,
             id: `US-${idx + 1}`,
             technicalTasks: us.technicalTasks.map((t, tIdx) => ({
@@ -452,34 +456,82 @@ export default function SprintBacklog() {
 
     // --- Export Utilities ---
     const generateMarkdownContent = (data: BacklogData) => {
-        let md = `# Sprint Backlog: ${data.sprintName}\n\n`
-        md += `**Meta del Sprint (Sprint Goal):**\n`
-        md += `> ${data.sprintGoal}\n\n`
-        md += `---\n\n`
-        md += `## Historias de Usuario e Incremento del Product Backlog\n\n`
+        const sprintName = data.sprintName || 'Sin nombre';
+        const sprintGoal = data.sprintGoal || '';
+        const stories = data.userStories ?? [];
+        const totalHours = stories.reduce(
+            (total, us) => total + (us?.technicalTasks?.reduce((sum, t) => sum + (t?.estimatedHours || 0), 0) || 0),
+            0
+        );
+        const storiesByPriority = {
+            Alta: stories.filter(s => s.priority === 'Alta').length,
+            Media: stories.filter(s => s.priority === 'Media').length,
+            Baja: stories.filter(s => s.priority === 'Baja').length,
+        };
 
-        data.userStories.forEach(us => {
-            md += `### 📋 [${us.id}] ${us.title}\n\n`
-            md += `**Descripción:**\n`
-            md += `\`${us.description}\`\n\n`
-            md += `* **Prioridad:** ${us.priority}\n\n`
+        let md = `# Sprint Backlog: ${sprintName}\n\n`;
+        md += `**Meta del Sprint (Sprint Goal):**\n`;
+        md += `> ${sprintGoal}\n\n`;
+        md += `---\n\n`;
 
-            md += `**Criterios de Aceptación:**\n`
-            us.acceptanceCriteria.forEach(ac => {
-                md += `- [ ] ${ac}\n`
-            })
-            md += `\n`
+        md += `## Información del Proyecto\n\n`;
+        md += `- **Proyecto Evaluado:** ${activePlan?.projectName || 'N/A'}\n`;
+        md += `- **Producto:** ${activePlan?.product || 'N/A'}\n`;
+        md += `- **Módulo Evaluado:** ${activePlan?.evaluatedModule || 'N/A'}\n`;
+        md += `- **Sprint:** ${sprintName}\n`;
+        md += `- **Esfuerzo Total:** ${totalHours} horas estimadas\n`;
+        md += `- **Fecha de Emisión:** ${new Date().toLocaleDateString('es-ES')}\n\n`;
 
-            md += `**Tareas Técnicas y Estimaciones:**\n`
-            md += `| ID Tarea | Descripción de la Tarea Técnica | Esfuerzo Estimado |\n`
-            md += `| :--- | :--- | :--- |\n`
-            us.technicalTasks.forEach(task => {
-                md += `| ${task.id} | ${task.title} | ${task.estimatedHours} horas |\n`
-            })
-            md += `\n---\n\n`
-        })
+        md += `---\n\n`;
+        md += `## Métricas del Sprint\n\n`;
+        md += `| Métrica | Valor |\n`;
+        md += `| :--- | :--- |\n`;
+        md += `| Historias de Usuario | ${stories.length} |\n`;
+        md += `| Prioridad Alta | ${storiesByPriority.Alta} |\n`;
+        md += `| Prioridad Media | ${storiesByPriority.Media} |\n`;
+        md += `| Prioridad Baja | ${storiesByPriority.Baja} |\n`;
+        md += `| Esfuerzo Total Estimado | ${totalHours} horas |\n\n`;
 
-        return md
+        md += `---\n\n`;
+        md += `## Historias de Usuario e Incremento del Product Backlog\n\n`;
+
+        stories.forEach((us) => {
+            const priorityLabel = us.priority === 'Alta' ? 'Alta' : us.priority === 'Media' ? 'Media' : 'Baja';
+            md += `### 📋 [${us.id}] ${us.title}\n\n`;
+            md += `**Prioridad:** ${priorityLabel}\n\n`;
+            if (us.origen_hallazgo) {
+                md += `**Origen:** ${us.origen_hallazgo}\n\n`;
+            }
+            md += `**Descripción:**\n`;
+            md += `\`${us.description}\`\n\n`;
+
+            md += `**Criterios de Aceptación:**\n`;
+            if (us.acceptanceCriteria && us.acceptanceCriteria.length > 0) {
+                us.acceptanceCriteria.forEach((ac, acIdx) => {
+                    md += `${acIdx + 1}. ${ac}\n`;
+                });
+            } else {
+                md += `Sin criterios de aceptación definidos.\n`;
+            }
+            md += `\n`;
+
+            md += `**Tareas Técnicas y Estimaciones:**\n`;
+            md += `| ID Tarea | Descripción | Esfuerzo Estimado |\n`;
+            md += `| :--- | :--- | :--- |\n`;
+            if (us.technicalTasks && us.technicalTasks.length > 0) {
+                us.technicalTasks.forEach((task) => {
+                    md += `| ${task.id} | ${task.title} | ${task.estimatedHours} horas |\n`;
+                });
+            } else {
+                md += `| - | Sin tareas técnicas asociadas | - |\n`;
+            }
+            md += `\n---\n\n`;
+        });
+
+        md += `---\n\n`;
+        md += `*Documento generado automáticamente por el Usability Test Dashboard - Asistido por IA*\n`;
+
+        return md;
     }
 
     const handleExportMarkdown = () => {
@@ -490,9 +542,10 @@ export default function SprintBacklog() {
         const link = document.createElement('a')
 
         // Clean filename
-        const sanitizedName = backlogData.sprintName.replace(/[^a-z0-9]/gi, '_').toLowerCase()
+        const sprintName = backlogData.sprintName || 'Plan'
+        const sanitizedName = sprintName.replace(/[^a-z0-9]/gi, '_').toLowerCase()
         link.href = url
-        link.setAttribute('download', `Sprint_Backlog_${sanitizedName || 'Plan'}.md`)
+        link.setAttribute('download', `Sprint_Backlog_${sanitizedName}.md`)
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -525,10 +578,12 @@ export default function SprintBacklog() {
         )
     }
 
-    const totalHours = backlogData?.userStories.reduce(
-        (total, us) => total + us.technicalTasks.reduce((sum, t) => sum + (t.estimatedHours || 0), 0),
+    const stories = backlogData?.userStories ?? []
+
+    const totalHours = stories.reduce(
+        (total, us) => total + (us?.technicalTasks?.reduce((sum, t) => sum + (t?.estimatedHours || 0), 0) || 0),
         0
-    ) || 0
+    )
 
     return (
         <div className="page-container" style={{ paddingBottom: 'var(--space-10)' }}>
@@ -783,7 +838,7 @@ export default function SprintBacklog() {
                                     <Layers size={18} />
                                 </div>
                                 <div className="sprint-kpi-content">
-                                    <span className="sprint-kpi-value">{backlogData.userStories.length}</span>
+                                    <span className="sprint-kpi-value">{stories.length}</span>
                                     <span className="sprint-kpi-label">Historias</span>
                                 </div>
                             </div>
@@ -801,7 +856,7 @@ export default function SprintBacklog() {
                                     <TrendingUp size={18} />
                                 </div>
                                 <div className="sprint-kpi-content">
-                                    <span className="sprint-kpi-value">{backlogData.userStories.filter(s => s.priority === 'Alta').length}</span>
+                                    <span className="sprint-kpi-value">{stories.filter(s => s.priority === 'Alta').length}</span>
                                     <span className="sprint-kpi-label">Prioridad Alta</span>
                                 </div>
                             </div>
@@ -810,7 +865,7 @@ export default function SprintBacklog() {
                                     <Minus size={18} />
                                 </div>
                                 <div className="sprint-kpi-content">
-                                    <span className="sprint-kpi-value">{backlogData.userStories.filter(s => s.priority === 'Media').length}</span>
+                                    <span className="sprint-kpi-value">{stories.filter(s => s.priority === 'Media').length}</span>
                                     <span className="sprint-kpi-label">Prioridad Media</span>
                                 </div>
                             </div>
@@ -819,7 +874,7 @@ export default function SprintBacklog() {
                                     <TrendingDown size={18} />
                                 </div>
                                 <div className="sprint-kpi-content">
-                                    <span className="sprint-kpi-value">{backlogData.userStories.filter(s => s.priority === 'Baja').length}</span>
+                                    <span className="sprint-kpi-value">{stories.filter(s => s.priority === 'Baja').length}</span>
                                     <span className="sprint-kpi-label">Prioridad Baja</span>
                                 </div>
                             </div>
@@ -867,7 +922,7 @@ export default function SprintBacklog() {
                         <div className="sprint-stories-header">
                             <h3 className="sprint-stories-title">
                                 <Layers size={16} style={{ color: 'var(--color-primary)' }} />
-                                Historias de Usuario e Incremento ({backlogData.userStories.length})
+                                Historias de Usuario e Incremento ({stories.length})
                             </h3>
 
                             {!isReadOnly && (
@@ -885,7 +940,7 @@ export default function SprintBacklog() {
 
                         {/* Stories Loop */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-                            {backlogData.userStories.map((story, storyIdx) => (
+                            {stories.map((story, storyIdx) => (
                                 <div
                                     key={story.id}
                                     className="sprint-story-card"
@@ -910,7 +965,7 @@ export default function SprintBacklog() {
                                                     type="button"
                                                     className="sprint-reorder-btn"
                                                     onClick={() => handleMoveStory(storyIdx, 'down')}
-                                                    disabled={storyIdx === backlogData.userStories.length - 1}
+                                                    disabled={storyIdx === stories.length - 1}
                                                     title="Mover abajo"
                                                     aria-label={`Mover ${story.id} hacia abajo`}
                                                 >
@@ -1111,10 +1166,10 @@ export default function SprintBacklog() {
                             <div className="sprint-summary-info">
                                 <p className="sprint-summary-subtitle">Sprint Resumen</p>
                                 <h4 className="sprint-summary-title">
-                                    Backlog del Sprint: <span className="sprint-summary-highlight">{backlogData.sprintName}</span>
+                                    Backlog del Sprint: <span className="sprint-summary-highlight">{backlogData?.sprintName || 'Sin nombre'}</span>
                                 </h4>
                                 <p className="sprint-summary-desc">
-                                    Se estimaron <strong style={{ color: 'var(--white)' }}>{totalHours} horas</strong> de esfuerzo técnico distribuidas en <strong style={{ color: 'var(--white)' }}>{backlogData.userStories.length} historias</strong>.
+                                    Se estimaron <strong style={{ color: 'var(--white)' }}>{totalHours} horas</strong> de esfuerzo técnico distribuidas en <strong style={{ color: 'var(--white)' }}>{stories.length} historias</strong>.
                                 </p>
                             </div>
 

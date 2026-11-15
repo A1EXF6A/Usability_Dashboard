@@ -1,4 +1,6 @@
 
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using UsabilityDashboard_API.Extensions;
 using UsabilityDashboard_API.Middlewares;
 
@@ -33,6 +35,16 @@ namespace UsabilityDashboard_API
             builder.Services.AddSwaggerDocs();
             builder.Services.AddCorsPolicy();
             var app = builder.Build();
+
+            // Aplicar migraciones de la base de datos al iniciar (habilitado con AUTO_MIGRATE=true)
+            if (Environment.GetEnvironmentVariable("AUTO_MIGRATE") == "true")
+            {
+                Console.WriteLine("Applying database migrations...");
+                using var scope = app.Services.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate();
+                Console.WriteLine("Database migrations applied.");
+            }
 
             // Configure the HTTP request pipeline.
             var isDocker = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker" ||

@@ -26,10 +26,13 @@ services:
       context: .
       dockerfile: Dockerfile.api
     container_name: usability_dashboard_api
+    env_file:
+      - .env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=UsabilityDashboardDb;Username=postgres;Password=postgres
+      - AUTO_MIGRATE=true
       - DATABASE_SEED=true
     ports:
       - "5062:8080"
