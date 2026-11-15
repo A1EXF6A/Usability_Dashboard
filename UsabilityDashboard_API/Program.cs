@@ -40,10 +40,30 @@ namespace UsabilityDashboard_API
             if (Environment.GetEnvironmentVariable("AUTO_MIGRATE") == "true")
             {
                 Console.WriteLine("Applying database migrations...");
-                using var scope = app.Services.CreateScope();
-                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                dbContext.Database.Migrate();
-                Console.WriteLine("Database migrations applied.");
+                int retryCount = 0;
+                int maxRetries = 10;
+                while (true)
+                {
+                    try
+                    {
+                        using var scope = app.Services.CreateScope();
+                        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                        dbContext.Database.Migrate();
+                        Console.WriteLine("Database migrations applied.");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        retryCount++;
+                        if (retryCount >= maxRetries)
+                        {
+                            Console.WriteLine($"Failed to apply migrations after {maxRetries} attempts: {ex.Message}");
+                            throw;
+                        }
+                        Console.WriteLine($"Migration attempt {retryCount} failed: {ex.Message}. Retrying in 5s...");
+                        Thread.Sleep(5000);
+                    }
+                }
             }
 
             // Configure the HTTP request pipeline.
