@@ -19,6 +19,12 @@ public class AppDbContext : DbContext
     public DbSet<Finding> Findings => Set<Finding>();
     public DbSet<ImprovementAction> ImprovementActions => Set<ImprovementAction>();
     public DbSet<SprintBacklog> SprintBacklogs => Set<SprintBacklog>();
+    public DbSet<UserStory> UserStories => Set<UserStory>();
+    public DbSet<Sprint> Sprints => Set<Sprint>();
+    public DbSet<SprintTask> SprintTasks => Set<SprintTask>();
+    public DbSet<UnplannedTask> UnplannedTasks => Set<UnplannedTask>();
+    public DbSet<DailyLog> DailyLogs => Set<DailyLog>();
+    public DbSet<SprintRetrospective> SprintRetrospectives => Set<SprintRetrospective>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

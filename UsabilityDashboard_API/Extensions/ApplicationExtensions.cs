@@ -25,6 +25,12 @@ public static class ApplicationExtensions
         services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<ITestSessionService, TestSessionService>();
         services.AddScoped<ISprintBacklogService, SprintBacklogService>();
+        
+        // Servicios de IA y SCRUM
+        services.AddHttpClient("GeminiClient");
+        services.AddScoped<IGeminiClient, GeminiClient>();
+        services.AddScoped<IAiAnalysisService, AiAnalysisService>();
+        services.AddScoped<IScrumService, ScrumService>();
 
         return services;
     }

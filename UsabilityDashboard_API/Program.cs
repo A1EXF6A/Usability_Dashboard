@@ -8,7 +8,7 @@ namespace UsabilityDashboard_API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             // Cargar variables de entorno desde el archivo .env si existe
             var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
@@ -44,6 +44,26 @@ namespace UsabilityDashboard_API
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.Migrate();
                 Console.WriteLine("Database migrations applied.");
+            }
+
+            // Seed inicial de SCRUM si DATABASE_SEED=true
+            if (Environment.GetEnvironmentVariable("DATABASE_SEED") == "true")
+            {
+                try
+                {
+                    using var scope = app.Services.CreateScope();
+                    var scrumService = scope.ServiceProvider.GetRequiredService<Application.Interfaces.IScrumService>();
+                    var planService = scope.ServiceProvider.GetRequiredService<Application.Interfaces.ITestPlanService>();
+                    var plans = await planService.GetAllAsync();
+                    foreach (var p in plans)
+                    {
+                        await scrumService.SeedInitialScrumDataAsync(p.Id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Seed Notice] {ex.Message}");
+                }
             }
 
             // Configure the HTTP request pipeline.

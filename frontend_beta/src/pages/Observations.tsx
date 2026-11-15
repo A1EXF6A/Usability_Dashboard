@@ -4,7 +4,8 @@ import { useToast } from '../App'
 import { usePlan } from '../context/PlanContext'
 import { extractErrorMessage } from '../hooks/useApiError'
 import Modal from '../components/Modal'
-import { Plus, Save, Trash2, Eye, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
+import AiObservationsModal from '../components/AiObservationsModal'
+import { Plus, Save, Trash2, Eye, CheckCircle2, XCircle, AlertTriangle, Sparkles } from 'lucide-react'
 
 export default function Observations() {
     const [logs, setLogs] = useState<any[]>([])
@@ -12,6 +13,7 @@ export default function Observations() {
     const [tasks, setTasks] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
+    const [aiModalOpen, setAiModalOpen] = useState(false)
     const [editId, setEditId] = useState<string | null>(null)
     const [logToDelete, setLogToDelete] = useState<any | null>(null)
     const { addToast } = useToast()
@@ -199,14 +201,27 @@ export default function Observations() {
                     <h2 className="page-header-title">Registro de Observación</h2>
                     <p className="page-header-subtitle">Registra resultados por sesión y tarea: éxito, tiempo, errores y severidad</p>
                 </div>
-                <button
-                    onClick={() => { setEditId(null); resetForm(); setShowForm(true) }}
-                    className="btn btn-primary"
-                    disabled={!activePlanId || isReadOnly || sessions.length === 0 || tasks.length === 0}
-                    aria-label="Nuevo Registro"
-                >
-                    <Plus size={18} aria-hidden="true" /> Nuevo Registro
-                </button>
+                <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                    <button
+                        type="button"
+                        onClick={() => setAiModalOpen(true)}
+                        className="btn btn-secondary"
+                        disabled={!activePlanId || logs.length === 0}
+                        title="Abrir Asistente IA de observaciones para clasificar y refinar hallazgos"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', border: '1px solid #818cf8', background: '#f5f3ff', color: '#4338ca', fontWeight: 600 }}
+                    >
+                        <Sparkles size={16} aria-hidden="true" />
+                        Asistente IA de Observaciones
+                    </button>
+                    <button
+                        onClick={() => { setEditId(null); resetForm(); setShowForm(true) }}
+                        className="btn btn-primary"
+                        disabled={!activePlanId || isReadOnly || sessions.length === 0 || tasks.length === 0}
+                        aria-label="Nuevo Registro"
+                    >
+                        <Plus size={18} aria-hidden="true" /> Nuevo Registro
+                    </button>
+                </div>
             </div>
 
             {/* GLB-04: Read-only banner */}
@@ -456,6 +471,16 @@ export default function Observations() {
                     </div>
                 </div>
             </Modal>
+
+            {/* Asistente IA de Observaciones */}
+            {activePlanId && (
+                <AiObservationsModal
+                    isOpen={aiModalOpen}
+                    onClose={() => setAiModalOpen(false)}
+                    planId={activePlanId}
+                    projectName={activePlan?.projectName || ''}
+                />
+            )}
         </div>
     )
 }

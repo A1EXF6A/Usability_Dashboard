@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+using Domain.Common;
 
 namespace Domain.Entities
 {
@@ -15,5 +15,6 @@ namespace Domain.Entities
         public string Tool { get; set; } 
         public TestPlan TestPlan { get; set; }
         public ICollection<ImprovementAction> ImprovementActions { get; set; }
+        public ICollection<UserStory> UserStories { get; set; } = new List<UserStory>();
     }
 }

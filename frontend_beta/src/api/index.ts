@@ -95,4 +95,55 @@ export const sprintBacklogApi = {
     chat: (data: { prompt: string; activePageName: string; contextJson: string }) => api.post('/SprintBacklog/chat', data),
 };
 
+// ── Módulo SCRUM Real ──
+export const scrumApi = {
+    // Product Backlog (Historias de Usuario)
+    getBacklog: (planId: Guid) => api.get(`/scrum/backlog/${planId}`),
+    getStory: (id: Guid) => api.get(`/scrum/story/${id}`),
+    createStory: (data: any) => api.post('/scrum/story', data),
+    updateStory: (id: Guid, data: any) => api.put(`/scrum/story/${id}`, data),
+    deleteStory: (id: Guid) => api.delete(`/scrum/story/${id}`),
+    reorderStories: (planId: Guid, storyIds: Guid[]) => api.post(`/scrum/backlog/reorder/${planId}`, { storyIds }),
+    sortByQuotient: (planId: Guid) => api.post(`/scrum/backlog/sort-by-quotient/${planId}`),
+
+    // Sprints
+    getSprints: (planId: Guid) => api.get(`/scrum/sprints/${planId}`),
+    getSprintDetail: (id: Guid) => api.get(`/scrum/sprint/${id}/detail`),
+    createSprint: (data: any) => api.post('/scrum/sprint', data),
+    updateSprint: (id: Guid, data: any) => api.put(`/scrum/sprint/${id}`, data),
+    deleteSprint: (id: Guid) => api.delete(`/scrum/sprint/${id}`),
+    assignStories: (sprintId: Guid, storyIds: Guid[]) => api.post(`/scrum/sprint/${sprintId}/assign-stories`, { storyIds }),
+
+    // Tareas del Sprint (Kanban)
+    getTasks: (sprintId: Guid) => api.get(`/scrum/tasks/${sprintId}`),
+    createTask: (data: any) => api.post('/scrum/task', data),
+    updateTask: (id: Guid, data: any) => api.put(`/scrum/task/${id}`, data),
+    updateTaskStatus: (id: Guid, status: string) => api.patch(`/scrum/task/${id}/status`, { status }),
+    deleteTask: (id: Guid) => api.delete(`/scrum/task/${id}`),
+
+    // Tareas No Planificadas (TNP)
+    getUnplanned: (sprintId: Guid) => api.get(`/scrum/unplanned/${sprintId}`),
+    createUnplanned: (data: any) => api.post('/scrum/unplanned', data),
+    deleteUnplanned: (id: Guid) => api.delete(`/scrum/unplanned/${id}`),
+
+    // Daily Log
+    getDaily: (sprintId: Guid) => api.get(`/scrum/daily/${sprintId}`),
+    createDaily: (data: any) => api.post('/scrum/daily', data),
+    deleteDaily: (id: Guid) => api.delete(`/scrum/daily/${id}`),
+
+    // Retrospectiva
+    getRetrospective: (sprintId: Guid) => api.get(`/scrum/retrospective/${sprintId}`),
+    saveRetrospective: (sprintId: Guid, data: any) => api.post(`/scrum/retrospective/${sprintId}`, data),
+
+    // Seed y Exportación
+    seed: (planId: Guid) => api.post(`/scrum/seed/${planId}`),
+    exportMatrixUrl: (sprintId: Guid) => `/api/scrum/export-matrix/${sprintId}`,
+};
+
+// ── Asistente IA de Análisis de Observaciones ──
+export const aiApi = {
+    analyzeObservations: (planId: Guid, userApiKey?: string) =>
+        api.post('/ai/analyze-observations', { testPlanId: planId, userApiKey }),
+};
+
 export default api;

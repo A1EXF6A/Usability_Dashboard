@@ -1,15 +1,53 @@
 # Usability Test Dashboard 2.0
 
-**Asignatura:** Interaccion Humano / Computador (HCI)
-**Product Owner:** Saimol Jimenez
-**Stack Tecnologico:** .NET 10 + Entity Framework Core + PostgreSQL + React (TypeScript) + Vite
-**Gestion:** GitHub Projects
+**Universidad Técnica de Ambato (UTA)**  
+**Facultad de Ingeniería en Sistemas, Electrónica e Industrial (FISEI)**  
+**Carrera de Software — Asignatura:** Interacción Hombre-Computador (Nivel 5-A)  
+**Docente:** Ing. José Caiza, Mg.  
+**Stack Tecnológico:** .NET 10 + Entity Framework Core + PostgreSQL + React 19 (TypeScript) + Vite  
+**Accesibilidad:** Cumplimiento WCAG 2.2 Nivel AA (WAVE, Stark, Lighthouse)  
+**Gestión:** SCRUM Relacional con Priorización por Cociente de Decisión ($BV / SP$)  
 
 ---
 
-## 1. Proposito del Proyecto
+## 1. Propósito y Nuevas Características del Sistema (Versión 2.0)
 
-Sistema completo para la **gestion y seguimiento avanzado de pruebas de usabilidad**, implementando un enfoque de Diseno Centrado en el Usuario (DCU). Permite gestionar planes de prueba, sesiones de evaluacion, hallazgos de usabilidad y acciones de mejora de forma integral.
+Sistema integral para la **evaluación formal de usabilidad, auditoría de accesibilidad y planificación ágil de desarrollo (SCRUM)** bajo el enfoque de Diseño Centrado en el Usuario (DCU).
+
+### Novedades y Módulos Implementados en la Versión 2.0:
+1. **Módulo SCRUM Relacional Completo**:
+   - **Product Backlog**: Gestión completa con cálculo automático del **Cociente de Decisión ($BV / SP$)**, ordenamiento por valor/esfuerzo y siembra automática de las Historias de Usuario HU-01 a HU-10.
+   - **Planificación de Sprints y Capacidad**: Control de 160h por Sprint para el equipo, con alertas visuales de sobrecarga.
+   - **Tablero Kanban Accesible**: 4 columnas de flujo con soporte de arrastrar y soltar (Drag & Drop) y controles alternativos accesibles mediante teclado (WCAG 2.1.1).
+   - **Tareas No Planificadas (TNP)**: Registro y seguimiento de desvíos en horas.
+   - **Daily Log y Retrospectiva**: Bitácora diaria y acuerdos de cierre de Sprint.
+   - **Exportación de Matriz Excel/CSV**: Generación de archivo `.csv` con prefijo **UTF-8 BOM (`\uFEFF`)** para apertura directa en Microsoft Excel en español.
+2. **Asistente de IA Heurístico para Observaciones UX**:
+   - Endpoint `POST /api/ai/analyze-observations` conectado a Google Gemini API mediante `IHttpClientFactory`.
+   - Limpiador defensivo de respuestas markdown.
+   - Fallback determinista automático basado en las 10 heurísticas de Nielsen (`"source": "mock"`), garantizando alta disponibilidad.
+   - Transferencia directa de historias sugeridas al Product Backlog enlazadas al hallazgo UX original.
+3. **Rediseño Comparativo y Heurísticas (Antes vs Después)**:
+   - Comparativa interactiva de pantallas (Búsqueda, Formularios, Feedback y Módulo SCRUM).
+   - Matriz de cumplimiento de las 10 Heurísticas de Nielsen y pautas WCAG 2.2.
+   - Tarjetas de KPIs de impacto (Tasa de éxito, tiempos medios, reducción de errores).
+4. **Reporte Formal de Usabilidad en PDF**:
+   - Vista ejecutiva optimizada con `@media print` para exportación nativa a PDF y firmas de responsabilidad.
+
+---
+
+## 2. Documentación Técnica y Académica (`docs/`)
+
+El proyecto cuenta con una suite completa de documentación técnica y académica:
+
+* [Diagnóstico de Usabilidad y Fricciones (DIAGNOSTICO.md)](file:///docs/DIAGNOSTICO.md)
+* [Protocolo y Resultados de Evaluación CIF (EVALUACION.md)](file:///docs/EVALUACION.md)
+* [Prototipos, Flujos y Design System (PROTOTIPOS.md)](file:///docs/PROTOTIPOS.md)
+* [Arquitectura de Software y Modelo de Datos (ARQUITECTURA.md)](file:///docs/ARQUITECTURA.md)
+* [Informe Final del Proyecto Integrado (INFORME_FINAL.md)](file:///docs/INFORME_FINAL.md)
+* [Guía Estratégica de Sustentación Oral y Diapositivas (SUSTENTACION.md)](file:///docs/SUSTENTACION.md)
+* [Lista de Verificación y Control de Calidad (CHECKLIST_ENTREGA.md)](file:///docs/CHECKLIST_ENTREGA.md)
+* [Registro de Decisiones de Arquitectura - ADRs (DECISIONES.md)](file:///docs/DECISIONES.md)
 
 ---
 

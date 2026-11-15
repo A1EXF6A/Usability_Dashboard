@@ -3,7 +3,7 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard, FileText, ListChecks, MessageSquareText,
     Eye, Search, Lightbulb, ChevronRight, FolderKanban, Sparkles, Users, CalendarRange,
-    Menu, X, Lock, ShieldCheck, ClipboardList
+    Menu, X, Lock, ShieldCheck, ClipboardList, Printer
 } from 'lucide-react'
 import { usePlan } from '../context/PlanContext'
 import PlanSelector from './PlanSelector'
@@ -31,10 +31,19 @@ const phases = [
     {
         title: 'Fase 3 — Análisis y Cierre',
         items: [
-            { to: '/backlog', icon: ClipboardList, label: 'Sprint Backlog', detail: 'Backlog de desarrollo ágil', sectionKey: 'backlog' },
             { to: '/hallazgos', icon: Search, label: 'Hallazgos', detail: 'Síntesis de problemas', sectionKey: 'hallazgos' },
             { to: '/mejoras', icon: Lightbulb, label: 'Acciones de Mejora', detail: 'Plan de mejoras', sectionKey: 'mejoras' },
             { to: '/accesibilidad', icon: ShieldCheck, label: 'Accesibilidad', detail: 'Auditorías WAVE, Stark, Lighthouse', sectionKey: 'accesibilidad' },
+            { to: '/comparativa', icon: Sparkles, label: 'Rediseño Comparativo', detail: 'Antes vs Después y Heurísticas', sectionKey: 'comparativa' },
+            { to: '/reporte', icon: Printer, label: 'Reporte Formal PDF', detail: 'Informe imprimible para IHC', sectionKey: 'reporte' },
+        ]
+    },
+    {
+        title: 'Módulo SCRUM Ágil',
+        items: [
+            { to: '/scrum/backlog', icon: ListChecks, label: 'Product Backlog', detail: 'Historias, BV/SP y Prioridad', sectionKey: 'scrum_backlog' },
+            { to: '/scrum/sprints', icon: FolderKanban, label: 'Planificación & Kanban', detail: 'Sprints 1-4, Tablero, TNP y Daily', sectionKey: 'scrum_sprints' },
+            { to: '/backlog', icon: ClipboardList, label: 'Sprint Backlog (Legacy)', detail: 'Vista previa simplificada', sectionKey: 'backlog' },
         ]
     }
 ]

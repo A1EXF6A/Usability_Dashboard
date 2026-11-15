@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -62,6 +62,50 @@ namespace Application.Mappings
             CreateMap<CreateTestSessionDto, TestSession>();
             CreateMap<UpdateTestSessionDto, TestSession>();
 
+            // SCRUM - UserStory
+            CreateMap<UserStory, UserStoryDto>()
+                .ForMember(dest => dest.FindingDescription, opt => opt.MapFrom(src => src.Finding != null ? src.Finding.Description : null))
+                .ForMember(dest => dest.SprintName, opt => opt.MapFrom(src => src.Sprint != null ? src.Sprint.Name : null))
+                .ForMember(dest => dest.TaskCount, opt => opt.MapFrom(src => src.Tasks.Count));
+            CreateMap<CreateUserStoryDto, UserStory>();
+            CreateMap<UpdateUserStoryDto, UserStory>();
+
+            // SCRUM - Sprint
+            CreateMap<Sprint, SprintDto>()
+                .ForMember(dest => dest.StoryCount, opt => opt.MapFrom(src => src.UserStories.Count))
+                .ForMember(dest => dest.TaskCount, opt => opt.MapFrom(src => src.Tasks.Count))
+                .ForMember(dest => dest.UnplannedTaskCount, opt => opt.MapFrom(src => src.UnplannedTasks.Count))
+                .ForMember(dest => dest.TotalEstimatedHours, opt => opt.MapFrom(src => src.Tasks.Sum(t => t.EstimatedHours)))
+                .ForMember(dest => dest.TotalRealHours, opt => opt.MapFrom(src => src.Tasks.Sum(t => t.RealHours)))
+                .ForMember(dest => dest.TotalUnplannedHours, opt => opt.MapFrom(src => src.UnplannedTasks.Sum(t => t.DurationHours)));
+            CreateMap<Sprint, SprintDetailDto>()
+                .IncludeBase<Sprint, SprintDto>()
+                .ForMember(dest => dest.UserStories, opt => opt.MapFrom(src => src.UserStories))
+                .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks))
+                .ForMember(dest => dest.UnplannedTasks, opt => opt.MapFrom(src => src.UnplannedTasks))
+                .ForMember(dest => dest.DailyLogs, opt => opt.MapFrom(src => src.DailyLogs))
+                .ForMember(dest => dest.Retrospective, opt => opt.MapFrom(src => src.Retrospective));
+            CreateMap<CreateSprintDto, Sprint>();
+            CreateMap<UpdateSprintDto, Sprint>();
+
+            // SCRUM - SprintTask
+            CreateMap<SprintTask, SprintTaskDto>()
+                .ForMember(dest => dest.UserStoryCode, opt => opt.MapFrom(src => src.UserStory != null ? src.UserStory.Code : null))
+                .ForMember(dest => dest.UserStoryTitle, opt => opt.MapFrom(src => src.UserStory != null ? src.UserStory.Title : null));
+            CreateMap<CreateSprintTaskDto, SprintTask>();
+            CreateMap<UpdateSprintTaskDto, SprintTask>();
+
+            // SCRUM - UnplannedTask
+            CreateMap<UnplannedTask, UnplannedTaskDto>();
+            CreateMap<CreateUnplannedTaskDto, UnplannedTask>();
+
+            // SCRUM - DailyLog
+            CreateMap<DailyLog, DailyLogDto>();
+            CreateMap<CreateDailyLogDto, DailyLog>();
+
+            // SCRUM - SprintRetrospective
+            CreateMap<SprintRetrospective, SprintRetrospectiveDto>();
+            CreateMap<SaveSprintRetrospectiveDto, SprintRetrospective>();
         }
     }
 }

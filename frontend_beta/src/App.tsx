@@ -14,6 +14,10 @@ import TestSessions from './pages/TestSessions'
 import SessionRunner from './pages/SessionRunner'
 import Accessibility from './pages/Accessibility'
 import SprintBacklog from './pages/SprintBacklog'
+import ProductBacklog from './pages/ProductBacklog'
+import ScrumModule from './pages/ScrumModule'
+import RedesignComparison from './pages/RedesignComparison'
+import FormalReport from './pages/FormalReport'
 
 interface Toast {
   id: number
@@ -76,6 +80,10 @@ export default function App() {
             <Route path="mejoras" element={<ImprovementActions />} />
             <Route path="accesibilidad" element={<Accessibility />} />
             <Route path="backlog" element={<SprintBacklog />} />
+            <Route path="scrum/backlog" element={<ProductBacklog />} />
+            <Route path="scrum/sprints" element={<ScrumModule />} />
+            <Route path="comparativa" element={<RedesignComparison />} />
+            <Route path="reporte" element={<FormalReport />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

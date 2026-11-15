@@ -22,7 +22,7 @@ namespace Application.Services
         private readonly IRepository<TestSession> _sessionRepository;
         private readonly IRepository<Finding> _findingRepository;
         private readonly IRepository<ImprovementAction> _actionRepository;
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private readonly IGeminiClient _geminiClient;
 
         public SprintBacklogService(
             IRepository<TestPlan> planRepository,
@@ -31,7 +31,8 @@ namespace Application.Services
             IRepository<ModeratorScript> scriptRepository,
             IRepository<TestSession> sessionRepository,
             IRepository<Finding> findingRepository,
-            IRepository<ImprovementAction> actionRepository)
+            IRepository<ImprovementAction> actionRepository,
+            IGeminiClient geminiClient)
         {
             _planRepository = planRepository;
             _backlogRepository = backlogRepository;
@@ -40,6 +41,7 @@ namespace Application.Services
             _sessionRepository = sessionRepository;
             _findingRepository = findingRepository;
             _actionRepository = actionRepository;
+            _geminiClient = geminiClient;
         }
 
         public async Task<SprintBacklogDto?> GetByPlanIdAsync(Guid planId)
@@ -258,41 +260,7 @@ ESTRUCTURA JSON REQUERIDA:
 }}
 ";
 
-            var requestBody = new
-            {
-                contents = new[]
-                {
-                    new
-                    {
-                        parts = new[]
-                        {
-                            new { text = prompt }
-                        }
-                    }
-                },
-                generationConfig = new
-                {
-                    responseMimeType = "application/json"
-                }
-            };
-
-            var model = GetGeminiModel();
-            var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
-            var httpContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync(url, httpContent);
-            response.EnsureSuccessStatusCode();
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var jsonDoc = JsonDocument.Parse(responseBody);
-
-            // Extraer el texto generado por Gemini
-            var rawText = jsonDoc.RootElement
-                .GetProperty("candidates")[0]
-                .GetProperty("content")
-                .GetProperty("parts")[0]
-                .GetProperty("text")
-                .GetString();
+            var rawText = await _geminiClient.GenerateContentAsync(prompt, apiKey);
 
             if (string.IsNullOrEmpty(rawText))
                 throw new Exception("El modelo de IA devolvió una respuesta vacía.");
@@ -609,49 +577,10 @@ INSTRUCCIONES DE RESPUESTA:
 4. Mantén tus respuestas de texto bellamente redactadas en Markdown (con listas, negritas y encabezados).
 ";
 
-            var requestBody = new
-            {
-                contents = new[]
-                {
-                    new
-                    {
-                        parts = new[]
-                        {
-                            new { text = systemPrompt },
-                            new { text = $"Consulta del usuario:\n{prompt}" }
-                        }
-                    }
-                },
-                generationConfig = new
-                {
-                    temperature = 0.2
-                }
-            };
-
             try
             {
-                var model = GetGeminiModel();
-                var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
-                var httpContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync(url, httpContent);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorBody = await response.Content.ReadAsStringAsync();
-                    return $"⚠️ **Asistente de Copiloto IA:** No se pudo conectar con el servicio de IA (código {response.StatusCode}). Verifica que tu `GEMINI_API_KEY` sea válida. Detalle: {errorBody}";
-                }
-
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var jsonDoc = JsonDocument.Parse(responseBody);
-
-                var reply = jsonDoc.RootElement
-                    .GetProperty("candidates")[0]
-                    .GetProperty("content")
-                    .GetProperty("parts")[0]
-                    .GetProperty("text")
-                    .GetString();
-
+                var fullPrompt = $"Consulta del usuario:\n{prompt}";
+                var reply = await _geminiClient.GenerateContentAsync(fullPrompt, apiKey, systemPrompt);
                 return reply ?? "El modelo de IA devolvió una respuesta vacía.";
             }
             catch (Exception ex)
