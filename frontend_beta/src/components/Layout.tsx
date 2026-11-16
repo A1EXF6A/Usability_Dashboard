@@ -218,9 +218,9 @@ export default function Layout() {
                                         /* ACCESIBILIDAD: SVG con role="img" y title (WCAG 1.1.1) */
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="nav-check-icon" role="img" aria-label="Sección completada">
                                             <title>Sección completada</title>
-                                            <circle cx="8" cy="8" r="7" fill="#10b981" opacity="0.15" />
-                                            <circle cx="8" cy="8" r="7" stroke="#10b981" strokeWidth="1.2" />
-                                            <path d="M5 8l2 2 4-4" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            <circle cx="8" cy="8" r="7" fill="var(--color-success-500)" opacity="0.15" />
+                                            <circle cx="8" cy="8" r="7" stroke="var(--color-success-500)" strokeWidth="1.2" />
+                                            <path d="M5 8l2 2 4-4" stroke="var(--color-success-500)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                     ) : (
                                         <planItem.icon size={16} aria-hidden="true" className="nav-icon" />
@@ -316,9 +316,9 @@ export default function Layout() {
                                                         {sectionDone[item.sectionKey] ? (
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="nav-check-icon" role="img" aria-label="Completado">
                                                                 <title>Completado</title>
-                                                                <circle cx="8" cy="8" r="7" fill="#10b981" opacity="0.15" />
-                                                                <circle cx="8" cy="8" r="7" stroke="#10b981" strokeWidth="1.2" />
-                                                                <path d="M5 8l2 2 4-4" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                                <circle cx="8" cy="8" r="7" fill="var(--color-success-500)" opacity="0.15" />
+                                                                <circle cx="8" cy="8" r="7" stroke="var(--color-success-500)" strokeWidth="1.2" />
+                                                                <path d="M5 8l2 2 4-4" stroke="var(--color-success-500)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                             </svg>
                                                         ) : (
                                                             <item.icon size={16} aria-hidden="true" className="nav-icon" />

@@ -403,6 +403,13 @@ html[data-theme="dark"] body {
         var(--gradient-surface);
 }
 
+code,
+kbd,
+samp,
+pre {
+    font-family: var(--font-family-mono);
+}
+
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1643,7 +1650,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--text-inverse);
+    color: #ffffff;
     transition: background var(--transition-fast);
 }
 
@@ -1668,23 +1675,23 @@ html[data-theme="dark"] .nav-item.is-disabled {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--text-inverse);
+    color: #ffffff;
 }
 
 /* ── Context label ── */
 .layout-context-label {
-    color: #93c5fd;
+    color: #a5b4fc;
     font-size: var(--font-size-xs);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wide);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-bold);
     margin-bottom: 2px;
 }
 
 .layout-context-title {
-    color: var(--text-inverse);
+    color: #ffffff;
     font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
     letter-spacing: var(--letter-spacing-tight);
     overflow: hidden;
@@ -1693,6 +1700,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 /* ── App badge (header) ── */
@@ -1736,7 +1744,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
     border-radius: var(--radius-lg);
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    color: var(--text-inverse);
+    color: #ffffff;
     cursor: pointer;
     transition: all var(--transition-base);
     flex-shrink: 0;
@@ -1978,7 +1986,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
 }
 
 .nav-item-label--done {
-    color: #065f46;
+    color: var(--color-success-text);
 }
 
 .nav-item-label--active {
@@ -1994,7 +2002,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
 }
 
 .nav-item-detail--done {
-    color: #059669;
+    color: var(--color-success);
 }
 
 .nav-item-detail--muted {
@@ -2113,7 +2121,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
 }
 
 .modal-header--default {
-    background: linear-gradient(to right, #eff6ff, #e0e7ff);
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary-100));
 }
 
 .modal-header--drawer {
@@ -2215,7 +2223,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
     gap: var(--space-4);
     padding: var(--space-4);
     border-radius: var(--radius-lg);
-    background: #fffbeb;
+    background: var(--color-warning-light);
     border: 1px solid var(--color-warning-border);
 }
 
@@ -2227,7 +2235,7 @@ html[data-theme="dark"] .nav-item.is-disabled {
 
 .plan-confirm-alert-text {
     font-size: var(--font-size-sm);
-    color: #78350f;
+    color: var(--color-warning-text);
     line-height: var(--line-height);
     font-weight: var(--font-weight-medium);
 }
@@ -5650,7 +5658,7 @@ html[data-theme="dark"] .page-header-card {
     font-size: var(--font-size-xs);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -5756,9 +5764,9 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-def-card {
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--surface-card);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-2xl);
     padding: var(--space-5);
     box-shadow: var(--shadow-sm);
@@ -5810,7 +5818,8 @@ html[data-theme="dark"] .page-header-card {
     font-weight: var(--font-weight-medium);
     border-radius: var(--radius-xl);
     border: 1px solid var(--border-color);
-    background: var(--white);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -5841,19 +5850,19 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-story-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--surface-card);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(226, 232, 240, 0.5);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-2xl);
     padding: var(--space-5);
     box-shadow: var(--shadow-sm);
     position: relative;
     margin-bottom: var(--space-5);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .sprint-story-card:hover {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--surface-elevated);
     box-shadow: var(--shadow-md);
 }
 
@@ -5886,7 +5895,7 @@ html[data-theme="dark"] .page-header-card {
 .sprint-story-id {
     background: var(--neutral-900);
     color: var(--white);
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
     padding: var(--space-1) var(--space-3);
@@ -5984,14 +5993,15 @@ html[data-theme="dark"] .page-header-card {
     font-weight: var(--font-weight-medium);
     border-radius: var(--radius-xl);
     border: 1px solid var(--border-color);
-    background: var(--neutral-50);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     line-height: 1.6;
     resize: vertical;
     transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .sprint-story-desc-textarea:focus {
-    background: var(--white);
+    background: var(--surface-card);
     border-color: var(--color-primary-border);
     outline: none;
     box-shadow: var(--shadow-focus);
@@ -6065,7 +6075,7 @@ html[data-theme="dark"] .page-header-card {
 
 .sprint-crit-number {
     color: var(--text-light);
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     font-size: var(--font-size-xs);
     min-width: 14px;
 }
@@ -6076,7 +6086,8 @@ html[data-theme="dark"] .page-header-card {
     font-size: var(--font-size-xs);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
-    background: var(--white);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -6110,7 +6121,7 @@ html[data-theme="dark"] .page-header-card {
 .sprint-task-badge {
     background: var(--neutral-100);
     color: var(--text-secondary);
-    font-family: monospace;
+    font-family: var(--font-family-mono);
     font-size: 9px;
     font-weight: var(--font-weight-semibold);
     padding: 2px var(--space-2);
@@ -6124,7 +6135,8 @@ html[data-theme="dark"] .page-header-card {
     font-size: var(--font-size-xs);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
-    background: var(--white);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -6150,7 +6162,8 @@ html[data-theme="dark"] .page-header-card {
     font-weight: var(--font-weight-semibold);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
-    background: var(--white);
+    background: var(--surface-elevated);
+    color: var(--text-primary);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -6169,8 +6182,8 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-summary-banner {
-    background: var(--neutral-900);
-    border: 1px solid var(--neutral-800);
+    background: #0f172a;
+    border: 1px solid #1e293b;
     color: var(--white);
     padding: var(--space-5);
     border-radius: var(--radius-2xl);
@@ -6197,7 +6210,7 @@ html[data-theme="dark"] .page-header-card {
 .sprint-summary-subtitle {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
-    color: var(--color-primary-light);
+    color: #a5b4fc;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 2px;
@@ -6207,7 +6220,7 @@ html[data-theme="dark"] .page-header-card {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     margin: 0;
-    color: var(--white);
+    color: #ffffff;
 }
 
 .sprint-summary-highlight {
@@ -6215,7 +6228,7 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-summary-desc {
-    color: var(--neutral-300);
+    color: #cbd5e1;
     font-size: var(--font-size-xs);
     margin-top: var(--space-1);
     margin-bottom: 0;
@@ -6270,13 +6283,13 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-summary-actions-btn--export {
-    background: var(--neutral-800);
-    border: 1px solid var(--neutral-700);
+    background: #1e293b;
+    border: 1px solid #334155;
     color: var(--white);
 }
 
 .sprint-summary-actions-btn--export:hover {
-    background: var(--neutral-700);
+    background: #334155;
     color: var(--white);
 }
 
@@ -6290,9 +6303,9 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-empty-state {
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--surface-card);
     backdrop-filter: blur(8px);
-    border: 2px dashed var(--neutral-300);
+    border: 2px dashed var(--border-color);
     border-radius: var(--radius-2xl);
     padding: var(--space-12) var(--space-6);
     text-align: center;
@@ -6387,14 +6400,14 @@ html[data-theme="dark"] .page-header-card {
     align-items: flex-start;
     gap: var(--space-3);
     padding: var(--space-3);
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--surface-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    transition: background var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .sprint-source-card:hover {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--surface-elevated);
     box-shadow: var(--shadow-sm);
 }
 
@@ -6476,7 +6489,7 @@ html[data-theme="dark"] .page-header-card {
 }
 
 .sprint-kpi-card {
-    background: rgba(255, 255, 255, 0.75);
+    background: var(--surface-card);
     backdrop-filter: blur(8px);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
@@ -6484,7 +6497,7 @@ html[data-theme="dark"] .page-header-card {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
 }
 
 .sprint-kpi-card:hover {
@@ -6564,7 +6577,7 @@ html[data-theme="dark"] .page-header-card {
     justify-content: center;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
-    background: var(--white);
+    background: var(--surface-elevated);
     color: var(--text-light);
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -6588,7 +6601,7 @@ html[data-theme="dark"] .page-header-card {
     flex-wrap: wrap;
     gap: var(--space-4);
     padding: var(--space-3) var(--space-4);
-    background: var(--neutral-50);
+    background: var(--surface-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-6);
@@ -6613,6 +6626,628 @@ html[data-theme="dark"] .page-header-card {
     color: var(--white);
     pointer-events: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §38b. DARK MODE — Overrides Sprint Backlog
+   ───────────────────────────────────────────────────────────────────────────
+   Tarjetas de métricas (KPIs), fuentes de datos, editor del sprint y controles
+   optimizados con alto contraste (WCAG 2.2 AA) para el tema oscuro.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tarjetas de Métricas KPI ── */
+html.dark .sprint-kpi-card,
+html.theme-dark .sprint-kpi-card,
+html[data-theme="dark"] .sprint-kpi-card {
+    background: #141c2e;
+    border: 1px solid rgba(129, 140, 248, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .sprint-kpi-card:hover,
+html.theme-dark .sprint-kpi-card:hover,
+html[data-theme="dark"] .sprint-kpi-card:hover {
+    background: #1c273e;
+    border-color: rgba(129, 140, 248, 0.45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(129, 140, 248, 0.15);
+}
+
+html.dark .sprint-kpi-value,
+html.theme-dark .sprint-kpi-value,
+html[data-theme="dark"] .sprint-kpi-value {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .sprint-kpi-label,
+html.theme-dark .sprint-kpi-label,
+html[data-theme="dark"] .sprint-kpi-label {
+    color: #94a3b8;
+}
+
+/* ── Iconos de Métricas en Modo Oscuro ── */
+html.dark .sprint-kpi-icon--stories,
+html.theme-dark .sprint-kpi-icon--stories,
+html[data-theme="dark"] .sprint-kpi-icon--stories {
+    background: rgba(99, 102, 241, 0.24);
+    color: #a5b4fc;
+    border: 1px solid rgba(129, 140, 248, 0.35);
+}
+
+html.dark .sprint-kpi-icon--hours,
+html.theme-dark .sprint-kpi-icon--hours,
+html[data-theme="dark"] .sprint-kpi-icon--hours {
+    background: rgba(14, 165, 233, 0.24);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+html.dark .sprint-kpi-icon--high,
+html.theme-dark .sprint-kpi-icon--high,
+html[data-theme="dark"] .sprint-kpi-icon--high {
+    background: rgba(225, 29, 72, 0.24);
+    color: #fb7185;
+    border: 1px solid rgba(251, 113, 133, 0.35);
+}
+
+html.dark .sprint-kpi-icon--medium,
+html.theme-dark .sprint-kpi-icon--medium,
+html[data-theme="dark"] .sprint-kpi-icon--medium {
+    background: rgba(245, 158, 11, 0.24);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.35);
+}
+
+html.dark .sprint-kpi-icon--low,
+html.theme-dark .sprint-kpi-icon--low,
+html[data-theme="dark"] .sprint-kpi-icon--low {
+    background: rgba(16, 185, 129, 0.24);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+/* ── Tarjetas de Fuentes de Datos (Sources Panel) ── */
+html.dark .sprint-sources-panel,
+html.theme-dark .sprint-sources-panel,
+html[data-theme="dark"] .sprint-sources-panel {
+    background: rgba(18, 24, 38, 0.7);
+    border: 1px solid #263248;
+}
+
+html.dark .sprint-sources-toggle:hover,
+html.theme-dark .sprint-sources-toggle:hover,
+html[data-theme="dark"] .sprint-sources-toggle:hover {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+html.dark .sprint-sources-toggle-left,
+html.theme-dark .sprint-sources-toggle-left,
+html[data-theme="dark"] .sprint-sources-toggle-left {
+    color: #cbd5e1;
+}
+
+html.dark .sprint-source-card,
+html.theme-dark .sprint-source-card,
+html[data-theme="dark"] .sprint-source-card {
+    background: #141c2e;
+    border: 1px solid rgba(129, 140, 248, 0.16);
+}
+
+html.dark .sprint-source-card:hover,
+html.theme-dark .sprint-source-card:hover,
+html[data-theme="dark"] .sprint-source-card:hover {
+    background: #1a253c;
+    border-color: rgba(129, 140, 248, 0.4);
+}
+
+html.dark .sprint-source-label,
+html.theme-dark .sprint-source-label,
+html[data-theme="dark"] .sprint-source-label {
+    color: #94a3b8;
+}
+
+html.dark .sprint-source-value,
+html.theme-dark .sprint-source-value,
+html[data-theme="dark"] .sprint-source-value {
+    color: #ffffff;
+}
+
+html.dark .sprint-source-detail,
+html.theme-dark .sprint-source-detail,
+html[data-theme="dark"] .sprint-source-detail {
+    color: #cbd5e1;
+}
+
+html.dark .sprint-source-icon--plan,
+html.theme-dark .sprint-source-icon--plan,
+html[data-theme="dark"] .sprint-source-icon--plan {
+    background: rgba(99, 102, 241, 0.22);
+    color: #a5b4fc;
+    border: 1px solid rgba(129, 140, 248, 0.3);
+}
+
+html.dark .sprint-source-icon--guide,
+html.theme-dark .sprint-source-icon--guide,
+html[data-theme="dark"] .sprint-source-icon--guide {
+    background: rgba(168, 85, 247, 0.22);
+    color: #c084fc;
+    border: 1px solid rgba(192, 132, 252, 0.3);
+}
+
+html.dark .sprint-source-icon--sessions,
+html.theme-dark .sprint-source-icon--sessions,
+html[data-theme="dark"] .sprint-source-icon--sessions {
+    background: rgba(14, 165, 233, 0.22);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+html.dark .sprint-source-icon--findings,
+html.theme-dark .sprint-source-icon--findings,
+html[data-theme="dark"] .sprint-source-icon--findings {
+    background: rgba(245, 158, 11, 0.22);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+/* ── Tarjeta de Definición de Sprint ── */
+html.dark .sprint-def-card,
+html.theme-dark .sprint-def-card,
+html[data-theme="dark"] .sprint-def-card {
+    background: #121826;
+    border: 1px solid #263248;
+}
+
+html.dark .sprint-def-title,
+html.theme-dark .sprint-def-title,
+html[data-theme="dark"] .sprint-def-title {
+    color: #f8fafc;
+}
+
+html.dark .sprint-def-label,
+html.theme-dark .sprint-def-label,
+html[data-theme="dark"] .sprint-def-label {
+    color: #94a3b8;
+}
+
+html.dark .sprint-def-input,
+html.theme-dark .sprint-def-input,
+html[data-theme="dark"] .sprint-def-input {
+    background: #1a2234;
+    border-color: #263248;
+    color: #f8fafc;
+}
+
+html.dark .sprint-def-input:focus,
+html.theme-dark .sprint-def-input:focus,
+html[data-theme="dark"] .sprint-def-input:focus {
+    background: #1e283d;
+    border-color: var(--color-primary);
+}
+
+/* ── Tarjetas de Historias de Usuario (Story Cards) ── */
+html.dark .sprint-story-card,
+html.theme-dark .sprint-story-card,
+html[data-theme="dark"] .sprint-story-card {
+    background: #121826;
+    border: 1px solid #263248;
+}
+
+html.dark .sprint-story-card:hover,
+html.theme-dark .sprint-story-card:hover,
+html[data-theme="dark"] .sprint-story-card:hover {
+    background: #151d2e;
+    border-color: rgba(129, 140, 248, 0.4);
+}
+
+html.dark .sprint-story-title-input,
+html.theme-dark .sprint-story-title-input,
+html[data-theme="dark"] .sprint-story-title-input {
+    color: #f8fafc;
+}
+
+html.dark .sprint-story-desc-label,
+html.theme-dark .sprint-story-desc-label,
+html[data-theme="dark"] .sprint-story-desc-label,
+html.dark .sprint-priority-label,
+html.theme-dark .sprint-priority-label,
+html[data-theme="dark"] .sprint-priority-label {
+    color: #94a3b8;
+}
+
+html.dark .sprint-priority-select option,
+html.theme-dark .sprint-priority-select option,
+html[data-theme="dark"] .sprint-priority-select option {
+    background: #121826;
+    color: #f8fafc;
+}
+
+html.dark .sprint-story-desc-textarea,
+html.theme-dark .sprint-story-desc-textarea,
+html[data-theme="dark"] .sprint-story-desc-textarea {
+    background: #1a2234;
+    border-color: #263248;
+    color: #f8fafc;
+}
+
+html.dark .sprint-story-desc-textarea:focus,
+html.theme-dark .sprint-story-desc-textarea:focus,
+html[data-theme="dark"] .sprint-story-desc-textarea:focus {
+    background: #1e283d;
+    border-color: var(--color-primary);
+}
+
+/* ── Criterios de Aceptación y Tareas Técnicas ── */
+html.dark .sprint-columns-grid,
+html.theme-dark .sprint-columns-grid,
+html[data-theme="dark"] .sprint-columns-grid {
+    border-top-color: #263248;
+}
+
+html.dark .sprint-col-title,
+html.theme-dark .sprint-col-title,
+html[data-theme="dark"] .sprint-col-title,
+html.dark .sprint-stories-title,
+html.theme-dark .sprint-stories-title,
+html[data-theme="dark"] .sprint-stories-title {
+    color: #cbd5e1;
+}
+
+html.dark .sprint-crit-input,
+html.theme-dark .sprint-crit-input,
+html[data-theme="dark"] .sprint-crit-input,
+html.dark .sprint-task-input,
+html.theme-dark .sprint-task-input,
+html[data-theme="dark"] .sprint-task-input,
+html.dark .sprint-task-hours-input,
+html.theme-dark .sprint-task-hours-input,
+html[data-theme="dark"] .sprint-task-hours-input {
+    background: #1a2234;
+    border-color: #263248;
+    color: #f8fafc;
+}
+
+html.dark .sprint-crit-input:focus,
+html.theme-dark .sprint-crit-input:focus,
+html[data-theme="dark"] .sprint-crit-input:focus,
+html.dark .sprint-task-input:focus,
+html.theme-dark .sprint-task-input:focus,
+html[data-theme="dark"] .sprint-task-input:focus,
+html.dark .sprint-task-hours-input:focus,
+html.theme-dark .sprint-task-hours-input:focus,
+html[data-theme="dark"] .sprint-task-hours-input:focus {
+    background: #1e283d;
+    border-color: var(--color-primary);
+}
+
+html.dark .sprint-crit-number,
+html.theme-dark .sprint-crit-number,
+html[data-theme="dark"] .sprint-crit-number,
+html.dark .sprint-task-hours-label,
+html.theme-dark .sprint-task-hours-label,
+html[data-theme="dark"] .sprint-task-hours-label {
+    color: #94a3b8;
+}
+
+html.dark .sprint-task-badge,
+html.theme-dark .sprint-task-badge,
+html[data-theme="dark"] .sprint-task-badge {
+    background: #1e283d;
+    color: #cbd5e1;
+    border: 1px solid #263248;
+}
+
+html.dark .sprint-reorder-btn,
+html.theme-dark .sprint-reorder-btn,
+html[data-theme="dark"] .sprint-reorder-btn {
+    background: #1a2234;
+    border-color: #263248;
+    color: #94a3b8;
+}
+
+html.dark .sprint-reorder-btn:hover:not(:disabled),
+html.theme-dark .sprint-reorder-btn:hover:not(:disabled),
+html[data-theme="dark"] .sprint-reorder-btn:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.25);
+    color: #a5b4fc;
+    border-color: var(--color-primary-border);
+}
+
+/* ── Trazabilidad, Timestamps y Estado Vacío ── */
+html.dark .sprint-timestamps,
+html.theme-dark .sprint-timestamps,
+html[data-theme="dark"] .sprint-timestamps {
+    background: #121826;
+    border-color: #263248;
+}
+
+html.dark .sprint-timestamp-label,
+html.theme-dark .sprint-timestamp-label,
+html[data-theme="dark"] .sprint-timestamp-label {
+    color: #cbd5e1;
+}
+
+html.dark .sprint-timestamp-item,
+html.theme-dark .sprint-timestamp-item,
+html[data-theme="dark"] .sprint-timestamp-item {
+    color: #94a3b8;
+}
+
+html.dark .sprint-traceability-badge,
+html.theme-dark .sprint-traceability-badge,
+html[data-theme="dark"] .sprint-traceability-badge {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(129, 140, 248, 0.45);
+    color: #a5b4fc;
+}
+
+html.dark .sprint-empty-state,
+html.theme-dark .sprint-empty-state,
+html[data-theme="dark"] .sprint-empty-state {
+    background: rgba(18, 24, 38, 0.6);
+    border-color: #263248;
+}
+
+html.dark .sprint-empty-state-title,
+html.theme-dark .sprint-empty-state-title,
+html[data-theme="dark"] .sprint-empty-state-title {
+    color: #f8fafc;
+}
+
+html.dark .sprint-empty-state-subtitle,
+html.theme-dark .sprint-empty-state-subtitle,
+html[data-theme="dark"] .sprint-empty-state-subtitle {
+    color: #94a3b8;
+}
+
+/* ── Sprint Resumen Banner — Dark Mode ── */
+html.dark .sprint-summary-banner,
+html.theme-dark .sprint-summary-banner,
+html[data-theme="dark"] .sprint-summary-banner {
+    background: linear-gradient(135deg, #131b2e 0%, #0d1322 100%);
+    border: 1px solid rgba(129, 140, 248, 0.25);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+html.dark .sprint-summary-subtitle,
+html.theme-dark .sprint-summary-subtitle,
+html[data-theme="dark"] .sprint-summary-subtitle {
+    color: #a5b4fc;
+}
+
+html.dark .sprint-summary-title,
+html.theme-dark .sprint-summary-title,
+html[data-theme="dark"] .sprint-summary-title {
+    color: #ffffff;
+}
+
+html.dark .sprint-summary-highlight,
+html.theme-dark .sprint-summary-highlight,
+html[data-theme="dark"] .sprint-summary-highlight {
+    color: #c7d2fe;
+}
+
+html.dark .sprint-summary-desc,
+html.theme-dark .sprint-summary-desc,
+html[data-theme="dark"] .sprint-summary-desc {
+    color: #94a3b8;
+}
+
+html.dark .sprint-summary-desc strong,
+html.theme-dark .sprint-summary-desc strong,
+html[data-theme="dark"] .sprint-summary-desc strong {
+    color: #ffffff !important;
+}
+
+html.dark .sprint-summary-actions-btn--save,
+html.theme-dark .sprint-summary-actions-btn--save,
+html[data-theme="dark"] .sprint-summary-actions-btn--save {
+    background: var(--color-primary-500);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+html.dark .sprint-summary-actions-btn--save:hover:not(:disabled),
+html.theme-dark .sprint-summary-actions-btn--save:hover:not(:disabled),
+html[data-theme="dark"] .sprint-summary-actions-btn--save:hover:not(:disabled) {
+    background: var(--color-primary-400);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.5);
+}
+
+html.dark .sprint-summary-actions-btn--export,
+html.theme-dark .sprint-summary-actions-btn--export,
+html[data-theme="dark"] .sprint-summary-actions-btn--export {
+    background: #1e283d;
+    border: 1px solid rgba(129, 140, 248, 0.3);
+    color: #f8fafc;
+}
+
+html.dark .sprint-summary-actions-btn--export:hover,
+html.theme-dark .sprint-summary-actions-btn--export:hover,
+html[data-theme="dark"] .sprint-summary-actions-btn--export:hover {
+    background: #283550;
+    border-color: rgba(129, 140, 248, 0.6);
+    color: #ffffff;
+}
+
+html.dark .sprint-summary-actions-btn--print,
+html.theme-dark .sprint-summary-actions-btn--print,
+html[data-theme="dark"] .sprint-summary-actions-btn--print {
+    background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+html.dark .sprint-summary-actions-btn--print:hover,
+html.theme-dark .sprint-summary-actions-btn--print:hover,
+html[data-theme="dark"] .sprint-summary-actions-btn--print:hover {
+    background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+}
+
+html.dark .sprint-summary-actions-btn--saved,
+html.theme-dark .sprint-summary-actions-btn--saved,
+html[data-theme="dark"] .sprint-summary-actions-btn--saved {
+    background: var(--color-success) !important;
+    color: #ffffff;
+}
+
+/* ── Header Layout — Dark Mode (fix text-inverse inversion) ── */
+html.dark .layout-header-bar,
+html.theme-dark .layout-header-bar,
+html[data-theme="dark"] .layout-header-bar {
+    background: linear-gradient(135deg, #0f121d 0%, #161c30 50%, #0d111c 100%);
+    border-bottom: 1px solid rgba(129, 140, 248, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+html.dark .layout-context-label,
+html.theme-dark .layout-context-label,
+html[data-theme="dark"] .layout-context-label {
+    color: #a5b4fc;
+}
+
+html.dark .layout-context-title,
+html.theme-dark .layout-context-title,
+html[data-theme="dark"] .layout-context-title {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .layout-hamburger,
+html.theme-dark .layout-hamburger,
+html[data-theme="dark"] .layout-hamburger {
+    color: #ffffff;
+}
+
+html.dark .layout-logo,
+html.theme-dark .layout-logo,
+html[data-theme="dark"] .layout-logo {
+    color: #ffffff;
+}
+
+html.dark .theme-toggle-btn,
+html.theme-dark .theme-toggle-btn,
+html[data-theme="dark"] .theme-toggle-btn {
+    color: #ffffff;
+}
+
+html.dark .layout-app-badge-pill,
+html.theme-dark .layout-app-badge-pill,
+html[data-theme="dark"] .layout-app-badge-pill {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Tab Pills, Buttons (fix text-inverse black-on-dark) ── */
+html.dark .tab-pill.is-active,
+html.theme-dark .tab-pill.is-active,
+html[data-theme="dark"] .tab-pill.is-active {
+    color: #ffffff;
+}
+
+html.dark .btn-primary,
+html.theme-dark .btn-primary,
+html[data-theme="dark"] .btn-primary {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Phase Stepper circles (is-done / is-active) ── */
+html.dark .phase-stepper-circle.is-done,
+html.theme-dark .phase-stepper-circle.is-done,
+html[data-theme="dark"] .phase-stepper-circle.is-done,
+html.dark .phase-stepper-circle.is-active,
+html.theme-dark .phase-stepper-circle.is-active,
+html[data-theme="dark"] .phase-stepper-circle.is-active {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Quick Action icon hover ── */
+html.dark .quick-action:hover .quick-action-icon,
+html.theme-dark .quick-action:hover .quick-action-icon,
+html[data-theme="dark"] .quick-action:hover .quick-action-icon {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Modal Drawer header (neutral-900 = white in dark) ── */
+html.dark .modal-header--drawer,
+html.theme-dark .modal-header--drawer,
+html[data-theme="dark"] .modal-header--drawer {
+    background: linear-gradient(to right, #0d1322, #0f1e38);
+}
+
+html.dark .modal-title--drawer,
+html.theme-dark .modal-title--drawer,
+html[data-theme="dark"] .modal-title--drawer {
+    color: #ffffff;
+}
+
+html.dark .modal-close-btn--drawer,
+html.theme-dark .modal-close-btn--drawer,
+html[data-theme="dark"] .modal-close-btn--drawer {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+html.dark .modal-close-btn--drawer:hover,
+html.theme-dark .modal-close-btn--drawer:hover,
+html[data-theme="dark"] .modal-close-btn--drawer:hover {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Dashboard Hero banner (neutral-900 = white in dark) ── */
+html.dark .dashboard-hero,
+html.theme-dark .dashboard-hero,
+html[data-theme="dark"] .dashboard-hero {
+    background: linear-gradient(135deg, #0d1322 0%, #1e293b 50%, #0f1e38 100%);
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Session Runner hero card (neutral-900 = white in dark) ── */
+html.dark .runner-hero-card,
+html.theme-dark .runner-hero-card,
+html[data-theme="dark"] .runner-hero-card {
+    background: linear-gradient(135deg, #0d1322 0%, #1a1540 50%, #1e1b4b 100%);
+    color: #ffffff;
+}
+
+html.dark .runner-badge-pill,
+html.theme-dark .runner-badge-pill,
+html[data-theme="dark"] .runner-badge-pill {
+    color: #ffffff;
+}
+
+html.dark .runner-hero-title,
+html.theme-dark .runner-hero-title,
+html[data-theme="dark"] .runner-hero-title {
+    color: #ffffff;
+}
+
+html.dark .btn-runner-start,
+html.theme-dark .btn-runner-start,
+html[data-theme="dark"] .btn-runner-start {
+    color: #ffffff;
+}
+
+html.dark .btn-runner-save,
+html.theme-dark .btn-runner-save,
+html[data-theme="dark"] .btn-runner-save {
+    color: #ffffff;
+}
+
+/* ── Dark Mode — Stepper & Phase indicator dots (decorative white dots) ── */
+html.dark .phase-stepper-dot,
+html.theme-dark .phase-stepper-dot,
+html[data-theme="dark"] .phase-stepper-dot,
+html.dark .phase-indicator-dot,
+html.theme-dark .phase-indicator-dot,
+html[data-theme="dark"] .phase-indicator-dot {
+    background: #ffffff;
+}
+
+/* ── Dark Mode — Buttons with primary/success gradients (text-inverse fix) ── */
+html.dark .btn-start-session,
+html.theme-dark .btn-start-session,
+html[data-theme="dark"] .btn-start-session {
+    color: #ffffff;
+}
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    §39. COMPONENTE — AI Copilot (Asistente de IA Flotante Contextual)
@@ -7302,7 +7937,7 @@ html[data-theme="dark"] .page-header-card {
 
     .sprint-print-story-desc {
         font-size: 12px;
-        font-family: monospace;
+        font-family: var(--font-family-mono);
         background: #f9fafb;
         padding: var(--space-2);
         border: 1px solid #e5e7eb;
@@ -7365,7 +8000,7 @@ html[data-theme="dark"] .page-header-card {
 
     .sprint-print-table-id {
         width: 64px;
-        font-family: monospace;
+        font-family: var(--font-family-mono);
         color: #4b5563;
     }
 
