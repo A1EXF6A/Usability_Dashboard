@@ -348,8 +348,8 @@ export default function Dashboard() {
                     icon={<TrendingUp size={22} className="text-indigo-500" />}
                     value={stats.pendingActions + stats.inProgressActions}
                     label="Mejoras pendientes"
-                    iconBg="linear-gradient(135deg, #e0e7ff, #eff6ff)"
-                    valueColor="#4f46e5"
+                    iconBg="var(--color-primary-100)"
+                    valueColor="var(--color-primary)"
                     delay="delay-300"
                 />
             </div>
@@ -399,29 +399,29 @@ export default function Dashboard() {
                             <PieChart
                                 size={180}
                                 data={[
-                                    { label: 'Críticos', value: stats.criticalFindings, color: '#ef4444' },
-                                    { label: 'Moderados', value: stats.moderateFindings, color: '#3b82f6' },
-                                    { label: 'Otros', value: Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings), color: '#10b981' },
+                                    { label: 'Críticos', value: stats.criticalFindings, color: 'var(--color-error)' },
+                                    { label: 'Moderados', value: stats.moderateFindings, color: 'var(--color-primary-500)' },
+                                    { label: 'Otros', value: Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings), color: 'var(--color-success-500)' },
                                 ]}
                             />
                             <div className="dashboard-pie-legend">
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#ef4444' }} />
+                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: 'var(--color-error)' }} />
                                         <span>Críticos</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--critical">{stats.criticalFindings}</span>
                                 </div>
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#3b82f6' }} />
+                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: 'var(--color-primary-500)' }} />
                                         <span>Moderados</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--moderate">{stats.moderateFindings}</span>
                                 </div>
                                 <div className="dashboard-pie-legend-item">
                                     <div className="dashboard-pie-legend-label">
-                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: '#10b981' }} />
+                                        <div className="dashboard-pie-legend-dot" style={{ backgroundColor: 'var(--color-success-500)' }} />
                                         <span>Otros</span>
                                     </div>
                                     <span className="dashboard-pie-legend-value dashboard-pie-legend-value--other">{Math.max(0, stats.totalFindings - stats.criticalFindings - stats.moderateFindings)}</span>

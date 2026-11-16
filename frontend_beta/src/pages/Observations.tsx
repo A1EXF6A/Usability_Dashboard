@@ -419,7 +419,7 @@ export default function Observations() {
                                         </td>
                                         <td className="observations-td">
                                             <span className={`badge ${log.severity === 'Critical' ? 'badge-critica' : log.severity === 'High' ? 'badge-alta' : log.severity === 'Medium' ? 'badge-media' : 'badge-baja'}`}>
-                                                {log.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: '#991b1b', marginRight: 4 }} />}
+                                                {log.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)', marginRight: 4 }} />}
                                                 {log.severity === 'High' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)', marginRight: 4 }} />}
                                                 {log.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-primary-hover)', marginRight: 4 }} />}
                                                 {log.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" style={{ color: 'var(--color-success-text)', marginRight: 4 }} />}

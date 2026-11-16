@@ -553,7 +553,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Hallazgos de Usabilidad',
                 icon: HelpCircle,
-                color: '#f59e0b',
+                color: 'var(--color-warning)',
                 suggestions: [
                     '💡 Redactar Historias de Usuario para corregir mis Hallazgos',
                     '💡 Analizar la severidad e impacto técnico de los hallazgos'
@@ -564,7 +564,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Acciones de Mejora',
                 icon: Sparkles,
-                color: '#10b981',
+                color: 'var(--color-success-500)',
                 suggestions: [
                     '💡 Traducir Acciones de Mejora prioritarias a Historias de Scrum',
                     '💡 Estimar esfuerzo y horas técnicas para las mejoras'
@@ -575,7 +575,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Ejecución y Observaciones',
                 icon: Users,
-                color: '#0ea5e9',
+                color: 'var(--color-primary-500)',
                 suggestions: [
                     '💡 Extraer historias de usabilidad de los logs de incidentes',
                     '💡 Analizar la tasa de éxito de las tareas completadas'
@@ -586,7 +586,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Guión del Moderador',
                 icon: FileText,
-                color: '#a855f7',
+                color: 'var(--color-primary-400)',
                 suggestions: [
                     '💡 Crear Criterios de Aceptación basados en los escenarios del guión',
                     '💡 ¿Cómo puedo mejorar las tareas antes del test?'
@@ -597,7 +597,7 @@ Breve explicación ergonómica de las mejoras.
             return {
                 name: 'Sprint Backlog',
                 icon: ClipboardList,
-                color: '#6366f1',
+                color: 'var(--color-primary)',
                 suggestions: [
                     '💡 Evaluar coherencia de mis historias y metas de sprint',
                     '💡 Sugerir tareas técnicas adicionales para mi sprint'
@@ -1033,7 +1033,7 @@ Breve explicación ergonómica de las mejoras.
                                     {msg.isAction && msg.actionData?.stories && (
                                         <div>
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', marginTop: 'var(--space-2)', fontWeight: 'bold' }}>
+                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: 'var(--color-success-500)', marginTop: 'var(--space-2)', fontWeight: 'bold' }}>
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Historias integradas al Backlog!</span>
                                                 </div>
@@ -1053,7 +1053,7 @@ Breve explicación ergonómica de las mejoras.
                                     {msg.isAction && msg.actionData?.tasks && (
                                         <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: 'var(--color-success-500)', fontWeight: 'bold' }}>
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Tareas agregadas exitosamente!</span>
                                                 </div>
@@ -1104,7 +1104,7 @@ Breve explicación ergonómica de las mejoras.
                                     {msg.isAction && msg.actionData?.findings && (
                                         <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: 'var(--color-success-500)', fontWeight: 'bold' }}>
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Hallazgos agregados exitosamente!</span>
                                                 </div>
@@ -1133,7 +1133,7 @@ Breve explicación ergonómica de las mejoras.
                                                                         <div style={{ color: 'var(--neutral-400)', fontSize: '10px', marginTop: '1px' }}>
                                                                             ⚠️ {finding.severity === 'Critical' ? 'Crítica' : finding.severity === 'High' ? 'Alta' : finding.severity === 'Medium' ? 'Media' : 'Baja'} | 🏷️ {finding.category} | ⏱️ Frecuencia: {finding.frequency}
                                                                         </div>
-                                                                        <div style={{ color: '#93c5fd', fontSize: '10px', marginTop: '2px', fontStyle: 'italic' }}>
+                                                                        <div style={{ color: 'var(--color-primary-border)', fontSize: '10px', marginTop: '2px', fontStyle: 'italic' }}>
                                                                             💡 Recomendación: {finding.recommendation}
                                                                         </div>
                                                                     </div>
@@ -1158,7 +1158,7 @@ Breve explicación ergonómica de las mejoras.
                                     {msg.isAction && msg.actionData?.improvements && (
                                         <div style={{ marginTop: 'var(--space-3)', background: 'rgba(255,255,255,0.05)', padding: 'var(--space-3)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(255,255,255,0.1)' }}>
                                             {msg.inserted ? (
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#10b981', fontWeight: 'bold' }}>
+                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: 'var(--color-success-500)', fontWeight: 'bold' }}>
                                                     <CheckCircle2 size={12} />
                                                     <span>¡Acciones de mejora agregadas exitosamente!</span>
                                                 </div>
@@ -1258,7 +1258,7 @@ Breve explicación ergonómica de las mejoras.
                                         gap: 'var(--space-2)',
                                         background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%)',
                                         border: '1px solid rgba(99, 102, 241, 0.5)',
-                                        color: '#818cf8',
+                                        color: 'var(--color-primary-400)',
                                         padding: '10px var(--space-3)',
                                         borderRadius: 'var(--radius-md)',
                                         fontSize: '11px',

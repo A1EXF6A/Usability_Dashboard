@@ -101,7 +101,9 @@ ol {
      · --text-inverse    (#ffffff) sobre --color-primary → 8.1:1 ✅ AAA
    ═══════════════════════════════════════════════════════════════════════════ */
 :root {
-    /* ── Paleta Neutral (Slate) ── */
+    color-scheme: light;
+
+    /* ── Paleta Neutral (Slate Moderno) ── */
     --neutral-50: #f8fafc;
     --neutral-100: #f1f5f9;
     --neutral-200: #e2e8f0;
@@ -113,50 +115,50 @@ ol {
     --neutral-800: #1e293b;
     --neutral-900: #0f172a;
 
-    /* ── Colores Primarios (Blue) ── */
-    --color-primary: #1d4ed8;
-    --color-primary-hover: #1e40af;
-    --color-primary-active: #1e3a8a;
-    --color-primary-light: #eff6ff;
-    --color-primary-100: #dbeafe;
-    --color-primary-200: #bfdbfe;
-    --color-primary-border: #93c5fd;
-    --color-primary-400: #60a5fa;
-    --color-primary-500: #3b82f6;
-    --color-primary-focus: #2563eb;
+    /* ── Colores Primarios (Modern Royal Indigo) ── */
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-primary-active: #3730a3;
+    --color-primary-light: #eef2ff;
+    --color-primary-100: #e0e7ff;
+    --color-primary-200: #c7d2fe;
+    --color-primary-border: #a5b4fc;
+    --color-primary-400: #818cf8;
+    --color-primary-500: #6366f1;
+    --color-primary-focus: #4f46e5;
 
-    /* ── Colores Semánticos — Éxito ── */
-    --color-success: #16a34a;
-    --color-success-hover: #15803d;
-    --color-success-active: #166534;
-    --color-success-light: #dcfce7;
-    --color-success-border: #86efac;
-    --color-success-text: #166534;
+    /* ── Colores Semánticos — Éxito (Emerald) ── */
+    --color-success: #059669;
+    --color-success-hover: #047857;
+    --color-success-active: #065f46;
+    --color-success-light: #ecfdf5;
+    --color-success-border: #a7f3d0;
+    --color-success-text: #065f46;
     --color-success-500: #10b981;
     --color-success-400: #34d399;
 
-    /* ── Colores Semánticos — Advertencia ── */
-    --color-warning: #f59e0b;
-    --color-warning-hover: #d97706;
-    --color-warning-active: #b45309;
-    --color-warning-light: #fef3c7;
-    --color-warning-border: #fcd34d;
+    /* ── Colores Semánticos — Advertencia (Amber Gold) ── */
+    --color-warning: #d97706;
+    --color-warning-hover: #b45309;
+    --color-warning-active: #92400e;
+    --color-warning-light: #fffbeb;
+    --color-warning-border: #fde68a;
     --color-warning-text: #92400e;
 
-    /* ── Colores Semánticos — Error ── */
-    --color-error: #ef4444;
-    --color-error-hover: #dc2626;
-    --color-error-active: #b91c1c;
-    --color-error-light: #fee2e2;
-    --color-error-border: #fca5a5;
-    --color-error-text: #991b1b;
+    /* ── Colores Semánticos — Error (Crimson Rose) ── */
+    --color-error: #e11d48;
+    --color-error-hover: #be123c;
+    --color-error-active: #9f1239;
+    --color-error-light: #fff1f2;
+    --color-error-border: #fecdd3;
+    --color-error-text: #9f1239;
 
     /* ── Superficies ── */
-    --surface-page: #f8f9fa;
+    --surface-page: #f8fafc;
     --surface-card: #ffffff;
-    --surface-panel: rgba(255, 255, 255, 0.88);
+    --surface-panel: rgba(255, 255, 255, 0.90);
     --surface-elevated: #ffffff;
-    --surface-overlay: rgba(15, 23, 42, 0.4);
+    --surface-overlay: rgba(15, 23, 42, 0.45);
 
     /* ── Textos (con ratios de contraste sobre blanco documentados) ── */
     --text-primary: var(--neutral-900);
@@ -177,8 +179,9 @@ ol {
     --border-color-focus: var(--color-primary-focus);
     --border-color-error: var(--color-error);
 
-    /* ── Tipografía — Base 16px, interlineado 1.5× (WCAG 1.4.12) ── */
-    --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* ── Tipografía — Plus Jakarta Sans (Modern Geometric-Humanist) ── */
+    --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
     --font-size-xs: 0.75rem;
     /* 12px — Solo captions y metadata */
     --font-size-sm: 0.875rem;
@@ -200,7 +203,7 @@ ol {
     --line-height: 1.5;
     --line-height-tight: 1.25;
     --line-height-none: 1;
-    --letter-spacing-tight: -0.01em;
+    --letter-spacing-tight: -0.015em;
     --letter-spacing-wide: 0.05em;
     --letter-spacing-wider: 0.12em;
 
@@ -230,9 +233,9 @@ ol {
     --shadow-md: 0 8px 18px rgba(15, 23, 42, 0.06);
     --shadow-lg: 0 16px 45px rgba(15, 23, 42, 0.08);
     --shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.12);
-    --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.25);
-    --shadow-error: 0 0 0 3px rgba(239, 68, 68, 0.15);
-    --shadow-success-ring: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    --shadow-focus: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    --shadow-error: 0 0 0 3px rgba(225, 29, 72, 0.15);
+    --shadow-success-ring: 0 0 0 3px rgba(16, 185, 129, 0.12);
 
     /* ── Z-Index — Escala ordenada y predecible ── */
     --z-base: 0;
@@ -254,10 +257,109 @@ ol {
     --touch-target-min: 44px;
 
     /* ── Gradientes reutilizables ── */
-    --gradient-header: linear-gradient(to right, var(--neutral-900), var(--neutral-800), #1e3a5f);
-    --gradient-primary: linear-gradient(135deg, var(--neutral-800) 0%, var(--color-primary) 100%);
-    --gradient-primary-hover: linear-gradient(135deg, var(--neutral-900) 0%, var(--color-primary-hover) 100%);
-    --gradient-surface: linear-gradient(160deg, #f8f9fa 0%, #f3f6fb 45%, #eef3fb 100%);
+    --gradient-header: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e293b 100%);
+    --gradient-primary: linear-gradient(135deg, #312e81 0%, var(--color-primary) 100%);
+    --gradient-primary-hover: linear-gradient(135deg, #1e1b4b 0%, var(--color-primary-hover) 100%);
+    --gradient-surface: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 45%, #eef2ff 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §3.1 DESIGN TOKENS — MODO OSCURO (DARK THEME)
+   ───────────────────────────────────────────────────────────────────────────
+   Tokens adaptados para modo oscuro con alto contraste (WCAG 2.2 Nivel AA/AAA).
+   Se activa mediante [data-theme="dark"] o la clase .theme-dark en <html>.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root[data-theme="dark"],
+html.dark,
+html.theme-dark {
+    color-scheme: dark;
+
+    /* ── Paleta Neutral Oscura (Slate / Navy) ── */
+    --neutral-50: #121826;
+    --neutral-100: #1a2234;
+    --neutral-200: #263248;
+    --neutral-300: #374763;
+    --neutral-400: #64748b;
+    --neutral-500: #94a3b8;
+    --neutral-600: #cbd5e1;
+    --neutral-700: #e2e8f0;
+    --neutral-800: #f1f5f9;
+    --neutral-900: #f8fafc;
+
+    /* ── Colores Primarios Adaptados (Indigo Luminoso) ── */
+    --color-primary: #818cf8;
+    --color-primary-hover: #a5b4fc;
+    --color-primary-active: #c7d2fe;
+    --color-primary-light: rgba(99, 102, 241, 0.15);
+    --color-primary-100: rgba(99, 102, 241, 0.25);
+    --color-primary-200: rgba(99, 102, 241, 0.35);
+    --color-primary-border: rgba(129, 140, 248, 0.45);
+    --color-primary-400: #a5b4fc;
+    --color-primary-500: #818cf8;
+    --color-primary-focus: #818cf8;
+
+    /* ── Colores Semánticos — Éxito ── */
+    --color-success: #34d399;
+    --color-success-hover: #6ee7b7;
+    --color-success-active: #a7f3d0;
+    --color-success-light: rgba(16, 185, 129, 0.16);
+    --color-success-border: rgba(52, 211, 153, 0.4);
+    --color-success-text: #6ee7b7;
+    --color-success-500: #10b981;
+    --color-success-400: #34d399;
+
+    /* ── Colores Semánticos — Advertencia ── */
+    --color-warning: #fbbf24;
+    --color-warning-hover: #fcd34d;
+    --color-warning-active: #fde68a;
+    --color-warning-light: rgba(245, 158, 11, 0.16);
+    --color-warning-border: rgba(251, 191, 36, 0.4);
+    --color-warning-text: #fde68a;
+
+    /* ── Colores Semánticos — Error ── */
+    --color-error: #fb7185;
+    --color-error-hover: #fda4af;
+    --color-error-active: #fecdd3;
+    --color-error-light: rgba(225, 29, 72, 0.16);
+    --color-error-border: rgba(251, 113, 133, 0.4);
+    --color-error-text: #fda4af;
+
+    /* ── Superficies Oscuras ── */
+    --surface-page: #0b0f19;
+    --surface-card: #121826;
+    --surface-panel: rgba(18, 24, 38, 0.88);
+    --surface-elevated: #1a2234;
+    --surface-overlay: rgba(3, 7, 18, 0.75);
+
+    /* ── Textos en Modo Oscuro ── */
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-disabled: #64748b;
+    --text-inverse: #0b0f19;
+    --text-light: #94a3b8;
+    --white: #ffffff;
+
+    /* ── Bordes Oscuros ── */
+    --border-color: #263248;
+    --border-color-hover: #374763;
+    --border-color-focus: var(--color-primary-focus);
+    --border-color-error: var(--color-error);
+
+    /* ── Sombras en Modo Oscuro ── */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 45px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.65);
+    --shadow-focus: 0 0 0 3px rgba(129, 140, 248, 0.35);
+    --shadow-error: 0 0 0 3px rgba(251, 113, 133, 0.25);
+    --shadow-success-ring: 0 0 0 3px rgba(52, 211, 153, 0.2);
+
+    /* ── Gradientes Oscuros ── */
+    --gradient-header: linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e1b4b 100%);
+    --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+    --gradient-primary-hover: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+    --gradient-surface: linear-gradient(160deg, #070a12 0%, #0b0f19 50%, #0f172a 100%);
 }
 
 
@@ -282,12 +384,23 @@ body {
     line-height: var(--line-height);
     color: var(--text-primary);
     background:
-        radial-gradient(circle at 5% -10%, rgba(59, 130, 246, 0.12), transparent 30%),
-        radial-gradient(circle at 95% 0%, rgba(15, 79, 191, 0.14), transparent 28%),
+        radial-gradient(circle at 5% -10%, rgba(99, 102, 241, 0.12), transparent 30%),
+        radial-gradient(circle at 95% 0%, rgba(79, 70, 229, 0.14), transparent 28%),
         var(--gradient-surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    transition: background var(--transition-slow), color var(--transition-base);
+}
+
+/* ── Dark Mode body ── */
+html.dark body,
+html.theme-dark body,
+html[data-theme="dark"] body {
+    background:
+        radial-gradient(circle at 5% -10%, rgba(99, 102, 241, 0.09), transparent 30%),
+        radial-gradient(circle at 95% 0%, rgba(129, 140, 248, 0.07), transparent 28%),
+        var(--gradient-surface);
 }
 
 
@@ -399,6 +512,14 @@ textarea:focus-visible,
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: var(--radius-xl);
+    transition: background var(--transition-slow), border-color var(--transition-slow);
+}
+
+/* ── Dark Mode glass-panel ── */
+html.dark .glass-panel,
+html.theme-dark .glass-panel,
+html[data-theme="dark"] .glass-panel {
+    border: 1px solid rgba(129, 140, 248, 0.12);
 }
 
 
@@ -449,7 +570,7 @@ textarea:focus-visible,
     font-weight: var(--font-weight-medium);
     text-align: left;
     color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--surface-card);
     transition: all var(--transition-base);
     cursor: pointer;
     display: flex;
@@ -459,7 +580,7 @@ textarea:focus-visible,
 
 /* ── 2. Hover ── */
 .nav-item:hover {
-    border-color: var(--color-primary-200);
+    border-color: var(--color-primary-border);
     background: var(--color-primary-light);
     transform: translateX(2px);
 }
@@ -491,7 +612,40 @@ textarea:focus-visible,
     border-color: var(--color-primary-border);
     background: var(--color-primary-light);
     font-weight: var(--font-weight-semibold);
-    box-shadow: inset 0 0 0 1px rgba(15, 79, 191, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §8b. DARK MODE — Overrides de Sidebar + Nav
+   ═══════════════════════════════════════════════════════════════════════════ */
+html.dark .nav-item,
+html.theme-dark .nav-item,
+html[data-theme="dark"] .nav-item {
+    background: var(--surface-elevated);
+}
+
+html.dark .nav-item:hover,
+html.theme-dark .nav-item:hover,
+html[data-theme="dark"] .nav-item:hover {
+    background: var(--color-primary-100);
+}
+
+html.dark .nav-item.is-active,
+html.theme-dark .nav-item.is-active,
+html[data-theme="dark"] .nav-item.is-active {
+    background: var(--color-primary-100);
+    box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.2);
+}
+
+html.dark .nav-item[aria-disabled="true"],
+html.theme-dark .nav-item[aria-disabled="true"],
+html[data-theme="dark"] .nav-item[aria-disabled="true"],
+html.dark .nav-item.is-disabled,
+html.theme-dark .nav-item.is-disabled,
+html[data-theme="dark"] .nav-item.is-disabled {
+    background: var(--neutral-100);
+    border-color: var(--neutral-200);
 }
 
 
@@ -547,7 +701,7 @@ textarea:focus-visible,
     color: var(--text-inverse);
     background: var(--gradient-primary);
     border-color: var(--color-primary);
-    box-shadow: 0 6px 20px rgba(29, 78, 216, 0.25);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25);
 }
 
 
@@ -589,13 +743,13 @@ textarea:focus-visible,
 /* 2. Hover */
 .btn-primary:hover {
     background: var(--gradient-primary-hover);
-    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
 }
 
 /* 4. Pressed */
 .btn-primary:active {
     transform: scale(0.97);
-    box-shadow: 0 2px 6px rgba(29, 78, 216, 0.25);
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
     transition-duration: 80ms;
 }
 
@@ -631,9 +785,9 @@ textarea:focus-visible,
 
 /* 2. Hover */
 .btn-danger:hover {
-    background: #fecaca;
+    background: var(--color-error-border);
     border-color: var(--color-error);
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.15);
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.2);
 }
 
 /* 4. Pressed */
@@ -653,9 +807,9 @@ textarea:focus-visible,
 
 /* 2. Hover */
 .btn-success:hover {
-    background: #bbf7d0;
+    background: var(--color-success-border);
     border-color: var(--color-success);
-    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.15);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
 }
 
 /* 4. Pressed */
@@ -1572,6 +1726,52 @@ textarea:focus-visible,
     z-index: var(--z-dropdown);
 }
 
+/* ── Theme Toggle Button (Header) ── */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-target-min);
+    height: var(--touch-target-min);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-inverse);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-btn:active {
+    transform: translateY(1px) scale(0.95);
+}
+
+.theme-toggle-icon {
+    transition: transform var(--transition-spring), color var(--transition-fast);
+}
+
+.theme-toggle-sun {
+    color: #fde047;
+}
+
+.theme-toggle-moon {
+    color: #c7d2fe;
+}
+
+.theme-toggle-btn:hover .theme-toggle-sun {
+    transform: rotate(45deg);
+}
+
+.theme-toggle-btn:hover .theme-toggle-moon {
+    transform: rotate(-20deg);
+}
+
 /* ── Body area (sidebar + main) ── */
 .layout-body {
     flex: 1;
@@ -2104,6 +2304,167 @@ textarea:focus-visible,
     .layout-app-badge {
         display: flex;
     }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §26b. DARK MODE — Overrides Generales Layout + Componentes
+   ───────────────────────────────────────────────────────────────────────────
+   Overrides de modo oscuro para los componentes del layout principal.
+   Garantizan legibilidad (WCAG 2.2 AA) en fondo oscuro.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Breadcrumb bar ── */
+html.dark .layout-breadcrumb-bar,
+html.theme-dark .layout-breadcrumb-bar,
+html[data-theme="dark"] .layout-breadcrumb-bar {
+    background: rgba(18, 24, 38, 0.9);
+    border-bottom-color: var(--border-color);
+}
+
+/* ── Layout content area ── */
+html.dark .layout-content,
+html.theme-dark .layout-content,
+html[data-theme="dark"] .layout-content {
+    background: transparent;
+}
+
+/* ── KPI Cards hover shadow ── */
+html.dark .kpi-card:hover,
+html.theme-dark .kpi-card:hover,
+html[data-theme="dark"] .kpi-card:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Modal header ── */
+html.dark .modal-header--default,
+html.theme-dark .modal-header--default,
+html[data-theme="dark"] .modal-header--default {
+    background: linear-gradient(to right, var(--surface-elevated), var(--neutral-100));
+    border-bottom-color: var(--border-color);
+}
+
+/* ── Plan confirm alert ── */
+html.dark .plan-confirm-alert,
+html.theme-dark .plan-confirm-alert,
+html[data-theme="dark"] .plan-confirm-alert {
+    background: var(--color-warning-light);
+}
+
+/* ── Sidebar nav modifiers (active-phase / done) ── */
+html.dark .nav-item--active-phase,
+html.theme-dark .nav-item--active-phase,
+html[data-theme="dark"] .nav-item--active-phase {
+    background: var(--color-primary-light);
+}
+
+html.dark .nav-item--done,
+html.theme-dark .nav-item--done,
+html[data-theme="dark"] .nav-item--done {
+    background: var(--color-success-light);
+}
+
+html.dark .nav-item--done:hover,
+html.theme-dark .nav-item--done:hover,
+html[data-theme="dark"] .nav-item--done:hover {
+    background: rgba(16, 185, 129, 0.25);
+}
+
+html.dark .nav-item-label--done,
+html.theme-dark .nav-item-label--done,
+html[data-theme="dark"] .nav-item-label--done {
+    color: var(--color-success-text);
+}
+
+html.dark .nav-item-detail--done,
+html.theme-dark .nav-item-detail--done,
+html[data-theme="dark"] .nav-item-detail--done {
+    color: var(--color-success-400);
+}
+
+/* ── Phase headers in dark mode ── */
+html.dark .phase-header.is-locked,
+html.theme-dark .phase-header.is-locked,
+html[data-theme="dark"] .phase-header.is-locked {
+    background: var(--neutral-100);
+}
+
+/* ── Tab pill hover in dark mode ── */
+html.dark .tab-pill:hover,
+html.theme-dark .tab-pill:hover,
+html[data-theme="dark"] .tab-pill:hover {
+    background: var(--neutral-100);
+    border-color: var(--border-color);
+}
+
+/* ── Toasts in dark mode ── */
+html.dark .toast,
+html.theme-dark .toast,
+html[data-theme="dark"] .toast {
+    background: var(--surface-elevated);
+    border-color: var(--border-color);
+}
+
+/* ── Quick actions in dark mode ── */
+html.dark .quick-action:hover,
+html.theme-dark .quick-action:hover,
+html[data-theme="dark"] .quick-action:hover {
+    background: var(--color-primary-light);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
+}
+
+/* ── btn-secondary in dark mode ── */
+html.dark .btn-secondary:hover,
+html.theme-dark .btn-secondary:hover,
+html[data-theme="dark"] .btn-secondary:hover {
+    background: var(--neutral-100);
+}
+
+html.dark .btn-secondary:active,
+html.theme-dark .btn-secondary:active,
+html[data-theme="dark"] .btn-secondary:active {
+    background: var(--neutral-200);
+}
+
+/* ── Form inputs in dark mode ── */
+html.dark .form-input,
+html.theme-dark .form-input,
+html[data-theme="dark"] .form-input {
+    background: var(--surface-elevated);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+html.dark .form-input::placeholder,
+html.theme-dark .form-input::placeholder,
+html[data-theme="dark"] .form-input::placeholder {
+    color: var(--text-disabled);
+}
+
+html.dark .form-input:disabled,
+html.theme-dark .form-input:disabled,
+html[data-theme="dark"] .form-input:disabled {
+    background: var(--neutral-100);
+}
+
+/* ── Layout sidebar border in dark mode ── */
+html.dark .layout-sidebar,
+html.theme-dark .layout-sidebar,
+html[data-theme="dark"] .layout-sidebar {
+    border-right-color: var(--border-color);
+}
+
+/* ── Modal content shadow in dark mode ── */
+html.dark .modal-content,
+html.theme-dark .modal-content,
+html[data-theme="dark"] .modal-content {
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(129, 140, 248, 0.08);
+}
+
+html.dark .drawer-content,
+html.theme-dark .drawer-content,
+html[data-theme="dark"] .drawer-content {
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(129, 140, 248, 0.08);
 }
 
 
@@ -2847,6 +3208,86 @@ textarea:focus-visible,
     color: var(--text-secondary);
     text-align: right;
     font-weight: var(--font-weight-bold);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   §27b. DARK MODE — Overrides Dashboard + Páginas Generales
+   ───────────────────────────────────────────────────────────────────────────
+   Overrides de modo oscuro para los paneles y tarjetas del Dashboard.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Dashboard panel headers ── */
+html.dark .dashboard-panel-header--blue,
+html.theme-dark .dashboard-panel-header--blue,
+html[data-theme="dark"] .dashboard-panel-header--blue {
+    background: linear-gradient(to right, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.1));
+}
+
+html.dark .dashboard-panel-header--emerald,
+html.theme-dark .dashboard-panel-header--emerald,
+html[data-theme="dark"] .dashboard-panel-header--emerald {
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.08));
+}
+
+html.dark .dashboard-panel-header--purple,
+html.theme-dark .dashboard-panel-header--purple,
+html[data-theme="dark"] .dashboard-panel-header--purple {
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.12), rgba(167, 139, 250, 0.08));
+}
+
+html.dark .dashboard-panel-card,
+html.theme-dark .dashboard-panel-card,
+html[data-theme="dark"] .dashboard-panel-card {
+    border-color: var(--border-color);
+}
+
+/* ── Observations table striping ── */
+html.dark .observations-tr--odd,
+html.theme-dark .observations-tr--odd,
+html[data-theme="dark"] .observations-tr--odd {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+html.dark .observations-tr--even,
+html.theme-dark .observations-tr--even,
+html[data-theme="dark"] .observations-tr--even {
+    background: transparent;
+}
+
+html.dark .observations-tr:hover,
+html.theme-dark .observations-tr:hover,
+html[data-theme="dark"] .observations-tr:hover {
+    background: var(--color-primary-light);
+}
+
+/* ── KPI card icon border in dark mode ── */
+html.dark .kpi-card-icon-container,
+html.theme-dark .kpi-card-icon-container,
+html[data-theme="dark"] .kpi-card-icon-container {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Modal header default gradient in dark mode ── */
+html.dark .modal-header--default,
+html.theme-dark .modal-header--default,
+html[data-theme="dark"] .modal-header--default {
+    background: linear-gradient(to right, var(--surface-elevated), rgba(79, 70, 229, 0.1));
+    border-bottom-color: var(--border-color);
+}
+
+/* ── Progress tracks ── */
+html.dark .dashboard-progress-track,
+html.theme-dark .dashboard-progress-track,
+html[data-theme="dark"] .dashboard-progress-track {
+    background: var(--neutral-100);
+}
+
+/* ── Page header card ── */
+html.dark .page-header-card,
+html.theme-dark .page-header-card,
+html[data-theme="dark"] .page-header-card {
+    border-color: var(--border-color);
 }
 
 

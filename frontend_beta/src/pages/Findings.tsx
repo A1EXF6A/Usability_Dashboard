@@ -308,7 +308,7 @@ export default function Findings() {
                                         <span className="finding-card-meta-pill finding-card-meta-pill--purple">{finding.tool}</span>
                                     </div>
                                     <span className={`badge ${finding.severity === 'Critical' ? 'badge-critica' : finding.severity === 'High' ? 'badge-alta' : finding.severity === 'Medium' ? 'badge-media' : 'badge-baja'}`}>
-                                        {finding.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: '#991b1b' }} />}
+                                        {finding.severity === 'Critical' && <XCircle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)' }} />}
                                         {finding.severity === 'High' && <AlertCircle size={12} aria-hidden="true" style={{ color: 'var(--color-error-text)' }} />}
                                         {finding.severity === 'Medium' && <AlertTriangle size={12} aria-hidden="true" style={{ color: 'var(--color-primary-hover)' }} />}
                                         {finding.severity === 'Low' && <CheckCircle2 size={12} aria-hidden="true" style={{ color: 'var(--color-success-text)' }} />}

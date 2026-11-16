@@ -3,9 +3,10 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard, FileText, ListChecks, MessageSquareText,
     Eye, Search, Lightbulb, ChevronRight, FolderKanban, Sparkles, Users, CalendarRange,
-    Menu, X, Lock, ShieldCheck, ClipboardList
+    Menu, X, Lock, ShieldCheck, ClipboardList, Sun, Moon
 } from 'lucide-react'
 import { usePlan } from '../context/PlanContext'
+import { useTheme } from '../context/ThemeContext'
 import PlanSelector from './PlanSelector'
 import AiCopilot from './AiCopilot'
 
@@ -43,6 +44,7 @@ export default function Layout() {
     const location = useLocation()
     const navigate = useNavigate()
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const { theme, toggleTheme } = useTheme()
     const { activePlan, canAccessPhase2, canAccessPhase3, phase2Missing, phase3Missing, sectionDone, needsPlanSelection, loading } = usePlan()
 
     // Redirect first-time users to /planes so they can create or pick a plan
@@ -135,6 +137,19 @@ export default function Layout() {
                             <div className="layout-plan-selector">
                                 <PlanSelector />
                             </div>
+                            <button
+                                type="button"
+                                onClick={toggleTheme}
+                                className="theme-toggle-btn"
+                                aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+                                title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+                            >
+                                {theme === 'dark' ? (
+                                    <Sun size={18} aria-hidden="true" className="theme-toggle-icon theme-toggle-sun" />
+                                ) : (
+                                    <Moon size={18} aria-hidden="true" className="theme-toggle-icon theme-toggle-moon" />
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>

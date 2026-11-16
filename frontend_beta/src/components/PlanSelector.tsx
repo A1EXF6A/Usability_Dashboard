@@ -66,6 +66,8 @@ interface PlanSelectorProps {
 const selectStyles = {
   control: (base: any, state: any) => ({
     ...base,
+    backgroundColor: 'var(--surface-card)',
+    color: 'var(--text-primary)',
     borderRadius: 'var(--radius-md)',
     borderColor: state.isFocused ? 'var(--color-primary-500)' : 'var(--border-color)',
     boxShadow: state.isFocused ? 'var(--shadow-focus)' : 'none',
@@ -79,8 +81,9 @@ const selectStyles = {
   }),
   menu: (base: any) => ({
     ...base,
+    backgroundColor: 'var(--surface-card)',
     borderRadius: 'var(--radius-lg)',
-    boxShadow: '0 12px 40px rgba(15,23,42,0.15)',
+    boxShadow: 'var(--shadow-xl)',
     border: '1px solid var(--border-color)',
     overflow: 'hidden',
     zIndex: 9999,
@@ -92,9 +95,9 @@ const selectStyles = {
     backgroundColor: state.isSelected
       ? 'var(--color-primary-light)'
       : state.isFocused
-        ? 'var(--neutral-50)'
+        ? 'var(--neutral-100)'
         : 'var(--surface-card)',
-    color: state.isSelected ? 'var(--color-primary)' : 'var(--neutral-700)',
+    color: state.isSelected ? 'var(--color-primary)' : 'var(--text-primary)',
     fontWeight: state.isSelected ? 600 : 400,
     cursor: 'pointer',
     '&:active': { backgroundColor: 'var(--color-primary-100)' },
@@ -107,6 +110,7 @@ const selectStyles = {
   }),
   input: (base: any) => ({
     ...base,
+    color: 'var(--text-primary)',
     fontSize: 'var(--font-size-sm)',
   }),
   placeholder: (base: any) => ({

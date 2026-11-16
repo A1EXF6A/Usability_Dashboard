@@ -693,8 +693,8 @@ export default function SprintBacklog() {
                         minHeight: '400px'
                     }}>
                         <div style={{ position: 'relative', marginBottom: 'var(--space-6)' }}>
-                            <div className="sprint-loading-spinner" style={{ width: 64, height: 64, borderWidth: '3px', borderBottomColor: '#6366f1' }}></div>
-                            <Sparkles size={24} style={{ color: '#818cf8', position: 'absolute', top: '20px', left: '20px', animation: 'pulse 1.5s infinite' }} />
+                            <div className="sprint-loading-spinner" style={{ width: 64, height: 64, borderWidth: '3px', borderBottomColor: 'var(--color-primary-500)' }}></div>
+                            <Sparkles size={24} style={{ color: 'var(--color-primary-400)', position: 'absolute', top: '20px', left: '20px', animation: 'pulse 1.5s infinite' }} />
                         </div>
 
                         <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-2)' }}>

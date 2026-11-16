@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useState, createContext, useContext, useCallback } from 'react'
+import { ThemeProvider } from './context/ThemeContext'
 import { PlanProvider } from './context/PlanContext'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
@@ -40,46 +41,48 @@ export default function App() {
   }, [])
 
   return (
-    <PlanProvider>
-      <ToastContext.Provider value={{ addToast }}>
-        {/* ACCESIBILIDAD: Skip link para navegación por teclado (WCAG 2.4.1)
-            Clase CSS nativa .skip-link — visible solo al recibir foco */}
-        <a href="#main-content" className="skip-link">
-          Saltar al contenido principal
-        </a>
+    <ThemeProvider>
+      <PlanProvider>
+        <ToastContext.Provider value={{ addToast }}>
+          {/* ACCESIBILIDAD: Skip link para navegación por teclado (WCAG 2.4.1)
+              Clase CSS nativa .skip-link — visible solo al recibir foco */}
+          <a href="#main-content" className="skip-link">
+            Saltar al contenido principal
+          </a>
 
-        {/* ACCESIBILIDAD: role="alert" en toasts de error para anuncio inmediato (WCAG 4.1.3) */}
-        <div className="toast-container" aria-live="polite">
-          {toasts.map(t => (
-            <div
-              key={t.id}
-              className={`toast toast-${t.type}`}
-              role={t.type === 'error' ? 'alert' : 'status'}
-            >
-              <span aria-hidden="true">{t.type === 'success' ? '✓' : '✗'}</span>
-              <span>{t.message}</span>
-            </div>
-          ))}
-        </div>
+          {/* ACCESIBILIDAD: role="alert" en toasts de error para anuncio inmediato (WCAG 4.1.3) */}
+          <div className="toast-container" aria-live="polite">
+            {toasts.map(t => (
+              <div
+                key={t.id}
+                className={`toast toast-${t.type}`}
+                role={t.type === 'error' ? 'alert' : 'status'}
+              >
+                <span aria-hidden="true">{t.type === 'success' ? '✓' : '✗'}</span>
+                <span>{t.message}</span>
+              </div>
+            ))}
+          </div>
 
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="planes" element={<TestPlans />} />
-            <Route path="tareas" element={<Tasks />} />
-            <Route path="guion" element={<ModeratorScript />} />
-            <Route path="observaciones" element={<Observations />} />
-            <Route path="participantes" element={<Participants />} />
-            <Route path="sesiones" element={<TestSessions />} />
-            <Route path="sesiones/:sessionId/ejecutar" element={<SessionRunner />} />
-            <Route path="hallazgos" element={<Findings />} />
-            <Route path="mejoras" element={<ImprovementActions />} />
-            <Route path="accesibilidad" element={<Accessibility />} />
-            <Route path="backlog" element={<SprintBacklog />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </ToastContext.Provider>
-    </PlanProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="planes" element={<TestPlans />} />
+              <Route path="tareas" element={<Tasks />} />
+              <Route path="guion" element={<ModeratorScript />} />
+              <Route path="observaciones" element={<Observations />} />
+              <Route path="participantes" element={<Participants />} />
+              <Route path="sesiones" element={<TestSessions />} />
+              <Route path="sesiones/:sessionId/ejecutar" element={<SessionRunner />} />
+              <Route path="hallazgos" element={<Findings />} />
+              <Route path="mejoras" element={<ImprovementActions />} />
+              <Route path="accesibilidad" element={<Accessibility />} />
+              <Route path="backlog" element={<SprintBacklog />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </ToastContext.Provider>
+      </PlanProvider>
+    </ThemeProvider>
   )
 }
